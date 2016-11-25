@@ -141,7 +141,7 @@ public class DualAn implements Algebra {
 					List<int[]> sMono2_1 = (List<int[]>) DualSteenrod.reduceMod2(sMap.get(mono2_1).getAsList());
 					
 					if(sMono2_1.size() == 0) {
-						//System.out.print("mono: " + mono + "; s map is zero for " + Arrays.toString(mono2_2) + "; ");
+						System.out.print("mono: " + mono + "; s map is zero for " + Arrays.toString(mono2_2) + "; ");
 						continue;
 					}
 					
@@ -172,7 +172,7 @@ public class DualAn implements Algebra {
 		for(Integer index : allMonomials.keySet()) {
 			List<int[]> monomialList = allMonomials.get(index);
 			for(int[] monomial : monomialList) {
-				sMap.set(monomial, new MilnorElement(new int[0]));
+				sMap.set(monomial, new MilnorElement(0));
 			}
 		}
 		
@@ -188,7 +188,7 @@ public class DualAn implements Algebra {
 		for(int i = 0; i < dualAnKeys.length; i++) {
 			List<int[]> monomialList = filteredMonomials.get(dualAnKeys[i]);
 			for(int[] monomial : monomialList) {
-				sMap.set(monomial, new MilnorElement(new int[0]));
+				sMap.set(monomial, new MilnorElement(0));
 			}
 		}
 		

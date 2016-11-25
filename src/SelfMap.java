@@ -12,6 +12,18 @@ public class SelfMap {
 		reader = new Scanner(System.in);
 		List<?> lastOutput = null;
 		
+		
+		
+		DualAn dualAn = new DualAn(2);
+		Function sMap = dualAn.generatesMap();
+		 
+		 
+		System.out.println(sMap);
+		 
+		System.out.println(dualAn.generatejMap(sMap));
+		
+		
+		
 		while(true) {
 			System.out.print("Enter a command: ");
 			 
@@ -52,22 +64,12 @@ public class SelfMap {
 				}
 				System.out.println("(" + ((double)(end-start))/1000000 + " ms) " + Tools.sumToString(lastOutput));
 			}
-			else if(keyWord.equals("create")) {
+			//TODO give the ability to create an sMap on the fly. enter the dimension of A(n), then cycle through each VALID dimension for sMap
+			//enter the target for each valid domain element, and do a dimension check to make sure it's valid
+			else if(keyWord.equals("sMap")) {
 				
-			}
-			 	
-				 
+			}	 
 		}
-		 
-		 
-
-		
-		
-<<<<<<< HEAD
-		
-		
-=======
->>>>>>> e1cb0e7edb8ca15e2d353150cd39059e6692d8ae
 		 
 		 
 
@@ -119,40 +121,6 @@ public class SelfMap {
 		 
 		 
 		 /*
-		 //TODO make sure running coproduct on [1,4] gives the same as [1,2,1,2] etc
-		 List<int[]> input = new ArrayList<int[]>();
-		 input.add(new int[]{1, 3, 2, 1});
-		 //input.add(new int[]{1, 5});
-		 //input.add(new int[]{2, 1});
-		 List<int[][]> tensorsUnreduced = DualSteenrod.coproduct(input);
-		 List<int[][]> tensors = (List<int[][]>) DualSteenrod.reduceMod2(tensorsUnreduced);
-		 
-		 System.out.println(tensorsUnreduced.size());
-		 System.out.println(tensors.size());
-		 
-		 for(int i = 0; i < tensorsUnreduced.size(); i++) {
-			 System.out.print(Arrays.toString(tensorsUnreduced.get(i)[0]) + " X " + Arrays.toString(tensorsUnreduced.get(i)[1]) + (    (i == (tensorsUnreduced.size() - 1)) ? "" : " + "             )     );
-		 }
-		 
-		 System.out.println("");
-		 
-		 for(int i = 0; i < tensors.size(); i++) {
-			 System.out.print(Arrays.toString(tensors.get(i)[0]) + " X " + Arrays.toString(tensors.get(i)[1]) + (    (i == (tensors.size() - 1)) ? "" : " + "             )     );
-		 }
-		 
-		 System.out.println("");
-		 
-		 DualSteenrod.removePrimitives(tensors);
-		 
-		 for(int i = 0; i < tensors.size(); i++) {
-			 System.out.print(Arrays.toString(tensors.get(i)[0]) + " X " + Arrays.toString(tensors.get(i)[1]) + (    (i == (tensors.size() - 1)) ? "" : " + "             )     );
-		 }
-		 
-		 System.out.println("");
-		 */
-		 
-		 
-		 /*
 		 System.out.println(Arrays.toString(Tools.dynamicToFixedForm(DualSteenrod.applyRelations(new int[]{1,2,1,1,2,1,5,6,5,7,8,1}), 8)));
 		 System.out.println(Arrays.toString(DualSteenrod.applyRelations(new int[]{1,2, 2,0, 3, 7, 19, 1})));
 		 System.out.println(Arrays.toString(Tools.fixedToDynamicForm(new int[]{3, 0, 0, 5, 0, 0, 3, 0, 0, 0, 0, 13})));
@@ -177,15 +145,9 @@ public class SelfMap {
 		 */
 		 
 		 
-		 /*
-		 DualAn dualAn = new DualAn(1);
-		 Function sMap = dualAn.generatesMap();
 		 
 		 
-		 System.out.println(sMap);
 		 
-		 System.out.println(dualAn.generatejMap(sMap));
-		 */
 		 
 		 
 		 
