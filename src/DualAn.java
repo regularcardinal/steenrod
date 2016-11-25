@@ -93,7 +93,7 @@ public class DualAn implements Algebra {
 	
 	
 	@SuppressWarnings("unchecked")
-	public Function generatejMap(Function sMap) {
+	public Function generateJMap(Function sMap) {
 		Function jMap = new Function();
 		Map<List<Integer>, MilnorElement> map;
 		Iterator<List<Integer>> iter;
@@ -102,7 +102,7 @@ public class DualAn implements Algebra {
 		for(int dimension = 1; dimension <= sMap.topDimension(); dimension++) {
 			map = sMap.getMapByDimension(dimension);
 			
-			System.out.print("dim: " + dimension);
+			//System.out.print("dim: " + dimension);
 			
 			if(map == null)
 				continue;
@@ -112,13 +112,13 @@ public class DualAn implements Algebra {
 			while(iter.hasNext()) {
 				List<Integer> mono = iter.next();
 				
-				long start = System.nanoTime();
-				System.out.print(" computing coproduct of " + mono + ": ");
+				//long start = System.nanoTime();
+				//System.out.print(" computing coproduct of " + mono + ": ");
 				
 				List<int[][]> coprod = DualSteenrod.coproduct(Tools.listToIntArray(mono));
 				coprod = (List<int[][]>) DualSteenrod.reduceMod2(coprod);
 				
-				System.out.print(((double)(System.nanoTime()-start))/1000000 + " ms; "); 
+				//System.out.print(((double)(System.nanoTime()-start))/1000000 + " ms; "); 
 				
 				DualSteenrod.removePrimitives(coprod);
 				
@@ -141,7 +141,7 @@ public class DualAn implements Algebra {
 					List<int[]> sMono2_1 = (List<int[]>) DualSteenrod.reduceMod2(sMap.get(mono2_1).getAsList());
 					
 					if(sMono2_1.size() == 0) {
-						System.out.print("mono: " + mono + "; s map is zero for " + Arrays.toString(mono2_2) + "; ");
+						//System.out.print("mono: " + mono + "; s map is zero for " + Arrays.toString(mono2_2) + "; ");
 						continue;
 					}
 					
@@ -158,14 +158,14 @@ public class DualAn implements Algebra {
 				jMap.set(Tools.listToIntArray(mono), target);
 				
 			}
-			System.out.println("");
+			//System.out.println("");
 		}
 		
 		
 		return jMap;
 	}
 	
-	public Function generatesMap() {
+	public Function generateSMap() {
 		Function sMap = new Function();
 		
 		//initialize all targets to zero

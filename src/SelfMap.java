@@ -11,24 +11,15 @@ public class SelfMap {
 		long end = 0;
 		reader = new Scanner(System.in);
 		List<?> lastOutput = null;
-		
-		
-		
-		DualAn dualAn = new DualAn(2);
-		Function sMap = dualAn.generatesMap();
+		Function sMap = null, jMap = null;
+		DualAn dualAn = new DualAn(0);
 		 
-		 
-		System.out.println(sMap);
-		 
-		System.out.println(dualAn.generatejMap(sMap));
-		
-		
 		
 		while(true) {
 			System.out.print("Enter a command: ");
 			 
 			String str = reader.nextLine();
-			String keyWord = str.substring(0, str.indexOf(" "));
+			String keyWord = (str.indexOf(" ") == -1) ? str : str.substring(0, str.indexOf(" "));
 			
 			if(keyWord.equals("reduce") || keyWord.equals("coprod") || keyWord.equals("remove")) {
 				String next = str.substring(str.indexOf(" ") + 1);
@@ -67,12 +58,32 @@ public class SelfMap {
 			//TODO give the ability to create an sMap on the fly. enter the dimension of A(n), then cycle through each VALID dimension for sMap
 			//enter the target for each valid domain element, and do a dimension check to make sure it's valid
 			else if(keyWord.equals("sMap")) {
-				
-			}	 
+				System.out.print("Enter dimension for An: ");
+				int dim = Integer.parseInt(reader.nextLine());
+				dualAn = new DualAn(dim);
+				sMap = dualAn.generateSMap();
+			}
+			else if(keyWord.equals("jMap")) {
+				if(sMap == null)
+					System.out.println("No s map exists.");
+				else {
+					jMap = dualAn.generateJMap(sMap);
+					System.out.println(jMap);
+				}
+			}
+			else if(keyWord.equals("roth")) {
+				if(jMap == null)
+					System.out.println("No j map exists.");
+				//else
+					//TODO dualAn.checkRoth(jMap, sMap);
+			}
 		}
 		 
 		 
 
+		
+		
+		
 		 //System.out.println(cleanup(writeAsBasis("31 30")));
 		
 		 //System.out.println(DualSteenrod.milnorDimension(new int[]{1, 5, 3, 0}));
