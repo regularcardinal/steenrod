@@ -130,8 +130,10 @@ public class DualAn implements Algebra {
 				for(int i = 0; i < coprod.size(); i++) {
 					//if the quotient gives zero, then this entire summand will be zero. mono1 should already be reduced
 					int[] mono1 = coprod.get(i)[0];
-					if(quotientIsZero(mono1))
+					if(quotientIsZero(mono1)) {
+						System.out.println("QUOTIENT of " + Arrays.toString(mono1) + " is zero?");
 						continue;
+					}
 					
 					int[] mono2 = coprod.get(i)[1];
 					//int dim1 = DualSteenrod.milnorDimension(mono1);
@@ -141,24 +143,38 @@ public class DualAn implements Algebra {
 					//TODO: this can probably be done much more elegantly using MilnorElements.
 					int[] mono2_1 = DualSteenrod.applyRelations(mono2, getRelations()); //in A(n)*
 					int[] mono2_2 = DualSteenrod.remainder(mono2, getRelations()); //in A//A(n)*
-					List<int[]> sMono2_1 = (List<int[]>) DualSteenrod.reduceMod2(sMap.get(mono2_1).getAsList());
 					
-					if(sMono2_1.size() == 0) {
-						//System.out.print("mono: " + mono + "; s map is zero for " + Arrays.toString(mono2_2) + "; ");
+					//need to check if mono2_1 is 1 here (1 is not told apart from 0 very well in some areas, an issue that goes back to probably generateMonomials
+					//when using the quotient map, [] might represent zero instead...
+					boolean equalsOne = ((mono2_1.length == 0) ? true : false);
+					
+					List<int[]> sMono2_1 = sMap.get(mono2_1).getAsList(); //removed a reduceMod2 here
+					
+					if(sMono2_1.size() == 0 && !equalsOne) {
+						System.out.print("mono: " + mono + "; s map is zero for " + Arrays.toString(mono2_1) + "; ");
 						continue;
 					}
 					
+					List<int[]> sMono2_1AsList;
+					if(equalsOne) {
+						sMono2_1AsList = new ArrayList<int[]>(1);
+						sMono2_1AsList.add(new int[0]);
+					}
+					else 
+						sMono2_1AsList = sMono2_1;
 					
 					List<int[]> mono2_2AsList = new ArrayList<int[]>(1);
 					mono2_2AsList.add(mono2_2);
-					List<int[]> multiplied = (List<int[]>) DualSteenrod.reduceMod2(DualSteenrod.multiplySums(sMono2_1, mono2_2AsList));
+					
+					List<int[]> multiplied = (List<int[]>) DualSteenrod.reduceMod2(DualSteenrod.multiplySums(sMono2_1AsList, mono2_2AsList));
 					
 					target.add(DualSteenrod.multiplySums(jMap.get(mono1).getAsList(),  multiplied ));
-					System.out.println("nonzero s map: " + target);
+					//System.out.println("nonzero s map: " + mono + " -> " + target);
 				}
 				
 				target.reduceMod2();
 				jMap.set(Tools.listToIntArray(mono), target);
+				System.out.println("adding j map: " + mono + " -> " + target);
 				
 			}
 			//System.out.println("");
@@ -178,6 +194,8 @@ public class DualAn implements Algebra {
 				sMap.set(monomial, new MilnorElement(0));
 			}
 		}
+		
+		sMap.set(new int[0], new MilnorElement(new int[0]));
 		
 		//TODO there should be a method which does what the next 6 lines do. almost filteredDimensions() but need
 		DualSteenrod AmodAn = new DualSteenrod(null);
@@ -285,6 +303,10 @@ public class DualAn implements Algebra {
 	
 	public Map<Integer, Integer> getRelations() {
 		return relationMap;
+	}
+	
+	public static Map<Integer, Integer> getRelations(int n) {
+		return (new DualAn(n)).getRelations();
 	}
 
 	@Override

@@ -11,7 +11,7 @@ public class Function {
 		//using List<Integer> instead of int[] because hash maps don't work well with keys that are arrays because of .equals issues
 		entireFunction = new HashMap<Integer, Map<List<Integer>, MilnorElement>>();	
 		Map<List<Integer>, MilnorElement> map = new HashMap<List<Integer>, MilnorElement>();
-		map.put(null, new MilnorElement((int[]) null));
+		map.put(null, new MilnorElement(0));
 		
 		entireFunction.put(0, map);
 		
