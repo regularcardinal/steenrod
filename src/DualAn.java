@@ -271,6 +271,7 @@ public class DualAn implements Algebra {
 		MilnorElement imJ = jMap.get(topClass());
 		List<int[][]> coprodImJ = DualSteenrod.coproduct(imJ.getAsList());
 		MilnorElement target = sBarTensor(coprodImJ, sMap);
+		System.out.println(target);
 		return (target.isZero());
 	}
 	

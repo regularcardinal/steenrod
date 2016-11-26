@@ -14,12 +14,12 @@ public class SelfMap {
 		Function sMap = null, jMap = null;
 		DualAn dualAn = new DualAn(0);
 		
-		
+		/*
 		System.out.println(Arrays.toString(DualSteenrod.applyRelations(new int[]{1,8}, DualAn.getRelations(2))));
 		System.out.println(Arrays.toString(DualSteenrod.remainder(new int[]{1,8}, DualAn.getRelations(2))));
 		System.out.println(new MilnorElement(new int[0]).getAsList().size());
 		System.out.println(Tools.intArrayToList(new int[0]).size());
-		
+		*/
 		
 		while(true) {
 			System.out.print("Enter a command: ");
@@ -119,8 +119,8 @@ public class SelfMap {
 			else if(keyWord.equals("roth")) {
 				if(jMap == null)
 					System.out.println("No j map exists.");
-				//else
-					//TODO dualAn.checkRoth(jMap, sMap);
+				else
+					System.out.println(dualAn.checkRoth(jMap, sMap));
 			}
 			else if(keyWord.equals("print")) {
 				String next = (str.indexOf(" ") == -1) ? "" : str.substring(str.indexOf(" ") + 1);
