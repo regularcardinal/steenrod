@@ -97,7 +97,7 @@ public class SelfMap {
 							target = new MilnorElement(mono);
 						
 						sMap.set(Tools.listToIntArray(entry.getKey()), target);
-						System.out.println("Added " + entry.getKey() + " -> " + target);
+						System.out.println("ADDED " + entry.getKey() + " -> " + target);
 					}
 				}
 				System.out.println("S map generated.");
