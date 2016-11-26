@@ -7,6 +7,11 @@ import java.util.List;
 public class MilnorElement {
 	private List<int[]> element;
 	
+	public MilnorElement() {
+		element = new ArrayList<int[]>();
+	}
+	
+	//use this to initiate zero
 	public MilnorElement(int num) {
 		if(num == 0) 
 			element = new ArrayList<int[]>(0);
@@ -45,6 +50,10 @@ public class MilnorElement {
 	
 	public boolean singleMonomial() {
 		return (element.size() == 1 ? true : false);
+	}
+	
+	public int length() {
+		return element.size();
 	}
 	
 	public List<int[]> getAsList() {

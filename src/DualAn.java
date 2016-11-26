@@ -140,7 +140,8 @@ public class DualAn implements Algebra {
 					//int dim2 = DualSteenrod.milnorDimension(mono2);
 					
 					//represent mono2 as an elt in A(n)* tensor an elt in A//A(n)*
-					//TODO: this can probably be done much more elegantly using MilnorElements.
+					//TODO: this can probably be done much more elegantly using MilnorElements. 
+					//		the following should be replaced by the sBar method
 					int[] mono2_1 = DualSteenrod.applyRelations(mono2, getRelations()); //in A(n)*
 					int[] mono2_2 = DualSteenrod.remainder(mono2, getRelations()); //in A//A(n)*
 					
@@ -215,6 +216,62 @@ public class DualAn implements Algebra {
 		}
 		
 		return sMap;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public MilnorElement sBar(MilnorElement element, Function sMap) {
+		MilnorElement target = new MilnorElement();
+		
+		for(int i = 0; i < element.length(); i++) {
+			int[] mono = element.getAsList().get(i);
+			int[] mono1 = DualSteenrod.applyRelations(mono, getRelations()); //in A(n)*
+			int[] mono2 = DualSteenrod.remainder(mono, getRelations()); //in A//A(n)*
+			
+			//need to check if mono1 is 1 here (1 is not told apart from 0 very well in some areas, an issue that goes back to probably generateMonomials)
+			//if applyRelations returns [], it is representing 1 because applyRelations is really splitting up mono.
+			//	when using the quotient map, [] might represent zero instead.
+			boolean mono1EqualsOne = ((mono1.length == 0) ? true : false);
+			
+			MilnorElement sMono1 = sMap.get(mono1);
+			
+			//if the image under s is zero. ignore if mono1 = 1 (note that s must map 1 to 1, else it's the zero map)
+			if(sMono1.length() == 0 && !mono1EqualsOne) 
+				continue;
+			
+			//sMono1 might be zero even though it should be one in this case
+			if(mono1EqualsOne) 
+				sMono1 = new MilnorElement(new int[0]);
+			
+			List<int[]> mono2AsList = new ArrayList<int[]>(1);
+			mono2AsList.add(mono2);
+			
+			List<int[]> multiplied = (List<int[]>) DualSteenrod.reduceMod2(DualSteenrod.multiplySums(sMono1.getAsList(), mono2AsList));
+			target.add(multiplied);
+		}
+		
+		target.reduceMod2();
+		return target;
+	}
+	
+	public MilnorElement sBarTensor(List<int[][]> sumOfTensors, Function sMap) {
+		MilnorElement target = new MilnorElement();
+		
+		for(int[][] tensor : sumOfTensors) {
+			MilnorElement mono1 = new MilnorElement(tensor[0]);
+			MilnorElement mono2 = new MilnorElement(tensor[1]);
+			//these ARE sums, right?
+			target.add(DualSteenrod.multiplySums(sBar(mono1, sMap).getAsList(), sBar(mono2, sMap).getAsList()));
+		}
+		
+		target.reduceMod2();
+		return target;
+	}
+	
+	public boolean checkRoth(Function sMap, Function jMap) {
+		MilnorElement imJ = jMap.get(topClass());
+		List<int[][]> coprodImJ = DualSteenrod.coproduct(imJ.getAsList());
+		MilnorElement target = sBarTensor(coprodImJ, sMap);
+		return (target.isZero());
 	}
 	
 	//returns the only dimensions (domain-wise) where an s map can possibly be nonzero

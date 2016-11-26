@@ -12,6 +12,8 @@ import java.util.*;
 		  where the size would be fixed in advance depending on the dimension n
 		  
 	TODO: can really replace all monomials int[] as short[] because the powers are generally small (probably always less than 100)
+	
+	CONVENTION: a list of int[] generally represents a SUM of monomials. but in some cases, this might be a product. check carefully.
 */
 
 public class DualSteenrod implements Algebra {	
