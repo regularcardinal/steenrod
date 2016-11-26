@@ -48,6 +48,7 @@ public class Function {
 	
 	//INPUT: a pair of monomials, a source and target
 	//BEHAVIOR: find the dimension of the source, add this source/target to that dimension
+	//TODO source should probably be List<Integer> to avoid tons of conversions from array to list (which may have been done BEFORE calling set)
 	public void set(int[] source, MilnorElement image) {
 		List<Integer> sourceAsList = Tools.intArrayToList(source);
 		int dimension = Tools.milnorDimension(source);

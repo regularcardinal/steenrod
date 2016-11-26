@@ -19,7 +19,7 @@ public class DualSteenrod implements Algebra {
 	
 	//both of these are for use only when generating monomials <= some fixed degree
 	private Map<Integer, Integer> finiteGeneratorMap;
-	private Map<Integer, List<int[]>> truncatedMonomials;
+	private Map<Integer, List<MilnorElement>> truncatedMonomials;
 	
 	public DualSteenrod(Map<Integer, Integer> generators) { 
 		generatorMap = generators;
@@ -199,7 +199,7 @@ public class DualSteenrod implements Algebra {
 	//OUTPUT: a map of all monomials in dimensions <= max dimension. keys are dimension, values are lists of elements in those dimensions.
 	//this is not super efficient but it generally doesn't matter
 	//there may be a bug/infinite loop if maxDimension is less than that of one of the generators in genMap
-	public Map<Integer, List<int[]>> getMonomialsAtOrBelow(int maxDimension) {
+	public Map<Integer, List<MilnorElement>> getMonomialsAtOrBelow(int maxDimension) {
 		int maxGenDim = 0;
 		finiteGeneratorMap = new HashMap<Integer, Integer>();
 		
@@ -225,7 +225,7 @@ public class DualSteenrod implements Algebra {
 			initial[2*i+1] = 0;
 		}
 		
-		truncatedMonomials = new HashMap<Integer, List<int[]>>();
+		truncatedMonomials = new HashMap<Integer, List<MilnorElement>>();
 		generateMonomials(initial, maxDimension, 0, maxGenDim);
 		return truncatedMonomials;
 	}
@@ -248,12 +248,12 @@ public class DualSteenrod implements Algebra {
 				
 				if(dimension <= maxDimension) {
 					if(truncatedMonomials.get(dimension) == null) {
-						List<int[]> temp = new ArrayList<int[]>();
-						temp.add(DualSteenrod.applyRelations(newMono));
+						List<MilnorElement> temp = new ArrayList<MilnorElement>();
+						temp.add(new MilnorElement(DualSteenrod.applyRelations(newMono)));
 						truncatedMonomials.put(dimension, temp);
 					}
 					else 
-						truncatedMonomials.get(dimension).add(DualSteenrod.applyRelations(newMono));
+						truncatedMonomials.get(dimension).add(new MilnorElement(DualSteenrod.applyRelations(newMono)));
 				}
 			}
 			
@@ -264,7 +264,7 @@ public class DualSteenrod implements Algebra {
 	}
 	
 	public void printMonomialsAtOrBelow(int maxDimension) {
-		truncatedMonomials = new HashMap<Integer, List<int[]>>();
+		truncatedMonomials = new HashMap<Integer, List<MilnorElement>>();
 		truncatedMonomials = getMonomialsAtOrBelow(maxDimension);
 		
 		//TODO total is just printing number of dimns...
@@ -273,7 +273,7 @@ public class DualSteenrod implements Algebra {
 		//first convert from a set of keys to a sorted Integer array of keys
 		Integer[] sortedKeys = Tools.keysToSortedArray(truncatedMonomials);
 		
-		List<int[]> tempList;
+		List<MilnorElement> tempList;
 		
 		//for each key, get the list
 		for(int i = 0; i < sortedKeys.length; i++) {
@@ -282,7 +282,7 @@ public class DualSteenrod implements Algebra {
 			
 			//print the list corresponding to this dimension
 			for(int j=0; j < tempList.size(); j++)
-				System.out.println(Arrays.toString(tempList.get(j)) + " ");
+				System.out.println(tempList.get(j) + " ");
 			
 			System.out.println("");
 		}
