@@ -137,4 +137,21 @@ public class Tools {
 		
 		return output;
 	}
+
+	//input: milnor monomial eg xi_1^5 x_3^4
+	//output: degree eg (5) + (7)(4) = 33
+	public static int milnorDimension(int[] monomial) {
+		int size = monomial.length;
+		int degree = 0;
+		
+		//error
+		if((size % 2) != 0)
+			return -1;
+		
+		for(int i = 0; i < size; i+=2) {
+			degree += ((Math.pow(2, monomial[i]) - 1) * monomial[i+1]);
+		}
+		
+		return degree;
+	}
 }

@@ -32,7 +32,7 @@ public class Function {
 			return entireFunction.get(0).get(null);
 		
 		List<Integer> inputAsList = Tools.intArrayToList(input);
-		int dimension = DualSteenrod.milnorDimension(input);
+		int dimension = Tools.milnorDimension(input);
 		//System.out.println(Arrays.toString(input) + " dim " + dimension);
 		return entireFunction.get(dimension).get(inputAsList);
 	}
@@ -50,7 +50,7 @@ public class Function {
 	//BEHAVIOR: find the dimension of the source, add this source/target to that dimension
 	public void set(int[] source, MilnorElement image) {
 		List<Integer> sourceAsList = Tools.intArrayToList(source);
-		int dimension = DualSteenrod.milnorDimension(source);
+		int dimension = Tools.milnorDimension(source);
 		Map<List<Integer>, MilnorElement> map = entireFunction.get(dimension);
 		
 		if(map == null) 

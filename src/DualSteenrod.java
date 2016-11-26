@@ -195,23 +195,6 @@ public class DualSteenrod implements Algebra {
 		return milnorMultiply(temp);
 	}
 	
-	//input: milnor monomial eg xi_1^5 x_3^4
-	//output: degree eg (5) + (7)(4) = 33
-	public static int milnorDimension(int[] monomial) {
-		int size = monomial.length;
-		int degree = 0;
-		
-		//error
-		if((size % 2) != 0)
-			return -1;
-		
-		for(int i = 0; i < size; i+=2) {
-			degree += ((Math.pow(2, monomial[i]) - 1) * monomial[i+1]);
-		}
-		
-		return degree;
-	}
-	
 	//INPUT: a max dimension
 	//OUTPUT: a map of all monomials in dimensions <= max dimension. keys are dimension, values are lists of elements in those dimensions.
 	//this is not super efficient but it generally doesn't matter
@@ -256,12 +239,12 @@ public class DualSteenrod implements Algebra {
 		//single out the generator we're focusing on in this iteration (determined by the shift: if the curGen is xi_i, then i = shift+1)
 		int[] curGenerator = new int[]{newMono[2*shift], 0};
 		
-		while(milnorDimension(curGenerator) <= maxDimension) {
+		while(Tools.milnorDimension(curGenerator) <= maxDimension) {
 			//if shift == maxShift-1, then we are at the furthest-right generator
 			if(shift != (maxShift-1))
 				generateMonomials(newMono, maxDimension, shift+1, maxShift);
 			else {
-				dimension = DualSteenrod.milnorDimension(newMono);
+				dimension = Tools.milnorDimension(newMono);
 				
 				if(dimension <= maxDimension) {
 					if(truncatedMonomials.get(dimension) == null) {

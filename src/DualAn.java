@@ -41,7 +41,7 @@ public class DualAn implements Algebra {
 			if(shift != N)
 				generateMonomials(newMono, shift+1);
 			else {
-				dimension = DualSteenrod.milnorDimension(newMono);
+				dimension = Tools.milnorDimension(newMono);
 				if(allMonomials.get(dimension) == null) {
 					List<int[]> temp = new ArrayList<int[]>();
 					temp.add(DualSteenrod.applyRelations(newMono, relationMap));
@@ -176,10 +176,11 @@ public class DualAn implements Algebra {
 			}
 		}
 		
+		//TODO there should be a method which does what the next 6 lines do. almost filteredDimensions() but need
 		DualSteenrod AmodAn = new DualSteenrod(null);
 		AmodAn.setGenerators(DualSteenrod.getDualAModAnGenerators(N));
 		
-		int topClassDim = DualSteenrod.milnorDimension(topClass());
+		int topClassDim = Tools.milnorDimension(topClass());
 		Integer[] AmodAnKeys = Tools.keysToSortedArray(AmodAn.getMonomialsAtOrBelow(topClassDim));
 		Map<Integer, List<int[]>> filteredMonomials = getMonomialsByFilter(AmodAnKeys);
 		Integer[] dualAnKeys = Tools.keysToSortedArray(filteredMonomials);
@@ -195,6 +196,14 @@ public class DualAn implements Algebra {
 		return sMap;
 	}
 	
+	//returns the only dimensions (domain-wise) where an s map can possibly be nonzero
+	public Integer[] sMapDimensions() {
+		DualSteenrod AmodAn = new DualSteenrod(DualSteenrod.getDualAModAnGenerators(N));
+		int topClassDim = Tools.milnorDimension(topClass());
+		Integer[] AmodAnKeys = Tools.keysToSortedArray(AmodAn.getMonomialsAtOrBelow(topClassDim));
+		Map<Integer, List<int[]>> filteredMonomials = getMonomialsByFilter(AmodAnKeys);
+		return Tools.keysToSortedArray(filteredMonomials);
+	}
 	
 	public int getDimension() {
 		return (int)Math.pow(2, Tools.choose(N+2, 2).intValue());
@@ -235,7 +244,7 @@ public class DualAn implements Algebra {
 	}
 	
 	public void printAllData() {
-		System.out.println("A" + N + " dual; Dimension: " + getDimension() + "; Top class: " + Arrays.toString(topClass()) + "; Top class dim: " + DualSteenrod.milnorDimension(topClass()) + "\n");
+		System.out.println("A" + N + " dual; Dimension: " + getDimension() + "; Top class: " + Arrays.toString(topClass()) + "; Top class dim: " + Tools.milnorDimension(topClass()) + "\n");
 		printAllMonomials();
 	}
 	

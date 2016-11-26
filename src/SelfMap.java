@@ -68,7 +68,7 @@ public class SelfMap {
 					System.out.println("No s map exists.");
 				else {
 					jMap = dualAn.generateJMap(sMap);
-					System.out.println(jMap);
+					System.out.println("J map generated using last s map.");
 				}
 			}
 			else if(keyWord.equals("roth")) {
@@ -77,6 +77,17 @@ public class SelfMap {
 				//else
 					//TODO dualAn.checkRoth(jMap, sMap);
 			}
+			else if(keyWord.equals("print")) {
+				String next = (str.indexOf(" ") == -1) ? "" : str.substring(str.indexOf(" ") + 1);
+				if(next.equals("sMap"))
+					System.out.println( (sMap!=null) ? sMap : "No s map exists." );
+				else if(next.equals("jMap"))
+					System.out.println( (jMap!=null) ? jMap : "No j map exists." );	
+			}
+			else
+				System.out.println("I don't understand.");
+			
+			
 		}
 		 
 		 
@@ -215,7 +226,7 @@ public class SelfMap {
 	
 	public static int sMaps(DualAn dualAn, DualSteenrod AmodAn) {
 		int count = 1;
-		int topClassDim = DualSteenrod.milnorDimension(dualAn.topClass());
+		int topClassDim = Tools.milnorDimension(dualAn.topClass());
 		Map<Integer, List<int[]>> AmodAnMonomials = AmodAn.getMonomialsAtOrBelow(topClassDim);
 		Map<Integer, List<int[]>> dualAnMonomials = dualAn.getMonomialsByFilter(Tools.keysToSortedArray(AmodAnMonomials));
 		
