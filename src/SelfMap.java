@@ -13,7 +13,7 @@ public class SelfMap {
 		List<?> lastOutput = null;
 		Function sMap = null, jMap = null;
 		DualAn dualAn = new DualAn(0);
-		 
+		
 		
 		while(true) {
 			System.out.print("Enter a command: ");
@@ -64,19 +64,21 @@ public class SelfMap {
 				sMap = dualAn.generateSMap();
 				Map<List<Integer>, MilnorElement> map;
 				
+				Integer[] keys = dualAn.sMapDimensions();
+				
 				DualSteenrod AmodAn = new DualSteenrod(DualSteenrod.getDualAModAnGenerators(bigDim));
 				//strictly speaking, this may have dimensions that don't appear in sMap, but it won't matter
 				//I don't think that can happen anyway; A(n)* has elements in every dimension(?)
-				Map<Integer, List<MilnorElement>> AmodAnMap = AmodAn.getMonomialsAtOrBelow(bigDim);
+				Map<Integer, List<MilnorElement>> AmodAnMap = AmodAn.getMonomialsAtOrBelow(keys[keys.length-1]);
 				
-				Integer[] keys = dualAn.sMapDimensions();
+				
 				
 				for(Integer dim : keys) {
 					System.out.println("Editing dimension " + dim + ".");
 					map = sMap.getMapByDimension(dim);
 					
 					for (Map.Entry<List<Integer>, MilnorElement> entry : map.entrySet()) {
-						System.out.print("Enter target for " + entry.getKey() + " (choices: " + AmodAnMap.get(dim) + "). Enter 0 for zero.");
+						System.out.print("Enter target for " + entry.getKey() + " (list of choices: " + AmodAnMap.get(dim) + "; Enter 0 for zero): ");
 						
 						String next = reader.nextLine();
 						String[] split = next.split(" "); //TODO this only accepts monomials, not sums. easy to fix later
@@ -98,6 +100,7 @@ public class SelfMap {
 						System.out.println("Added " + entry.getKey() + " -> " + target);
 					}
 				}
+				System.out.println("S map generated.");
 			}
 			else if(keyWord.equals("jMap")) {
 				if(sMap == null)
