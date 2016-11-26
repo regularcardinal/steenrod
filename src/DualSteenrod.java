@@ -376,6 +376,10 @@ public class DualSteenrod implements Algebra {
 	 * if there are any generators raised to the 0 power, it will delete them
 	 * note this will even work with negative powers (although no guarantees...)
 	 * TODO can combine both of the applyRelations methods into one by using a MilnorElement as input!
+	 * WARNING: right now, what this really does is, say we're given relMap = A(n)*. then it returns the part of monomial that is in A(n)* if we split
+	 * 			A* as A(n)* \otimes A//A(n)*. this is NOT the same as applying the quotient map! thus:
+	 * 			TODO rename this as simplify, or turn into two functions: simplify for no relations, and split for relations.
+	 * 				 if you turn this into two methods, you have to be careful. different things are calling this for various reasons.
 	 */
 	public static int[] applyRelations(int[] monomial, Map<Integer, Integer> relationMap) {
 		Map<Integer, Integer> powers = new HashMap<Integer, Integer>();
@@ -463,7 +467,6 @@ public class DualSteenrod implements Algebra {
 		}
 		return output;
 	}
-	
 	
 	//NOTE: this assumes input is reduced!
 	//TODO: double check this does what you really want the s_bar map to be doing. picking off elements in A//A(n)* and then checking what's left over

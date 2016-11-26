@@ -128,8 +128,11 @@ public class DualAn implements Algebra {
 				
 				//add the j(pi(a')) \cdot i(s_bar(a'')), summing over all a', a''
 				for(int i = 0; i < coprod.size(); i++) {
-					//applyRelations is applying the quotient map pi
-					int[] mono1 = DualSteenrod.applyRelations(coprod.get(i)[0], this.getRelations());
+					//if the quotient gives zero, then this entire summand will be zero. mono1 should already be reduced
+					int[] mono1 = coprod.get(i)[0];
+					if(quotientIsZero(mono1))
+						continue;
+					
 					int[] mono2 = coprod.get(i)[1];
 					//int dim1 = DualSteenrod.milnorDimension(mono1);
 					//int dim2 = DualSteenrod.milnorDimension(mono2);
@@ -150,7 +153,7 @@ public class DualAn implements Algebra {
 					mono2_2AsList.add(mono2_2);
 					List<int[]> multiplied = (List<int[]>) DualSteenrod.reduceMod2(DualSteenrod.multiplySums(sMono2_1, mono2_2AsList));
 					
-					target.add(DualSteenrod.multiplySums(jMap.get(mono1).getAsList(),  multiplied    ));
+					target.add(DualSteenrod.multiplySums(jMap.get(mono1).getAsList(),  multiplied ));
 					System.out.println("nonzero s map: " + target);
 				}
 				
@@ -203,6 +206,19 @@ public class DualAn implements Algebra {
 		Integer[] AmodAnKeys = Tools.keysToSortedArray(AmodAn.getMonomialsAtOrBelow(topClassDim));
 		Map<Integer, List<int[]>> filteredMonomials = getMonomialsByFilter(AmodAnKeys);
 		return Tools.keysToSortedArray(filteredMonomials);
+	}
+	
+	//assumes input is simplified
+	public boolean quotientIsZero(int[] input) {
+		boolean isZero = false;
+		for(int i = 0; i < input.length; i+=2) {
+			int generator = input[i];
+			if( (getRelations().get(generator) != null) && (input[i+1] >= getRelations().get(generator)) ) {
+				isZero = true;
+				break;
+			}
+		}
+		return isZero;
 	}
 	
 	public int getDimension() {
