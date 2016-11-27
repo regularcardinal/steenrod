@@ -6,6 +6,9 @@ public class SelfMap {
 	private static Scanner reader;
 	private static final String NO_S_MAP = "No s map exists.";
 	private static final String NO_J_MAP = "No j map exists.";
+	private static final int ALL = 0;
+	private static final int FILL = 1;
+	private static final int PICK = 2;
 	
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) throws IOException {
@@ -57,10 +60,8 @@ public class SelfMap {
 				int bigDim = Integer.parseInt(reader.nextLine());
 				dualAn = new DualAn(bigDim);
 				sMap = dualAn.generateSMap();
-				Map<List<Integer>, MilnorElement> map;
 				
 				Integer[] keys = dualAn.sMapDimensions();
-				System.out.println("Dimensions: " + Arrays.toString(keys));
 				
 				DualSteenrod AmodAn = new DualSteenrod(DualSteenrod.getDualAModAnGenerators(bigDim));
 				//strictly speaking, this may have dimensions that don't appear in sMap, but it won't matter
@@ -68,48 +69,92 @@ public class SelfMap {
 				Map<Integer, List<MilnorElement>> AmodAnMap = AmodAn.getMonomialsAtOrBelow(keys[keys.length-1]);
 				
 				while(true) {
-					System.out.print("Enter dimension to edit (type done when finished): ");
+					System.out.print("Enter dimension to edit (keywords: all, fill, list, pick, done): ");
+					
 					String next = reader.nextLine();
+					int fillIndex = 0;
+					List<Integer> pickMono = null;
+					int mode = 0;
 					
-					if(next.equals("done"))
+					//format for key words: (dim) (keyword) (index/monomial)
+					if(next.contains("done"))
 						break;
+					else if(next.contains("list")) {
+						System.out.println("Dimensions: " + Arrays.toString(keys));
+							continue;
+					}
+					else if(next.contains("fill")) {
+						fillIndex = Integer.parseInt(next.substring(next.lastIndexOf(" ") + 1));
+						mode = FILL;
+					}
+					else if(next.contains("pick")) {
+						pickMono = Tools.intArrayToList(Tools.parseSumFromString(next.substring(next.lastIndexOf(" ") + 1)).get(0));
+						mode = PICK;
+					}
+					else if(next.contains("all")) 
+						mode = ALL;
+					else
+						continue;
 					
+					next = next.substring(0, next.indexOf(" "));
 					int dim = 0;
 					
 					try {
 						dim = Integer.parseInt(next);
 					}
 					catch(NumberFormatException e) {
-						System.err.println("Not a number");
+						System.err.println("Not a number.");
 						continue;
 					}
 					
 					if(!Arrays.asList(keys).contains(dim)) {
-						System.err.println("Invalid dimension");
+						System.out.println("Invalid dimension.");
 						continue;
 					}
 					
 					System.out.println("Editing dimension " + dim + ".");
-					map = sMap.getMapByDimension(dim);
+					Map<List<Integer>, MilnorElement> map = sMap.getMapByDimension(dim);
+					
+					if(mode == PICK) {
+						if(!map.containsKey(pickMono) || pickMono == null) {
+							System.out.println("Not a valid monomial.");
+							continue;
+						}
+					}
 					
 					for (Map.Entry<List<Integer>, MilnorElement> entry : map.entrySet()) {
-						System.out.print("Enter target for " + entry.getKey() + " (list of choices: " + AmodAnMap.get(dim) + "; Enter 0 for zero): ");
+						MilnorElement target = new MilnorElement(0);
 						
-						next = reader.nextLine();
-						String[] split = next.split(" "); //TODO this only accepts monomials, not sums. easy to fix later
-						int[] mono = new int[split.length];
-						for(int i = 0; i < split.length; i++)
-							mono[i] = Integer.parseInt(split[i]);
-						
-						MilnorElement target;
-						if(mono[0] == 0)
-							target = new MilnorElement(0);
-						else if(Tools.milnorDimension(Tools.listToIntArray(entry.getKey())) != Tools.milnorDimension(mono)) {
-							System.err.println("Dimension mismatch!");
-							target = new MilnorElement(0);
+						if(mode == ALL || mode == PICK) {
+							if( (mode == PICK) && (entry.getKey() != pickMono) )
+								continue;
+							
+							System.out.print("Enter target for " + entry.getKey() + " (list of choices: " + AmodAnMap.get(dim) + "; Enter 0 for zero): ");
+							
+							next = reader.nextLine();
+							String[] split = next.split(" "); //TODO this only accepts monomials, not sums. easy to fix later
+							int[] userMono = new int[split.length];
+							for(int i = 0; i < split.length; i++)
+								userMono[i] = Integer.parseInt(split[i]);
+							
+							if(userMono[0] == 0)
+								target = new MilnorElement(0);
+							else if(Tools.milnorDimension(Tools.listToIntArray(entry.getKey())) != Tools.milnorDimension(userMono)) {
+								System.out.println("Dimension mismatch!");
+								target = new MilnorElement(0);
+							}
+							else
+								target = new MilnorElement(userMono);			
+							
 						}
-						else
-							target = new MilnorElement(mono);
+						else if(mode == FILL) {
+							if(fillIndex >= AmodAnMap.get(dim).size()) {
+								System.out.println("Fill index (" + fillIndex + ") too large, setting to max");
+								fillIndex = AmodAnMap.get(dim).size() - 1;
+							}
+							
+							target = AmodAnMap.get(dim).get(fillIndex);				
+						}
 						
 						sMap.set(Tools.listToIntArray(entry.getKey()), target);
 						System.out.println("ADDED " + entry.getKey() + " -> " + target);
@@ -120,15 +165,16 @@ public class SelfMap {
 			}
 			else if(keyWord.equals("jMap")) {
 				if(sMap == null)
-					System.err.println(NO_S_MAP);
+					System.out.println(NO_S_MAP);
 				else {
+					start = System.nanoTime();
 					jMap = dualAn.generateJMap(sMap);
-					System.out.println("J map generated using last s map.");
+					System.out.println("J map generated using last s map. (" + ((double)(System.nanoTime()-start))/1000000 + " ms)");
 				}
 			}
 			else if(keyWord.equals("roth")) {
 				if(jMap == null)
-					System.err.println(NO_J_MAP);
+					System.out.println(NO_J_MAP);
 				else
 					System.out.println(dualAn.checkRoth(sMap, jMap));
 			}
@@ -141,7 +187,7 @@ public class SelfMap {
 			}
 			else if(keyWord.equals("sBar")) {
 				if(sMap == null)
-					System.err.println(NO_S_MAP);
+					System.out.println(NO_S_MAP);
 				else {
 					String next = (str.indexOf(" ") == -1) ? "" : str.substring(str.indexOf(" ") + 1);
 					
@@ -159,14 +205,14 @@ public class SelfMap {
 			}
 			else if(keyWord.equals("j")) {
 				if(jMap == null)
-					System.err.println(NO_J_MAP);
+					System.out.println(NO_J_MAP);
 				else {
 					String next = str.substring(str.indexOf(" ") + 1);
 					System.out.println(jMap.get(Tools.parseSumFromString(next).get(0)));
 				}
 			}
 			else
-				System.err.println("I don't understand.");
+				System.out.println("I don't understand.");
 		}
 		
 		
