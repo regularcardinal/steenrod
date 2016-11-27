@@ -51,6 +51,8 @@ public class SelfMap {
 				System.out.println("(" + ((double)(end-start))/1000000 + " ms) " + Tools.sumToString(lastOutput));
 			}
 			else if(keyWord.equals("sMap")) {
+				jMap = null;
+				
 				System.out.print("Enter dimension for An: ");
 				int bigDim = Integer.parseInt(reader.nextLine());
 				dualAn = new DualAn(bigDim);
@@ -64,16 +66,35 @@ public class SelfMap {
 				//I don't think that can happen anyway; A(n)* has elements in every dimension(?)
 				Map<Integer, List<MilnorElement>> AmodAnMap = AmodAn.getMonomialsAtOrBelow(keys[keys.length-1]);
 				
-				
-				
-				for(Integer dim : keys) {
+				while(true) {
+					System.out.print("Enter dimension to edit (type done when finished): ");
+					String next = reader.nextLine();
+					
+					if(next.equals("done"))
+						break;
+					
+					int dim = 0;
+					
+					try {
+						dim = Integer.parseInt(next);
+					}
+					catch(NumberFormatException e) {
+						System.err.println("Not a number");
+						continue;
+					}
+					
+					if(!Arrays.asList(keys).contains(dim)) {
+						System.err.println("Invalid dimension");
+						continue;
+					}
+					
 					System.out.println("Editing dimension " + dim + ".");
 					map = sMap.getMapByDimension(dim);
 					
 					for (Map.Entry<List<Integer>, MilnorElement> entry : map.entrySet()) {
 						System.out.print("Enter target for " + entry.getKey() + " (list of choices: " + AmodAnMap.get(dim) + "; Enter 0 for zero): ");
 						
-						String next = reader.nextLine();
+						next = reader.nextLine();
 						String[] split = next.split(" "); //TODO this only accepts monomials, not sums. easy to fix later
 						int[] mono = new int[split.length];
 						for(int i = 0; i < split.length; i++)
@@ -93,11 +114,12 @@ public class SelfMap {
 						System.out.println("ADDED " + entry.getKey() + " -> " + target);
 					}
 				}
-				System.out.println("S map generated.");
+				
+				System.out.println("S map generated. All dimensions not edited are set to 0.");
 			}
 			else if(keyWord.equals("jMap")) {
 				if(sMap == null)
-					System.out.println(NO_S_MAP);
+					System.err.println(NO_S_MAP);
 				else {
 					jMap = dualAn.generateJMap(sMap);
 					System.out.println("J map generated using last s map.");
@@ -105,7 +127,7 @@ public class SelfMap {
 			}
 			else if(keyWord.equals("roth")) {
 				if(jMap == null)
-					System.out.println(NO_J_MAP);
+					System.err.println(NO_J_MAP);
 				else
 					System.out.println(dualAn.checkRoth(sMap, jMap));
 			}
@@ -118,7 +140,7 @@ public class SelfMap {
 			}
 			else if(keyWord.equals("sBar")) {
 				if(sMap == null)
-					System.out.println(NO_S_MAP);
+					System.err.println(NO_S_MAP);
 				else {
 					String next = (str.indexOf(" ") == -1) ? "" : str.substring(str.indexOf(" ") + 1);
 					
@@ -136,14 +158,14 @@ public class SelfMap {
 			}
 			else if(keyWord.equals("j")) {
 				if(jMap == null)
-					System.out.println(NO_J_MAP);
+					System.err.println(NO_J_MAP);
 				else {
 					String next = str.substring(str.indexOf(" ") + 1);
 					System.out.println(jMap.get(Tools.parseSumFromString(next).get(0)));
 				}
 			}
 			else
-				System.out.println("I don't understand.");
+				System.err.println("I don't understand.");
 			
 			
 		}

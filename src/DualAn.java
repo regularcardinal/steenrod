@@ -186,6 +186,7 @@ public class DualAn implements Algebra {
 		return jMap;
 	}
 	
+	//initialize everything to zero in the right dimensions
 	public Function generateSMap() {
 		Function sMap = new Function();
 		
@@ -277,6 +278,7 @@ public class DualAn implements Algebra {
 		for(int[][] tensor : coprodImJ) {
 			MilnorElement mono1 = new MilnorElement(tensor[0]);
 			MilnorElement mono2 = new MilnorElement(tensor[1]);
+			System.out.println(mono2);
 			target.add(DualSteenrod.multiplySums(mono1.getAsList(), sBar(mono2, sMap).getAsList()));
 		}
 		
