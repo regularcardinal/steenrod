@@ -212,6 +212,7 @@ public class SelfMap {
 			 System.out.println(Arrays.toString(tempList.get(i)));
 		 */
 		 
+		
 		 
 		// System.out.println(Arrays.toString(DualSteenrod.cleanup(new int[]{1, 5, 2, 1, 1, -1}, dualA2.getRelations())));
 		//System.out.println(dualA2.getRelations().get(4));	
