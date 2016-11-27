@@ -27,8 +27,13 @@ public class MilnorElement {
 	
 	@SuppressWarnings("unchecked")
 	public MilnorElement(List<?> input) {
-		if(input == null || input.size() == 0)
+		if(input == null)
 			return;
+		if(input.size() == 0) {
+			element = new ArrayList<int[]>(0);
+			return;
+		}
+			
 		
 		//if this is just a single monomial in the form of List<Integer>
 		if(input.get(0) instanceof Integer) {
