@@ -22,6 +22,31 @@ public class Function {
 		
 		entireFunction.put(0, map);
 	}
+	
+	//*deep* copy the contents from fun. probably inefficient.
+	public Function(Function fun) {
+		Map<Integer, Map<List<Integer>, MilnorElement>> tempEntireMap = fun.getEntireFunction();
+		entireFunction = new HashMap<Integer, Map<List<Integer>, MilnorElement>>();
+		
+		for(Integer dim : tempEntireMap.keySet()) {
+			Map<List<Integer>, MilnorElement> mapByDimension = new HashMap<List<Integer>, MilnorElement>();
+			
+			for(Map.Entry<List<Integer>, MilnorElement> entry : tempEntireMap.get(dim).entrySet()) {
+				List<Integer> key = new ArrayList<Integer>(entry.getKey().size());
+				for(Integer num : entry.getKey())
+					key.add(new Integer(num));
+				
+				List<int[]> tempVal = new ArrayList<int[]>(entry.getValue().getAsList().size());
+				for(int[] mono : entry.getValue().getAsList())
+					tempVal.add(Arrays.copyOf(mono, mono.length));
+				
+				MilnorElement value = new MilnorElement(tempVal);	
+				
+				mapByDimension.put(key, value);
+			}
+			entireFunction.put(dim, mapByDimension);
+		}
+	}
 
 	//INPUT: a monomial called input
 	//OUTPUT: the sum of monomials that input maps to under this function
@@ -59,6 +84,10 @@ public class Function {
 		
 		map.put(sourceAsList, image);
 		entireFunction.put(dimension, map);
+	}
+	
+	public Map<Integer, Map<List<Integer>, MilnorElement>> getEntireFunction() {
+		return entireFunction;
 	}
 	
 	//TODO

@@ -17,6 +17,8 @@ public class SelfMap {
 		reader = new Scanner(System.in);
 		List<?> lastOutput = null;
 		Function sMap = null, jMap = null;
+		Function savedSMap = null;
+		int savedBigDim = 0;
 		DualAn dualAn = new DualAn(0);
 		
 		/*
@@ -69,7 +71,7 @@ public class SelfMap {
 				Map<Integer, List<MilnorElement>> AmodAnMap = AmodAn.getMonomialsAtOrBelow(keys[keys.length-1]);
 				
 				while(true) {
-					System.out.print("Enter dimension to edit (keywords: all, fill, list, pick, done): ");
+					System.out.print("Enter dimension to edit (keywords: all, fill, list, pick, save, load, done): ");
 					
 					String next = reader.nextLine();
 					int fillIndex = 0;
@@ -81,7 +83,25 @@ public class SelfMap {
 						break;
 					else if(next.contains("list")) {
 						System.out.println("Dimensions: " + Arrays.toString(keys));
-							continue;
+						continue;
+					}
+					else if(next.contains("save")) {
+						savedSMap = new Function(sMap);
+						savedBigDim = bigDim;
+						System.out.println("Saved s map.");
+						continue;
+					}
+					else if(next.contains("load")) {
+						if(savedSMap == null)
+							System.out.println("Can't load: no s map saved.");
+						else if(savedBigDim != bigDim)
+							System.out.println("Can't load: wrong dimension n.");
+						else {
+							sMap = new Function(savedSMap);
+							System.out.println("Loaded s map.");
+						}
+							
+						continue;
 					}
 					else if(next.contains("fill")) {
 						fillIndex = Integer.parseInt(next.substring(next.lastIndexOf(" ") + 1));
@@ -176,15 +196,19 @@ public class SelfMap {
 			else if(keyWord.equals("roth")) {
 				if(jMap == null)
 					System.out.println(NO_J_MAP);
-				else
-					System.out.println(dualAn.checkRoth(sMap, jMap));
+				else {
+					start = System.nanoTime();
+					System.out.println(dualAn.checkRoth(sMap, jMap) + " (" + ((double)(System.nanoTime()-start))/1000000 + " ms)");
+				}
 			}
 			else if(keyWord.equals("print")) {
 				String next = (str.indexOf(" ") == -1) ? "" : str.substring(str.indexOf(" ") + 1);
 				if(next.equals("sMap"))
 					System.out.println( (sMap!=null) ? sMap : NO_S_MAP );
 				else if(next.equals("jMap"))
-					System.out.println( (jMap!=null) ? jMap : NO_J_MAP );	
+					System.out.println( (jMap!=null) ? jMap : NO_J_MAP );
+				else if(next.equals("saved"))
+					System.out.println( (savedSMap!=null) ? savedSMap : "Nothing saved." );
 			}
 			else if(keyWord.equals("sBar")) {
 				if(sMap == null)
@@ -212,6 +236,8 @@ public class SelfMap {
 					System.out.println(jMap.get(Tools.parseSumFromString(next).get(0)));
 				}
 			}
+			else if(keyWord.equals("quit"))
+				break;
 			else
 				System.out.println("I don't understand.");
 		}
