@@ -131,7 +131,7 @@ public class Tools {
 		if(input.get(0) instanceof int[][]) {
 			for(int i = 0; i < input.size(); i++) {
 				int[][] tensor = (int[][]) input.get(i);
-				output += Arrays.toString(tensor[0]) + " X " + Arrays.toString(tensor[1]) + ( (i != input.size() - 1) ? " + " : "" );
+				output += Arrays.toString(tensor[0]) + " x " + Arrays.toString(tensor[1]) + ( (i != input.size() - 1) ? " + " : "" );
 			}
 		}
 		
@@ -153,5 +153,79 @@ public class Tools {
 		}
 		
 		return degree;
+	}
+	
+	public static List<int[]> parseSumFromString(String input) {
+		String[] split = input.split(" [+] ");
+		
+		List<int[]> sum = new ArrayList<int[]>(split.length);
+		
+		for(String mono : split) {
+			String[] monoAsString = mono.split(" ");
+			int[] monoAsInt = new int[monoAsString.length];
+			
+			try {
+				for(int i = 0; i < monoAsString.length; i++)
+					monoAsInt[i] = Integer.parseInt(monoAsString[i]);
+			}
+			catch(NumberFormatException e) {
+				System.err.println("Wrong format: " + e.getMessage());
+				return new ArrayList<int[]>(0);
+			}
+			
+			sum.add(monoAsInt);
+		}
+		
+		return sum;
+	}
+	
+	public static List<int[][]> parseTensorSumFromString(String input) {
+		String[] split = input.split(" [+] ");
+		
+		List<int[][]> sum = new ArrayList<int[][]>(split.length);
+		
+		for(String tensor : split) {
+			String[] tensorSplit = tensor.split(" X ");
+			String[] mono1AsString = tensorSplit[0].split(" ");
+			String[] mono2AsString = tensorSplit[1].split(" ");
+			int[] mono1AsInt = new int[mono1AsString.length];
+			int[] mono2AsInt = new int[mono2AsString.length];
+			
+			try {
+				for(int i = 0; i < mono1AsString.length; i++)
+					mono1AsInt[i] = Integer.parseInt(mono1AsString[i]);
+				
+				for(int i = 0; i < mono2AsString.length; i++)
+					mono2AsInt[i] = Integer.parseInt(mono2AsString[i]);
+			}
+			catch(NumberFormatException e) {
+				System.err.println("Wrong format: " + e.getMessage());
+				return new ArrayList<int[][]>(0);
+			}
+			
+			int[][] parsedTensor = new int[2][];
+			parsedTensor[0] = mono1AsInt;
+			parsedTensor[1] = mono2AsInt;
+			
+			sum.add(parsedTensor);
+		}
+		
+		return sum;
+	}
+
+	public static int countSMaps(DualAn dualAn, DualSteenrod AmodAn) {
+		int count = 1;
+		int topClassDim = milnorDimension(dualAn.topClass());
+		Map<Integer, List<MilnorElement>> AmodAnMonomials = AmodAn.getMonomialsAtOrBelow(topClassDim);
+		Map<Integer, List<int[]>> dualAnMonomials = dualAn.getMonomialsByFilter(keysToSortedArray(AmodAnMonomials));
+		
+		for(int i = 1; i <= topClassDim; i++) {
+			//if both dual An and A mod An have monomials in dimension i, count the number of maps.
+			//each monomial from An can map to any of the monomials from A mod An OR zero (so that's what the  + 1 is)
+			if((dualAnMonomials.get(i) != null) && (AmodAnMonomials.get(i) != null)) 
+				count *= Math.pow(AmodAnMonomials.get(i).size() + 1, dualAnMonomials.get(i).size());
+		}
+		
+		return count;
 	}
 }

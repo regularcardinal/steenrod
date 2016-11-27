@@ -34,6 +34,9 @@ public class DualSteenrod implements Algebra {
 	//NOTE: the output will NOW BE reduced mod 2
 	@SuppressWarnings("unchecked")
 	public static List<int[][]> coproduct(List<int[]> input) {
+		if(input.size() == 0)
+			return new ArrayList<int[][]>(0);
+		
 		List<int[][]> output;
 		
 		//if not a monomial, ie, if a sum of monomials

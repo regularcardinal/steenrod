@@ -4,6 +4,8 @@ import java.util.*;
 public class SelfMap {
 	public static Map<List<Integer>, List<int[][]>> coproductData = new HashMap<List<Integer>, List<int[][]>>();
 	private static Scanner reader;
+	private static final String NO_S_MAP = "No s map exists.";
+	private static final String NO_J_MAP = "No j map exists.";
 	
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) throws IOException {
@@ -36,33 +38,18 @@ public class SelfMap {
 					if(keyWord.equals("remove"))
 						DualSteenrod.removePrimitives((List<int[][]>) lastOutput);
 				}
-				else {
-					String[] split = next.split(" [+] ");
-					
-					List<int[]> sum = new ArrayList<int[]>(split.length);
-					
-					for(String mono : split) {
-						String[] splitMono = mono.split(" ");
-						int[] monoAsArray = new int[splitMono.length];
-						
-						for(int i = 0; i < splitMono.length; i++)
-							monoAsArray[i] = Integer.parseInt(splitMono[i]);
-						
-						sum.add(monoAsArray);
-					}
-					
+				else {							
 					if(keyWord.equals("reduce"))
-						lastOutput = DualSteenrod.reduceMod2(sum);
+						lastOutput = DualSteenrod.reduceMod2(Tools.parseSumFromString(next));
 					if(keyWord.equals("coprod")) {
 						start = System.nanoTime();
-						lastOutput = DualSteenrod.coproduct(sum);
+						lastOutput = DualSteenrod.coproduct(Tools.parseSumFromString(next));
 						end = System.nanoTime();
 					}
 				}
+				
 				System.out.println("(" + ((double)(end-start))/1000000 + " ms) " + Tools.sumToString(lastOutput));
 			}
-			//TODO give the ability to create an sMap on the fly. enter the dimension of A(n), then cycle through each VALID dimension for sMap
-			//enter the target for each valid domain element, and do a dimension check to make sure it's valid
 			else if(keyWord.equals("sMap")) {
 				System.out.print("Enter dimension for An: ");
 				int bigDim = Integer.parseInt(reader.nextLine());
@@ -96,7 +83,7 @@ public class SelfMap {
 						if(mono[0] == 0)
 							target = new MilnorElement(0);
 						else if(Tools.milnorDimension(Tools.listToIntArray(entry.getKey())) != Tools.milnorDimension(mono)) {
-							System.out.println("Dimension mismatch!");
+							System.err.println("Dimension mismatch!");
 							target = new MilnorElement(0);
 						}
 						else
@@ -110,7 +97,7 @@ public class SelfMap {
 			}
 			else if(keyWord.equals("jMap")) {
 				if(sMap == null)
-					System.out.println("No s map exists.");
+					System.out.println(NO_S_MAP);
 				else {
 					jMap = dualAn.generateJMap(sMap);
 					System.out.println("J map generated using last s map.");
@@ -118,16 +105,28 @@ public class SelfMap {
 			}
 			else if(keyWord.equals("roth")) {
 				if(jMap == null)
-					System.out.println("No j map exists.");
+					System.out.println(NO_J_MAP);
 				else
 					System.out.println(dualAn.checkRoth(jMap, sMap));
 			}
 			else if(keyWord.equals("print")) {
 				String next = (str.indexOf(" ") == -1) ? "" : str.substring(str.indexOf(" ") + 1);
 				if(next.equals("sMap"))
-					System.out.println( (sMap!=null) ? sMap : "No s map exists." );
+					System.out.println( (sMap!=null) ? sMap : NO_S_MAP );
 				else if(next.equals("jMap"))
-					System.out.println( (jMap!=null) ? jMap : "No j map exists." );	
+					System.out.println( (jMap!=null) ? jMap : NO_J_MAP );	
+			}
+			else if(keyWord.equals("sBar")) {
+				if(sMap == null)
+					System.out.println(NO_S_MAP);
+				else {
+					String next = str.substring(str.indexOf(" ") + 1);
+					
+					if(next.contains("x")) 
+						System.out.println(dualAn.sBarTensor(Tools.parseTensorSumFromString(next), sMap));
+					else 
+						System.out.println(dualAn.sBar(new MilnorElement(Tools.parseSumFromString(next)), sMap));
+				}
 			}
 			else
 				System.out.println("I don't understand.");
@@ -267,21 +266,5 @@ public class SelfMap {
 	
 	public static boolean instanceOfTest(Object o) {
 		return (o instanceof int[]);
-	}
-	
-	public static int sMaps(DualAn dualAn, DualSteenrod AmodAn) {
-		int count = 1;
-		int topClassDim = Tools.milnorDimension(dualAn.topClass());
-		Map<Integer, List<MilnorElement>> AmodAnMonomials = AmodAn.getMonomialsAtOrBelow(topClassDim);
-		Map<Integer, List<int[]>> dualAnMonomials = dualAn.getMonomialsByFilter(Tools.keysToSortedArray(AmodAnMonomials));
-		
-		for(int i = 1; i <= topClassDim; i++) {
-			//if both dual An and A mod An have monomials in dimension i, count the number of maps.
-			//each monomial from An can map to any of the monomials from A mod An OR zero (so that's what the  + 1 is)
-			if((dualAnMonomials.get(i) != null) && (AmodAnMonomials.get(i) != null)) 
-				count *= Math.pow(AmodAnMonomials.get(i).size() + 1, dualAnMonomials.get(i).size());
-		}
-		
-		return count;
 	}
 }
