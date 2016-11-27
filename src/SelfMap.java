@@ -53,13 +53,14 @@ public class SelfMap {
 			else if(keyWord.equals("sMap")) {
 				jMap = null;
 				
-				System.out.print("Enter dimension for An: ");
+				System.out.print("Enter n for A(n): ");
 				int bigDim = Integer.parseInt(reader.nextLine());
 				dualAn = new DualAn(bigDim);
 				sMap = dualAn.generateSMap();
 				Map<List<Integer>, MilnorElement> map;
 				
 				Integer[] keys = dualAn.sMapDimensions();
+				System.out.println("Dimensions: " + Arrays.toString(keys));
 				
 				DualSteenrod AmodAn = new DualSteenrod(DualSteenrod.getDualAModAnGenerators(bigDim));
 				//strictly speaking, this may have dimensions that don't appear in sMap, but it won't matter
