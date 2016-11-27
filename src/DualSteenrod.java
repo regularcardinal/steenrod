@@ -415,8 +415,10 @@ public class DualSteenrod implements Algebra {
 			if(powers.get(generator) == null) {
 				if(relationExists)
 					powers.put(generator, power % (int)relation);
-				else
+				//ad hoc. should really be separate method for no relations. this will also work for relations where xi_i maps to null (no relations in that dim)
+				else if(relationMap.size() == 0 || relationMap.containsKey(generator)) 
 					powers.put(generator, power);
+				
 			}
 			//if there's already a power existing, then increment it. but if we get the identity from a relation, remove it.
 			else {

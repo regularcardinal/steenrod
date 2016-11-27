@@ -166,8 +166,6 @@ public class SelfMap {
 			}
 			else
 				System.err.println("I don't understand.");
-			
-			
 		}
 		
 		
