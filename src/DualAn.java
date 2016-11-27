@@ -172,11 +172,7 @@ public class DualAn implements Algebra {
 					
 					//System.out.println("added to target: " + mono + " -> " + (new MilnorElement(test)).toString() + " with mono1 " + Arrays.toString(mono1)
 					//		+ " with mono2 " + Arrays.toString(mono2) + " as " + Arrays.toString(mono2_1) + " X " + Arrays.toString(mono2_2) + " and sMono2_1 " +
-					//		new MilnorElement(sMono2_1).toString());
-					
-					//if(equalsOne) 
-						//System.out.println("mono " + mono + " " + test.size());
-					
+					//		new MilnorElement(sMono2_1).toString());	
 				}
 				
 				target.reduceMod2();
@@ -186,7 +182,6 @@ public class DualAn implements Algebra {
 			}
 			//System.out.println("");
 		}
-		
 		
 		return jMap;
 	}

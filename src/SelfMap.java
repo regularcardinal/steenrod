@@ -147,21 +147,9 @@ public class SelfMap {
 			
 			
 		}
-		 
-		 
-
-		
 		
 		
 		 //System.out.println(cleanup(writeAsBasis("31 30")));
-		
-		 //System.out.println(DualSteenrod.milnorDimension(new int[]{1, 5, 3, 0}));
-		// System.out.println(DualSteenrod.milnorDegree(new int[]{1, 7, 2, 3, 3, 1}));
-		 
-		 //List<int[]> blah = new ArrayList<int[]>();
-		// blah.add(new int[] {0, 1});
-		 //blah.add(new int[] {2, 0});
-		 //System.out.println(Arrays.toString(DualSteenrod.milnorMultiply(blah)));
 		 
 		 /*
 		 Function function = new Function();
@@ -225,54 +213,8 @@ public class SelfMap {
 		 */
 		 
 		 
-		 
-		 
-		 
-		 
-		 
-		 
-		 
-		 
-		 /*
-		 int[][] test1 = new int[2][];
-		 int[][] test2 = new int[2][];
-		 test1[0] = new int[]{1, 1};
-		 test1[1] = new int[]{2, 2};
-		 test2[0] = new int[]{3, 1};
-		 test2[1] = new int[]{4, 5};
-		 
-		 System.out.println(DualSteenrod.intArrayToList(test1));
-		 System.out.println(Arrays.toString(DualSteenrod.listToIntArray(DualSteenrod.intArrayToList(test1))[0]));
-		 System.out.println(Arrays.toString(DualSteenrod.listToIntArray(DualSteenrod.intArrayToList(test1))[1]));
-		 */
-		 
-		 
 		// System.out.println(Arrays.toString(DualSteenrod.cleanup(new int[]{1, 5, 2, 1, 1, -1}, dualA2.getRelations())));
-		 //System.out.println(dualA2.getRelations().get(4));
-		 
-		 
-		 
-		 
-		 
-		 /*Map<Integer, Integer> test = new HashMap<Integer, Integer>();
-		 test.put(1, 2);
-		 test.put(2, null);
-		 
-		 System.out.println(test.size());
-		 System.out.println(test.get(2));
-		 
-		 test.remove(2);
-		 
-		 System.out.println(test.size());
-		 System.out.println(test.get(2));*/
-		 
-		//// int[] test = new int[]{1, 7, 2, 2, 2, 0, 3, 0, 1, 4, 2, 7, 4, 9};
-		 //Map<Integer, Integer> testMap = new HashMap<Integer, Integer>();
-		 //System.out.println(Arrays.toString(DualSteenrod.cleanup(test, dualA2.getRelations())));
-		 
-		 
-		 
-		
+		//System.out.println(dualA2.getRelations().get(4));	
 		
 		//long end = System.nanoTime();
 		//System.out.println("time: " + ((double)(end-start))/1000000 + " ms");
