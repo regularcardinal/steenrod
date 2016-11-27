@@ -228,7 +228,7 @@ public class DualAn implements Algebra {
 			int[] mono = element.getAsList().get(i);
 			int[] mono1 = DualSteenrod.applyRelations(mono, getRelations()); //in A(n)*
 			int[] mono2 = DualSteenrod.remainder(mono, getRelations()); //in A//A(n)*
-			System.out.println("mono " + Arrays.toString(mono) + " split as " + Arrays.toString(mono1) + " x " + Arrays.toString(mono2));
+			//System.out.println("mono " + Arrays.toString(mono) + " split as " + Arrays.toString(mono1) + " x " + Arrays.toString(mono2));
 			
 			//need to check if mono1 is 1 here (1 is not told apart from 0 very well in some areas, an issue that goes back to probably generateMonomials)
 			//if applyRelations returns [], it is representing 1 because applyRelations is really splitting up mono.
@@ -279,7 +279,6 @@ public class DualAn implements Algebra {
 		for(int[][] tensor : coprodImJ) {
 			MilnorElement mono1 = new MilnorElement(tensor[0]);
 			MilnorElement mono2 = new MilnorElement(tensor[1]);
-			//System.out.println(mono2);
 			target.add(DualSteenrod.multiplySums(mono1.getAsList(), sBar(mono2, sMap).getAsList()));
 		}
 		
