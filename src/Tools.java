@@ -185,7 +185,7 @@ public class Tools {
 		List<int[][]> sum = new ArrayList<int[][]>(split.length);
 		
 		for(String tensor : split) {
-			String[] tensorSplit = tensor.split(" X ");
+			String[] tensorSplit = tensor.split(" x ");
 			String[] mono1AsString = tensorSplit[0].split(" ");
 			String[] mono2AsString = tensorSplit[1].split(" ");
 			int[] mono1AsInt = new int[mono1AsString.length];
