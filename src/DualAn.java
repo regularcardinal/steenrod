@@ -268,10 +268,19 @@ public class DualAn implements Algebra {
 		return target;
 	}
 	
+	//see eg page 23 or 29 in Roth
 	public boolean checkRoth(Function sMap, Function jMap) {
+		MilnorElement target = new MilnorElement();
 		MilnorElement imJ = jMap.get(topClass());
 		List<int[][]> coprodImJ = DualSteenrod.coproduct(imJ.getAsList());
-		MilnorElement target = sBarTensor(coprodImJ, sMap);
+		
+		for(int[][] tensor : coprodImJ) {
+			MilnorElement mono1 = new MilnorElement(tensor[0]);
+			MilnorElement mono2 = new MilnorElement(tensor[1]);
+			target.add(DualSteenrod.multiplySums(mono1.getAsList(), sBar(mono2, sMap).getAsList()));
+		}
+		
+		target.reduceMod2();
 		return (target.isZero());
 	}
 	
