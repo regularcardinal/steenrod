@@ -107,7 +107,7 @@ public class SelfMap {
 				if(jMap == null)
 					System.out.println(NO_J_MAP);
 				else
-					System.out.println(dualAn.checkRoth(jMap, sMap));
+					System.out.println(dualAn.checkRoth(sMap, jMap));
 			}
 			else if(keyWord.equals("print")) {
 				String next = (str.indexOf(" ") == -1) ? "" : str.substring(str.indexOf(" ") + 1);
@@ -120,12 +120,26 @@ public class SelfMap {
 				if(sMap == null)
 					System.out.println(NO_S_MAP);
 				else {
-					String next = str.substring(str.indexOf(" ") + 1);
+					String next = (str.indexOf(" ") == -1) ? "" : str.substring(str.indexOf(" ") + 1);
 					
-					if(next.contains("x")) 
+					if(next.equals("last")) {
+						if(lastOutput.get(0) instanceof int[][])
+							System.out.println(dualAn.sBarTensor((List<int[][]>) lastOutput, sMap));
+						if(lastOutput.get(0) instanceof int[])
+							System.out.println(dualAn.sBar(new MilnorElement(lastOutput), sMap));
+					}
+					else if(next.contains("x")) 
 						System.out.println(dualAn.sBarTensor(Tools.parseTensorSumFromString(next), sMap));
 					else 
 						System.out.println(dualAn.sBar(new MilnorElement(Tools.parseSumFromString(next)), sMap));
+				}
+			}
+			else if(keyWord.equals("j")) {
+				if(jMap == null)
+					System.out.println(NO_J_MAP);
+				else {
+					String next = str.substring(str.indexOf(" ") + 1);
+					System.out.println(jMap.get(Tools.parseSumFromString(next).get(0)));
 				}
 			}
 			else

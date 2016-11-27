@@ -170,9 +170,9 @@ public class DualAn implements Algebra {
 					
 					target.add(test);
 					
-					System.out.println("added to target: " + mono + " -> " + (new MilnorElement(test)).toString() + " with mono1 " + Arrays.toString(mono1)
-							+ " with mono2 " + Arrays.toString(mono2) + " as " + Arrays.toString(mono2_1) + " X " + Arrays.toString(mono2_2) + " and sMono2_1 " +
-							new MilnorElement(sMono2_1).toString());
+					//System.out.println("added to target: " + mono + " -> " + (new MilnorElement(test)).toString() + " with mono1 " + Arrays.toString(mono1)
+					//		+ " with mono2 " + Arrays.toString(mono2) + " as " + Arrays.toString(mono2_1) + " X " + Arrays.toString(mono2_2) + " and sMono2_1 " +
+					//		new MilnorElement(sMono2_1).toString());
 					
 					//if(equalsOne) 
 						//System.out.println("mono " + mono + " " + test.size());
@@ -181,7 +181,7 @@ public class DualAn implements Algebra {
 				
 				target.reduceMod2();
 				jMap.set(Tools.listToIntArray(mono), target);
-				System.out.println("\n adding j map: " + mono + " -> " + target);
+				//System.out.println("\n adding j map: " + mono + " -> " + target);
 				
 			}
 			//System.out.println("");
@@ -277,7 +277,6 @@ public class DualAn implements Algebra {
 		MilnorElement imJ = jMap.get(topClass());
 		List<int[][]> coprodImJ = DualSteenrod.coproduct(imJ.getAsList());
 		MilnorElement target = sBarTensor(coprodImJ, sMap);
-		System.out.println(target);
 		return (target.isZero());
 	}
 	
