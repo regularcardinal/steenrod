@@ -131,13 +131,11 @@ public class DualAn implements Algebra {
 					//if the quotient gives zero, then this entire summand will be zero. mono1 should already be reduced
 					int[] mono1 = coprod.get(i)[0];
 					if(quotientIsZero(mono1)) {
-						System.out.println("QUOTIENT of " + Arrays.toString(mono1) + " is zero?");
+						//System.out.println("QUOTIENT of " + Arrays.toString(mono1) + " is zero?");
 						continue;
 					}
 					
 					int[] mono2 = coprod.get(i)[1];
-					//int dim1 = DualSteenrod.milnorDimension(mono1);
-					//int dim2 = DualSteenrod.milnorDimension(mono2);
 					
 					//represent mono2 as an elt in A(n)* tensor an elt in A//A(n)*
 					//TODO: this can probably be done much more elegantly using MilnorElements. 
@@ -152,7 +150,7 @@ public class DualAn implements Algebra {
 					List<int[]> sMono2_1 = sMap.get(mono2_1).getAsList(); //removed a reduceMod2 here
 					
 					if(sMono2_1.size() == 0 && !equalsOne) {
-						System.out.print("mono: " + mono + "; s map is zero for " + Arrays.toString(mono2_1) + "; ");
+						//System.out.print("mono: " + mono + "; s map is zero for " + Arrays.toString(mono2_1) + "; ");
 						continue;
 					}
 					
@@ -168,14 +166,22 @@ public class DualAn implements Algebra {
 					mono2_2AsList.add(mono2_2);
 					
 					List<int[]> multiplied = (List<int[]>) DualSteenrod.reduceMod2(DualSteenrod.multiplySums(sMono2_1AsList, mono2_2AsList));
+					List<int[]> test = DualSteenrod.multiplySums(jMap.get(mono1).getAsList(),  multiplied );
 					
-					target.add(DualSteenrod.multiplySums(jMap.get(mono1).getAsList(),  multiplied ));
-					//System.out.println("nonzero s map: " + mono + " -> " + target);
+					target.add(test);
+					
+					System.out.println("added to target: " + mono + " -> " + (new MilnorElement(test)).toString() + " with mono1 " + Arrays.toString(mono1)
+							+ " with mono2 " + Arrays.toString(mono2) + " as " + Arrays.toString(mono2_1) + " X " + Arrays.toString(mono2_2) + " and sMono2_1 " +
+							new MilnorElement(sMono2_1).toString());
+					
+					//if(equalsOne) 
+						//System.out.println("mono " + mono + " " + test.size());
+					
 				}
 				
 				target.reduceMod2();
 				jMap.set(Tools.listToIntArray(mono), target);
-				System.out.println("adding j map: " + mono + " -> " + target);
+				System.out.println("\n adding j map: " + mono + " -> " + target);
 				
 			}
 			//System.out.println("");
