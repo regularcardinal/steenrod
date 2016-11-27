@@ -88,7 +88,8 @@ public class SelfMap {
 						mode = FILL;
 					}
 					else if(next.contains("pick")) {
-						pickMono = Tools.intArrayToList(Tools.parseSumFromString(next.substring(next.lastIndexOf(" ") + 1)).get(0));
+						//example format: 8 pick 1 5 2 1
+						pickMono = Tools.intArrayToList(Tools.parseSumFromString(next.substring(next.indexOf("k") + 2)).get(0)); 
 						mode = PICK;
 					}
 					else if(next.contains("all")) 
@@ -117,7 +118,7 @@ public class SelfMap {
 					
 					if(mode == PICK) {
 						if(!map.containsKey(pickMono) || pickMono == null) {
-							System.out.println("Not a valid monomial.");
+							System.out.println(pickMono + " is not a valid monomial.");
 							continue;
 						}
 					}
@@ -126,7 +127,7 @@ public class SelfMap {
 						MilnorElement target = new MilnorElement(0);
 						
 						if(mode == ALL || mode == PICK) {
-							if( (mode == PICK) && (entry.getKey() != pickMono) )
+							if( (mode == PICK) && (!entry.getKey().equals(pickMono)) )
 								continue;
 							
 							System.out.print("Enter target for " + entry.getKey() + " (list of choices: " + AmodAnMap.get(dim) + "; Enter 0 for zero): ");
