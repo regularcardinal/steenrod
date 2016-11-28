@@ -20,6 +20,7 @@ public class SelfMap {
 		Function savedSMap = null;
 		int savedBigDim = 0;
 		DualAn dualAn = new DualAn(0);
+		boolean searching = false;
 		
 		/*
 		System.out.println(Arrays.toString(DualSteenrod.applyRelations(new int[]{1,8}, DualAn.getRelations(2))));
@@ -56,6 +57,11 @@ public class SelfMap {
 				System.out.println("(" + ((double)(end-start))/1000000 + " ms) " + Tools.sumToString(lastOutput));
 			}
 			else if(keyWord.equals("sMap")) {
+				if(str.indexOf(" ") != -1 && str.substring(str.indexOf(" ")+1).equals("search")) {
+					System.out.println("searching");
+					searching = true;
+				}
+				
 				jMap = null;
 				
 				System.out.print("Enter n for A(n): ");
@@ -71,7 +77,43 @@ public class SelfMap {
 				Map<Integer, List<MilnorElement>> AmodAnMap = AmodAn.getMonomialsAtOrBelow(keys[keys.length-1]);
 				
 				while(true) {
-					System.out.print("Enter dimension to edit (keywords: all, fill, list, pick, save, load, done): ");
+					if(searching) {
+						int count = 0;
+						start = System.nanoTime();
+						
+						while(true) {
+							System.out.println("Searching (" + count + ") (" + ((double)(System.nanoTime()-start))/1000000 + " ms)");
+							sMap = dualAn.generateSMap();
+							
+							for(Integer dim : keys) {
+								Map<List<Integer>, MilnorElement> sMapByDimension = sMap.getMapByDimension(dim);
+								
+								int choices = AmodAnMap.get(dim).size(); //at least 1
+								
+								for(List<Integer> mono : sMapByDimension.keySet()) {
+									int random = (int) Math.round((double)choices * Math.random());
+									if(random == choices)
+										sMap.set(Tools.listToIntArray(mono), new MilnorElement(0));
+									else
+										sMap.set(Tools.listToIntArray(mono), new MilnorElement(AmodAnMap.get(dim).get(random).getAsList()));
+								}
+							}
+							
+							if(dualAn.checkRoth(sMap, dualAn.generateJMap(sMap))) {
+								System.out.println("Found and saved!");
+								savedSMap = new Function(sMap);
+								searching = false;
+								break;
+							}
+							
+							count++;
+						}
+					}
+					
+					
+					
+					
+					System.out.print("Enter dimension to edit (keywords: all, fill, list, pick, check, save, load, done): ");
 					
 					String next = reader.nextLine();
 					int fillIndex = 0;
@@ -102,6 +144,9 @@ public class SelfMap {
 						}
 							
 						continue;
+					}
+					else if(next.contains("check")) {
+						//TODO check the value of a given dim/mono
 					}
 					else if(next.contains("fill")) {
 						fillIndex = Integer.parseInt(next.substring(next.lastIndexOf(" ") + 1));
