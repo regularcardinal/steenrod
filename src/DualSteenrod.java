@@ -478,7 +478,7 @@ public class DualSteenrod implements Algebra {
 	//		should be the same as first reducing mod A(n)* and seeing what's left over, precisely because A(n)* and A//A(n)* are in some sense
 	//		complements.
 	public static int[] remainder(int[] input, Map<Integer, Integer> relationMap) {
-		int length = 8;
+		int length = 6;
 		int[] remainder = new int[length];
 		int[] reduced = applyRelations(input, relationMap);
 		
