@@ -57,10 +57,8 @@ public class SelfMap {
 				System.out.println("(" + ((double)(end-start))/1000000 + " ms) " + Tools.sumToString(lastOutput));
 			}
 			else if(keyWord.equals("sMap")) {
-				if(str.indexOf(" ") != -1 && str.substring(str.indexOf(" ")+1).equals("search")) {
-					System.out.println("searching");
+				if(str.indexOf(" ") != -1 && str.substring(str.indexOf(" ")+1).equals("search")) 
 					searching = true;
-				}
 				
 				jMap = null;
 				
