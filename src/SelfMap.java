@@ -331,7 +331,7 @@ public class SelfMap {
 		Integer[] sMapDimensions = dualAn.sMapDimensions();
 		
 		while(true) {
-			System.out.print("Searching " + count + "... Generating j map... ");
+			System.out.print("Searching " + count + "... ");
 			start = System.nanoTime();
 			
 			Function sMap = dualAn.generateSMap();
@@ -352,8 +352,7 @@ public class SelfMap {
 			
 			Function jMap = dualAn.generateJMap(sMap);
 			
-			System.out.print( "(+" + ((double)(System.nanoTime()-start))/1000000 + " ms) Checking Roth... " );
-			start = System.nanoTime();
+			//System.out.print( "Checking Roth... " );
 			
 			if(dualAn.checkRoth(sMap, jMap)) {
 				System.out.println("Found and saved!");
@@ -361,7 +360,7 @@ public class SelfMap {
 				return;
 			}
 			
-			System.out.println("(+" + ((double)(System.nanoTime()-start))/1000000 + " ms) Time: " + ((double)(System.nanoTime()-initial))/1000000 + " ms" );
+			System.out.println(((double)(System.nanoTime()-initial))/1000000 + "ms (+" + ((double)(System.nanoTime()-start))/1000000 + " ms)" );
 			count++;
 		}
 	}
