@@ -200,7 +200,7 @@ public class DualAn implements Algebra {
 		
 		sMap.set(new int[0], new MilnorElement(new int[0]));
 		
-		//TODO there should be a method which does what the next 6 lines do. almost filteredDimensions() but need
+		//TODO there should be a method which does what the next 6 lines do. almost filteredDimensions() but need AmodAn info, etc
 		DualSteenrod AmodAn = new DualSteenrod(null);
 		AmodAn.setGenerators(DualSteenrod.getDualAModAnGenerators(N));
 		

@@ -9,6 +9,7 @@ public class SelfMap {
 	private static final int ALL = 0;
 	private static final int FILL = 1;
 	private static final int PICK = 2;
+	private static Function savedSMap = null;
 	
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) throws IOException {
@@ -17,10 +18,8 @@ public class SelfMap {
 		reader = new Scanner(System.in);
 		List<?> lastOutput = null;
 		Function sMap = null, jMap = null;
-		Function savedSMap = null;
 		int savedBigDim = 0;
 		DualAn dualAn = new DualAn(0);
-		boolean searching = false;
 		
 		/*
 		System.out.println(Arrays.toString(DualSteenrod.applyRelations(new int[]{1,8}, DualAn.getRelations(2))));
@@ -56,61 +55,28 @@ public class SelfMap {
 				
 				System.out.println("(" + ((double)(end-start))/1000000 + " ms) " + Tools.sumToString(lastOutput));
 			}
-			else if(keyWord.equals("sMap")) {
-				if(str.indexOf(" ") != -1 && str.substring(str.indexOf(" ")+1).equals("search")) 
-					searching = true;
-				
+			else if(keyWord.equals("sMap")) {				
 				jMap = null;
 				
 				System.out.print("Enter n for A(n): ");
 				int bigDim = Integer.parseInt(reader.nextLine());
 				dualAn = new DualAn(bigDim);
-				sMap = dualAn.generateSMap();
 				
-				Integer[] keys = dualAn.sMapDimensions();
+				sMap = dualAn.generateSMap();
+				Integer[] sMapDimensions = dualAn.sMapDimensions();
 				
 				DualSteenrod AmodAn = new DualSteenrod(DualSteenrod.getDualAModAnGenerators(bigDim));
 				//strictly speaking, this may have dimensions that don't appear in sMap, but it won't matter
 				//I don't think that can happen anyway; A(n)* has elements in every dimension(?)
-				Map<Integer, List<MilnorElement>> AmodAnMap = AmodAn.getMonomialsAtOrBelow(keys[keys.length-1]);
+				Map<Integer, List<MilnorElement>> AmodAnMap = AmodAn.getMonomialsAtOrBelow(sMapDimensions[sMapDimensions.length-1]);
 				
-				while(true) {
-					if(searching) {
-						int count = 0;
-						start = System.nanoTime();
-						
-						while(true) {
-							System.out.println("Searching (" + count + ") (" + ((double)(System.nanoTime()-start))/1000000 + " ms)");
-							sMap = dualAn.generateSMap();
-							
-							for(Integer dim : keys) {
-								Map<List<Integer>, MilnorElement> sMapByDimension = sMap.getMapByDimension(dim);
-								
-								int choices = AmodAnMap.get(dim).size(); //at least 1
-								
-								for(List<Integer> mono : sMapByDimension.keySet()) {
-									int random = (int) Math.round((double)choices * Math.random());
-									if(random == choices)
-										sMap.set(Tools.listToIntArray(mono), new MilnorElement(0));
-									else
-										sMap.set(Tools.listToIntArray(mono), new MilnorElement(AmodAnMap.get(dim).get(random).getAsList()));
-								}
-							}
-							
-							if(dualAn.checkRoth(sMap, dualAn.generateJMap(sMap))) {
-								System.out.println("Found and saved!");
-								savedSMap = new Function(sMap);
-								searching = false;
-								break;
-							}
-							
-							count++;
-						}
-					}
-					
-					
-					
-					
+				if(str.indexOf(" ") != -1 && str.substring(str.indexOf(" ")+1).equals("search")) {
+					search(dualAn, AmodAnMap);
+					sMap = savedSMap;
+					continue;
+				}
+				
+				while(true) {					
 					System.out.print("Enter dimension to edit (keywords: all, fill, list, pick, check, save, load, done): ");
 					
 					String next = reader.nextLine();
@@ -122,7 +88,7 @@ public class SelfMap {
 					if(next.contains("done"))
 						break;
 					else if(next.contains("list")) {
-						System.out.println("Dimensions: " + Arrays.toString(keys));
+						System.out.println("Dimensions: " + Arrays.toString(sMapDimensions));
 						continue;
 					}
 					else if(next.contains("save")) {
@@ -171,7 +137,7 @@ public class SelfMap {
 						continue;
 					}
 					
-					if(!Arrays.asList(keys).contains(dim)) {
+					if(!Arrays.asList(sMapDimensions).contains(dim)) {
 						System.out.println("Invalid dimension.");
 						continue;
 					}
@@ -356,6 +322,48 @@ public class SelfMap {
 		
 		//long end = System.nanoTime();
 		//System.out.println("time: " + ((double)(end-start))/1000000 + " ms");
+	}
+	
+	public static void search(DualAn dualAn, Map<Integer, List<MilnorElement>> AmodAnMap) {
+		int count = 1;
+		long initial = System.nanoTime();
+		long start = initial;
+		Integer[] sMapDimensions = dualAn.sMapDimensions();
+		
+		while(true) {
+			System.out.print("Searching " + count + "... Generating j map... ");
+			start = System.nanoTime();
+			
+			Function sMap = dualAn.generateSMap();
+			
+			for(Integer dim : sMapDimensions) {
+				Map<List<Integer>, MilnorElement> sMapByDimension = sMap.getMapByDimension(dim);
+				
+				int choices = AmodAnMap.get(dim).size(); //at least 1
+				
+				for(List<Integer> mono : sMapByDimension.keySet()) {
+					int random = (int) Math.round((double)choices * Math.random());
+					if(random == choices)
+						sMap.set(Tools.listToIntArray(mono), new MilnorElement(0));
+					else
+						sMap.set(Tools.listToIntArray(mono), new MilnorElement(AmodAnMap.get(dim).get(random).getAsList()));
+				}
+			}
+			
+			Function jMap = dualAn.generateJMap(sMap);
+			
+			System.out.print( "(+" + ((double)(System.nanoTime()-start))/1000000 + " ms) Checking Roth... " );
+			start = System.nanoTime();
+			
+			if(dualAn.checkRoth(sMap, jMap)) {
+				System.out.println("Found and saved!");
+				savedSMap = new Function(sMap);
+				return;
+			}
+			
+			System.out.println("(+" + ((double)(System.nanoTime()-start))/1000000 + " ms) Time: " + ((double)(System.nanoTime()-initial))/1000000 + " ms" );
+			count++;
+		}
 	}
 	
 	public static boolean instanceOfTest(Object o) {

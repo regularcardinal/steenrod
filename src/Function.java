@@ -90,7 +90,6 @@ public class Function {
 		return entireFunction;
 	}
 	
-	//TODO
 	@Override
 	public String toString() {
 		String output = "";

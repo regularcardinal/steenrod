@@ -7,9 +7,9 @@ import java.util.*;
 	say you want xi_1^8, xi_2^4, xi_3^2, and xi_i for i>=4. then the generatorMap is 1->8, 2->4, 3->2, and i->null otherwise (this is A//A(2) dual)
 	
 	NOTE: Milnor monomials are represented by int[], so that e.g. xi_1^3 xi_4^9 is represented by [1, 3, 4, 9].
-		  the identity is generally represented as []
-	TODO: since the degree of xi_i will often be i<10, might be cleaner and less of a headache to just represent that by [3, 0 , 0, 9, 0, 0, 0]
-		  where the size would be fixed in advance depending on the dimension n
+		  the identity is generally represented as [].
+	 	  since the degree of xi_i will often be i<10, it can be cleaner and less of a headache to just represent that by [3, 0 , 0, 9, 0, 0, 0]
+		  where the size would be fixed in advance depending on the dimension n. this is referred to as "fixed form" in Tools
 		  
 	TODO: can really replace all monomials int[] as short[] because the powers are generally small (probably always less than 100)
 	
@@ -121,7 +121,6 @@ public class DualSteenrod implements Algebra {
 		return coproduct(temp);	
 	}
 	
-	//TODO
 	//should do term-by-term multiplication, given two strings of tensors, should cleanup, meaning get rid of elements that occur evenly many times
 	//assumption: each int[][] in input1 and input2 is length 2
 	public static List<int[][]> multiplyTensors(List<int[][]> input1, List<int[][]> input2) {
@@ -142,7 +141,6 @@ public class DualSteenrod implements Algebra {
 		return output;
 	}
 	
-	//TODO: NOT TESTED!
 	public static List<int[]> multiplySums(List<int[]> input1, List<int[]> input2) {
 		List<int[]> output = new ArrayList<int[]>();
 		
