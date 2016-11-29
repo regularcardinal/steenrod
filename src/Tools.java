@@ -228,4 +228,26 @@ public class Tools {
 		
 		return count;
 	}
+
+	public static List<int[]> multiplySums(List<int[]> input1, List<int[]> input2) {
+		List<int[]> output = new ArrayList<int[]>();
+		
+		for(int i = 0; i < input1.size(); i++) {
+			for(int j = 0; j < input2.size(); j++) {
+				int[] multiplied = DualSteenrod.milnorMultiply(input1.get(i), input2.get(j));
+				
+				for(int[] mono : output) {
+					if(Arrays.equals(mono, multiplied)) {
+						output.remove(mono);
+						break;
+					}							
+				}
+				
+				output.add(multiplied);
+			}
+		}
+		
+		return output;
+	}
+	
 }

@@ -165,8 +165,8 @@ public class DualAn implements Algebra {
 					List<int[]> mono2_2AsList = new ArrayList<int[]>(1);
 					mono2_2AsList.add(mono2_2);
 					
-					List<int[]> multiplied = (List<int[]>) DualSteenrod.reduceMod2(DualSteenrod.multiplySums(sMono2_1AsList, mono2_2AsList));
-					List<int[]> test = DualSteenrod.multiplySums(jMap.get(mono1).getAsList(),  multiplied );
+					List<int[]> multiplied = (List<int[]>) Tools.multiplySums(sMono2_1AsList, mono2_2AsList);
+					List<int[]> test = Tools.multiplySums(jMap.get(mono1).getAsList(),  multiplied );
 					
 					target.add(test);
 					
@@ -220,7 +220,6 @@ public class DualAn implements Algebra {
 		return sMap;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public MilnorElement sBar(MilnorElement element, Function sMap) {
 		MilnorElement target = new MilnorElement();
 		
@@ -248,7 +247,7 @@ public class DualAn implements Algebra {
 			List<int[]> mono2AsList = new ArrayList<int[]>(1);
 			mono2AsList.add(mono2);
 			
-			List<int[]> multiplied = (List<int[]>) DualSteenrod.reduceMod2(DualSteenrod.multiplySums(sMono1.getAsList(), mono2AsList));
+			List<int[]> multiplied = (List<int[]>) Tools.multiplySums(sMono1.getAsList(), mono2AsList);
 			target.add(multiplied);
 		}
 		
@@ -263,7 +262,7 @@ public class DualAn implements Algebra {
 			MilnorElement mono1 = new MilnorElement(tensor[0]);
 			MilnorElement mono2 = new MilnorElement(tensor[1]);
 			//these ARE sums, right?
-			target.add(DualSteenrod.multiplySums(sBar(mono1, sMap).getAsList(), sBar(mono2, sMap).getAsList()));
+			target.add(Tools.multiplySums(sBar(mono1, sMap).getAsList(), sBar(mono2, sMap).getAsList()));
 		}
 		
 		target.reduceMod2();
@@ -279,7 +278,7 @@ public class DualAn implements Algebra {
 		for(int[][] tensor : coprodImJ) {
 			MilnorElement mono1 = new MilnorElement(tensor[0]);
 			MilnorElement mono2 = new MilnorElement(tensor[1]);
-			target.add(DualSteenrod.multiplySums(mono1.getAsList(), sBar(mono2, sMap).getAsList()));
+			target.add(Tools.multiplySums(mono1.getAsList(), sBar(mono2, sMap).getAsList()));
 		}
 		
 		target.reduceMod2();

@@ -141,16 +141,6 @@ public class DualSteenrod implements Algebra {
 		return output;
 	}
 	
-	public static List<int[]> multiplySums(List<int[]> input1, List<int[]> input2) {
-		List<int[]> output = new ArrayList<int[]>();
-		
-		for(int i = 0; i < input1.size(); i++) 
-			for(int j = 0; j < input2.size(); j++) 
-				output.add(milnorMultiply(input1.get(i), input2.get(j)));
-		
-		return output;
-	}
-	
 	//TODO: NOT TESTED!
 	//this should take in a list of tensors and evaluate each of them, meaning apply the multiplication A tensor A -> A
 	public static List<int[]> evaluateTensors(List<int[][]> input) {
