@@ -235,15 +235,18 @@ public class Tools {
 		for(int i = 0; i < input1.size(); i++) {
 			for(int j = 0; j < input2.size(); j++) {
 				int[] multiplied = DualSteenrod.milnorMultiply(input1.get(i), input2.get(j));
+				boolean skip = false;
 				
 				for(int[] mono : output) {
 					if(Arrays.equals(mono, multiplied)) {
 						output.remove(mono);
+						skip = true;
 						break;
 					}							
 				}
 				
-				output.add(multiplied);
+				if(!skip)
+					output.add(multiplied);
 			}
 		}
 		
