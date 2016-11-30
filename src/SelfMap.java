@@ -36,23 +36,24 @@ public class SelfMap {
 			
 			if(keyWord.equals("reduce") || keyWord.equals("coprod") || keyWord.equals("remove")) {
 				String next = str.substring(str.indexOf(" ") + 1);
+				start = System.nanoTime();
 				
 				if(next.equals("last")) {
 					if(keyWord.equals("reduce"))
 						lastOutput = DualSteenrod.reduceMod2(lastOutput);
 					if(keyWord.equals("remove"))
 						DualSteenrod.removePrimitives((List<int[][]>) lastOutput);
+					if(keyWord.equals("coprod"))
+						lastOutput = DualSteenrod.coproduct((List<int[]>)lastOutput);
+					
 				}
 				else {							
 					if(keyWord.equals("reduce"))
 						lastOutput = DualSteenrod.reduceMod2(Tools.parseSumFromString(next));
-					if(keyWord.equals("coprod")) {
-						start = System.nanoTime();
+					if(keyWord.equals("coprod")) 
 						lastOutput = DualSteenrod.coproduct(Tools.parseSumFromString(next));
-						end = System.nanoTime();
-					}
 				}
-				
+				end = System.nanoTime();
 				System.out.println("(" + ((double)(end-start))/1000000 + " ms) " + Tools.sumToString(lastOutput));
 			}
 			else if(keyWord.equals("sMap")) {				
@@ -242,7 +243,9 @@ public class SelfMap {
 					System.out.println(NO_J_MAP);
 				else {
 					String next = str.substring(str.indexOf(" ") + 1);
-					System.out.println(jMap.get(Tools.parseSumFromString(next).get(0)));
+					MilnorElement last = jMap.get(Tools.parseSumFromString(next).get(0));
+					lastOutput = last.getAsList();
+					System.out.println(last);
 				}
 			}
 			else if(keyWord.equals("quit"))
