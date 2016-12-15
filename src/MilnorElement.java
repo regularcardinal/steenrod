@@ -53,6 +53,24 @@ public class MilnorElement {
 		element.addAll(monos);
 	}
 	
+	/*
+	public void addMod2(List<int[]> toAdd) {
+		for(int i = element.size() - 1; i >= 0; i--) {
+			int[] mono = element.get(i);
+			int countInToAdd = 0;
+			
+			for(int[] addMono : toAdd) {
+				if(Arrays.equals(mono, addMono))
+					countInToAdd++;
+			}
+			
+			if((countInToAdd % 2) != 0)
+				element.remove(i);
+			//else 
+				//element.add()
+		}
+	}*/
+	
 	public boolean singleMonomial() {
 		return (element.size() == 1 ? true : false);
 	}

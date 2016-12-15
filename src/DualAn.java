@@ -275,13 +275,19 @@ public class DualAn implements Algebra {
 		MilnorElement imJ = jMap.get(topClass());
 		List<int[][]> coprodImJ = DualSteenrod.coproduct(imJ.getAsList());
 		
+		System.out.println("size of coprod im j: " + coprodImJ.size());
+		
 		for(int[][] tensor : coprodImJ) {
 			MilnorElement mono1 = new MilnorElement(tensor[0]);
 			MilnorElement mono2 = new MilnorElement(tensor[1]);
 			target.add(Tools.multiplySums(mono1.getAsList(), sBar(mono2, sMap).getAsList()));
 		}
 		
+		System.out.println("size of target after 1 x s applied: " + target.getAsList().size());
+		long time1 = System.nanoTime();
 		target.reduceMod2();
+		
+		System.out.println("size after reduced mod 2: " + target.getAsList().size() + " (" + ((double)(System.nanoTime()-time1))/1000000  +" ms)" );
 		return (target.isZero());
 	}
 	
