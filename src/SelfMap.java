@@ -250,6 +250,8 @@ public class SelfMap {
 			}
 			else if(keyWord.equals("quit"))
 				break;
+			else if(keyWord.equals("adem"))
+				System.out.println(Steenrod.writeAsBasis(str.substring(str.indexOf(" ") + 1)));
 			else
 				System.out.println("I don't understand.");
 		}
