@@ -186,6 +186,7 @@ public class Steenrod implements Algebra {
 	
 	//input in form #
 	//TODO: make this work with arbitrary length (note the coproduct is a ring hom: see Milnor)
+	//TODO: needs to return a tensor!
 	public static String coproduct(String input) {
 		int square = Integer.parseInt(input);
 		String coprod = "" + square;
@@ -193,7 +194,8 @@ public class Steenrod implements Algebra {
 		for(int i = 1; i <= square; i++)
 			coprod += " + " + i + " " + (square-i);
 		
-		return cleanup(writeAsBasis(coprod));
+		//return cleanup(writeAsBasis(coprod));
+		return coprod;
 	}
 	
 	//run the Adem relations on Sq^i Sq^j. a relation that equals 0 will return zero since 0 is really Sq^0 = 1. don't run if i=j=0...
@@ -237,6 +239,20 @@ public class Steenrod implements Algebra {
 		return relations;
 	}
 
+	
+	//INPUT: sum of monos # # + # # # etc
+	//OUTPUT: total excess of the sum (eg schwartz pg 23-24)
+	public static int excess(String input) {
+		List<int[]> monos = Tools.parseSumFromString(input);
+		int excess = 0;
+		for(int[] mono : monos) {
+			for(int i = 0; i < mono.length; i++)
+				excess += (i == 0 ? mono[i] : mono[i]*(-1));
+		}
+		
+		return excess;
+	}
+	
 	@Override
 	public String basisType() {
 		return Algebra.ADEM;

@@ -245,6 +245,10 @@ public class SelfMap {
 				break;
 			else if(keyWord.equals("adem"))
 				System.out.println(Steenrod.writeAsBasis(str.substring(str.indexOf(" ") + 1)));
+			else if(keyWord.equals("excess"))
+				System.out.println(Steenrod.excess(str.substring(str.indexOf(" ") + 1)));
+			else if(keyWord.equals("coprod2"))
+				System.out.println(Steenrod.coproduct(str.substring(str.indexOf(" ") + 1)));
 			else
 				System.out.println("I don't understand.");
 		}
