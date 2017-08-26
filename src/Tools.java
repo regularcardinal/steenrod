@@ -155,6 +155,8 @@ public class Tools {
 		return degree;
 	}
 	
+	//parses # # # + # # into a list of size two, consisting of arrays [#, #, #] and [#, #]
+	//note it doesn't matter if the input is a dual basis or anything else in particular
 	public static List<int[]> parseSumFromString(String input) {
 		String[] split = input.split(" [+] ");
 		
