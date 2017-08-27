@@ -1,6 +1,8 @@
 import java.math.BigInteger;
 import java.util.*;
 
+import org.w3c.dom.Element;
+
 public class Tools {
 
 	//non-bigint overflows fast
@@ -231,6 +233,7 @@ public class Tools {
 		return count;
 	}
 
+	//this is the multiply function for MilnorElements (dual elements). should go into the MilnorElement class.
 	public static List<int[]> multiplySums(List<int[]> input1, List<int[]> input2) {
 		List<int[]> output = new ArrayList<int[]>();
 		
@@ -254,5 +257,39 @@ public class Tools {
 		
 		return output;
 	}
+
+	//INPUT: a list of int arrays
+	//OUTPUT: a single int array representing the concatenation
+	//note: originally written with even length arrays in mind, but it should work regardless
+	public static int[] concatenate(List<int[]> monomials) {
+		int totalLength = 0;
+		for(int i = 0; i < monomials.size(); i++) {
+			totalLength += monomials.get(i).length;
+		}
+		
+		int[] output = new int[totalLength];
+		int[] current;
+		int index = 0;
+		
+		for(int i = 0; i < monomials.size(); i++) {
+			current = monomials.get(i);
+			for(int j = 0; j < current.length; j++) {
+				output[index + j] = current[j];
+			}
+			index += current.length;
+		}
+		return output;
+	}
+	
+	/* Elements are possibly already sums...
+	 * 
+	 * public static Element multiplySums(Element elem1, Element elem2) {
+		Element product = new Element();
+		for(int i = 0; i < elem1.length(); i++) {
+			for(int j = 0; j < elem2.length() j++) {
+				elem1.multiply(elem2);
+			}
+		}
+	}*/
 	
 }

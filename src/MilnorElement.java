@@ -4,11 +4,11 @@ import java.util.List;
 
 //this class represents lists of monomials, ie, sums of monomials
 //CONVENTION: a list of size zero is 0; a list of size 1, with the array [] is 1
-public class MilnorElement {
+public class MilnorElement extends Element {
 	private List<int[]> element;
 	
 	public MilnorElement() {
-		element = new ArrayList<int[]>();
+		super();
 	}
 	
 	//use this to initiate zero
@@ -45,13 +45,6 @@ public class MilnorElement {
 			element = (List<int[]>) input;
 	}
 	
-	public void add(int[] mono) {
-		element.add(mono);
-	}
-	
-	public void add(List<int[]> monos) {
-		element.addAll(monos);
-	}
 	
 	/*
 	public void addMod2(List<int[]> toAdd) {
@@ -71,42 +64,13 @@ public class MilnorElement {
 		}
 	}*/
 	
-	public boolean singleMonomial() {
-		return (element.size() == 1 ? true : false);
-	}
-	
-	public int length() {
-		return element.size();
-	}
-	
+	//shouldn't need this, bad style to get the reference for element. most uses now are for multiplying, which should happen HERE.
 	public List<int[]> getAsList() {
 		return element;
-	}
-	
-	public int[] getSingleMonomial() {
-		return element.get(0);
 	}
 	
 	@SuppressWarnings("unchecked")
 	public void reduceMod2() {
 		element = (List<int[]>) DualSteenrod.reduceMod2(element);
-	}
-	
-	@Override
-	public String toString() {
-		if (element == null)
-			return null;
-		
-		String output = "";
-		for (int i = 0 ; i < element.size(); i++) {
-			output += Arrays.toString(element.get(i)) + ((i != element.size() - 1) ? " + " : "");
-		}
-		return output;
-	}
-	
-	//TODO: should eventually make most code use MilnorElements instead of ad hoc int[] or List<int[]>
-	//		this would make it easier to test if some int[] represents zero as well
-	public boolean isZero() {
-		return (element.size() == 0);
 	}
 }

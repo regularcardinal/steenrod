@@ -152,33 +152,10 @@ public class DualSteenrod implements Algebra {
 		return output;
 	}
 	
-	//INPUT: a list of int arrays
-	//OUTPUT: a single int array representing the concatenation
-	//note: originally written with even length arrays in mind, but it should work regardless
-	public static int[] concatenate(List<int[]> monomials) {
-		int totalLength = 0;
-		for(int i = 0; i < monomials.size(); i++) {
-			totalLength += monomials.get(i).length;
-		}
-		
-		int[] output = new int[totalLength];
-		int[] current;
-		int index = 0;
-		
-		for(int i = 0; i < monomials.size(); i++) {
-			current = monomials.get(i);
-			for(int j = 0; j < current.length; j++) {
-				output[index + j] = current[j];
-			}
-			index += current.length;
-		}
-		return output;
-	}
-	
 	//INPUT: a list of even length int arrays representing monomials
 	//OUTPUT: a single even length int array representing the product, NO RELATIONS applied (other than xi_i^0 = 1)
 	public static int[] milnorMultiply(List<int[]> monomials) {
-		return applyRelations(concatenate(monomials));
+		return applyRelations(Tools.concatenate(monomials));
 	}
 	
 	public static int[] milnorMultiply(int[] input1, int[] input2) {
