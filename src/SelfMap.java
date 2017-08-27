@@ -19,7 +19,7 @@ public class SelfMap {
 		System.out.println(test1 + " deg " + test1.degree());
 		*/
 		
-		SteenrodElement test = new SteenrodElement("1 4 + 1 4");
+		SteenrodElement test = new SteenrodElement("1 4 + 4 1 + 5 + 2 3");	
 		System.out.println(test);
 		System.out.println(test.convertToString());
 		test.reduceMod2();

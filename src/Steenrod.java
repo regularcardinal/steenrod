@@ -1,14 +1,8 @@
 import java.math.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
-
-
-//TODO the format here is "2 3 + 5 21 5 + 5" etc, NOT in list form
+//TODO the format here is "2 3 + 5 21 5 + 5" etc, NOT in list form, change everything to SteenrodElement
 
 
 
@@ -58,7 +52,7 @@ public class Steenrod implements Algebra {
 				if(adem.equals(ZERO))
 					return ZERO;
 				
-				ArrayList<String> postAdemList = splitByPlus(adem);
+				String[] postAdemList = adem.split(" [+] ");
 				
 				//finalString will be the result of distributing the adem rels: # # # (adem rels on ademI ademJ) # # #
 				String finalString = "";
@@ -90,10 +84,10 @@ public class Steenrod implements Algebra {
 				//now distribute the adem relations
 				/* this common theme of first declaring a string to be the first index outside of the loop is because there is an
 				   annoying issue of a "hanging" space or plus, either on the left or the right */
-				finalString = beforeAdem + postAdemList.get(0) + afterAdem;
+				finalString = beforeAdem + postAdemList[0] + afterAdem;
 				
-				for(int j = 1; j < postAdemList.size(); j++) {
-					finalString += " + " + beforeAdem + postAdemList.get(j) + afterAdem;
+				for(int j = 1; j < postAdemList.length; j++) {
+					finalString += " + " + beforeAdem + postAdemList[j] + afterAdem;
 				}
 				
 				return writeAsBasis(finalString);
@@ -105,31 +99,6 @@ public class Steenrod implements Algebra {
 		while(input.contains("0")) 
 			input = input.substring(0, input.lastIndexOf('0') - 1);
 		return input;
-	}
-	
-	//NOTE this doesn't really need to exist. there is a function split in String.
-	//input is a string with '+' characters in it. return an ArrayList that parses these into list elements
-	//MUST have a space before and after each +
-	//it may be better computationally to first count how many +'s there are, and then loop based on that count
-	public static ArrayList<String> splitByPlus(String input) {		
-		ArrayList<String> splitList = new ArrayList<String>();
-		if(!input.contains("+"))
-			splitList.add(input);
-		else {
-			String truncation = new String(input);
-			int plusPos;
-			
-			while(truncation.contains("+")) {
-				plusPos = truncation.indexOf('+');
-				//the -1 is to get rid of the space to the left of the +
-				splitList.add(truncation.substring(0, plusPos-1));
-				truncation = truncation.substring(plusPos+2);
-			}
-			//there will be one left over after the last +
-			splitList.add(truncation);
-		}
-		
-		return splitList;
 	}
 	
 	//input: # # + # # # + #, etc
