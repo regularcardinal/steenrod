@@ -116,7 +116,7 @@ public class DualAn implements Algebra {
 				//System.out.print(" computing coproduct of " + mono + ": ");
 				
 				List<int[][]> coprod = DualSteenrod.coproduct(Tools.listToIntArray(mono));
-				coprod = (List<int[][]>) DualSteenrod.reduceMod2(coprod);
+				coprod = (List<int[][]>) Tools.reduceMod2(coprod);
 				
 				//System.out.print(((double)(System.nanoTime()-start))/1000000 + " ms; "); 
 				

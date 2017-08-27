@@ -1,8 +1,6 @@
 import java.math.BigInteger;
 import java.util.*;
 
-import org.w3c.dom.Element;
-
 public class Tools {
 
 	//non-bigint overflows fast
@@ -279,6 +277,78 @@ public class Tools {
 			index += current.length;
 		}
 		return output;
+	}
+
+	//INPUT: a sum of monomials OR a sum of tensors
+	//OUTPUT: that same sum of monomials/tensors, but reduced mod 2, addition-wise
+	//TODO: there should be a better way, probably with Elements, to make this much more concise
+	public static List<?> reduceMod2(List<?> input) {
+		if(input == null || input.size() == 0)
+			return input;
+		
+		if(input.get(0) instanceof int[][]) {
+			List<int[][]> output = new ArrayList<int[][]>();		
+			//List<List<Integer>> is used in place of int[][] because int[][] doesn't work well with HashMaps (.equals in particular)
+			HashMap<List<List<Integer>>, Integer> entryCounts = new HashMap<List<List<Integer>>, Integer>();
+			Integer currentCount;
+			int newCount;
+			
+			for(int i = 0; i < input.size(); i++) {
+				currentCount = entryCounts.get(multiIntArrayToList((int[][]) input.get(i))); 
+				
+				//if nothing was there, change value to 1, otherwise increase the value by 1.
+				newCount = (currentCount == null ? 1 : currentCount+1);
+				
+				entryCounts.put(multiIntArrayToList((int[][]) input.get(i)), newCount);
+				//System.out.println("new count "  + newCount + " entry counts size " + entryCounts.size() + " " + Arrays.toString(input.get(i)));
+			}
+			
+			Set<List<List<Integer>>> keys = entryCounts.keySet();
+			Iterator<List<List<Integer>>> iter = keys.iterator();
+			
+			List<List<Integer>> tensor;
+			
+			while(iter.hasNext()) {
+				tensor = iter.next();
+				
+				if((entryCounts.get(tensor).intValue() % 2) != 0)
+					output.add(multiListToIntArray(tensor));
+			}
+			
+			return output;
+		}
+		else if(input.get(0) instanceof int[]) {
+			List<int[]> output = new ArrayList<int[]>();		
+			HashMap<List<Integer>, Integer> entryCounts = new HashMap<List<Integer>, Integer>();
+			Integer currentCount;
+			int newCount;
+			
+			for(int i = 0; i < input.size(); i++) {
+				currentCount = entryCounts.get(intArrayToList((int[]) input.get(i))); 
+				
+				//if nothing was there, change value to 1, otherwise increase the value by 1.
+				newCount = (currentCount == null ? 1 : currentCount+1);
+				
+				entryCounts.put(intArrayToList((int[]) input.get(i)), newCount);
+			}
+			
+			Set<List<Integer>> keys = entryCounts.keySet();
+			Iterator<List<Integer>> iter = keys.iterator();
+			
+			List<Integer> monomial;
+			
+			while(iter.hasNext()) {
+				monomial = iter.next();
+				
+				//don't want to include empty arrays
+				if(  ((entryCounts.get(monomial).intValue() % 2) != 0)  &&  monomial.size() > 0)
+					output.add(listToIntArray(monomial));
+			}
+			
+			return output;
+		}
+		
+		return null;
 	}
 	
 	/* Elements are possibly already sums...

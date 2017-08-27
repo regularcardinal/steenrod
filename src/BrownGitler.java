@@ -1,6 +1,7 @@
 public class BrownGitler {
 	public JElement square(JMonomial mono, int k) {
 		
+		return null;
 	}
 	
 	public JElement action(SteenrodElement sq, JElement j) {

@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 //this class represents lists of monomials, ie, sums of monomials
 //CONVENTION: a list of size zero is 0; a list of size 1, with the array [] is 1
@@ -67,10 +65,5 @@ public class MilnorElement extends Element {
 	//shouldn't need this, bad style to get the reference for element. most uses now are for multiplying, which should happen HERE.
 	public List<int[]> getAsList() {
 		return element;
-	}
-	
-	@SuppressWarnings("unchecked")
-	public void reduceMod2() {
-		element = (List<int[]>) DualSteenrod.reduceMod2(element);
 	}
 }

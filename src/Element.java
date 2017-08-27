@@ -30,6 +30,11 @@ public class Element {
 		element.addAll(monos);
 	}
 	
+	@SuppressWarnings("unchecked")
+	public void reduceMod2() {
+		element = (List<int[]>) Tools.reduceMod2(element);
+	}
+	
 	@Override
 	public String toString() {
 		if (element == null)

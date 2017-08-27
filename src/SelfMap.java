@@ -33,7 +33,7 @@ public class SelfMap {
 				
 				if(next.equals("last")) {
 					if(keyWord.equals("reduce"))
-						lastOutput = DualSteenrod.reduceMod2(lastOutput);
+						lastOutput = Tools.reduceMod2(lastOutput);
 					if(keyWord.equals("remove"))
 						DualSteenrod.removePrimitives((List<int[][]>) lastOutput);
 					if(keyWord.equals("coprod"))
@@ -42,7 +42,7 @@ public class SelfMap {
 				}
 				else {							
 					if(keyWord.equals("reduce"))
-						lastOutput = DualSteenrod.reduceMod2(Tools.parseSumFromString(next));
+						lastOutput = Tools.reduceMod2(Tools.parseSumFromString(next));
 					if(keyWord.equals("coprod")) 
 						lastOutput = DualSteenrod.coproduct(Tools.parseSumFromString(next));
 				}

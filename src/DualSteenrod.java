@@ -46,7 +46,7 @@ public class DualSteenrod implements Algebra {
 				output.addAll(coproduct(input.subList(i, i+1)));
 			}
 			
-			return (List<int[][]>) reduceMod2(output);
+			return (List<int[][]>) Tools.reduceMod2(output);
 		}
 		
 		int[] monomial = input.get(0);
@@ -70,7 +70,7 @@ public class DualSteenrod implements Algebra {
 				output.add(tensor);
 			}
 			
-			output = (List<int[][]>) reduceMod2(output);
+			output = (List<int[][]>) Tools.reduceMod2(output);
 			SelfMap.coproductData.put(monomialAsList, output);
 			return output;
 		}
@@ -108,7 +108,7 @@ public class DualSteenrod implements Algebra {
 			SelfMap.coproductData.put(Tools.intArrayToList(tempMono2), coprod2);
 		}
 		
-		output = (List<int[][]>) reduceMod2(multiplyTensors(coprod1, coprod2));
+		output = (List<int[][]>) Tools.reduceMod2(multiplyTensors(coprod1, coprod2));
 		SelfMap.coproductData.put(monomialAsList, output);
 		return output;
 	}
@@ -258,78 +258,6 @@ public class DualSteenrod implements Algebra {
 		}
 	}
 	
-	
-	//INPUT: a sum of monomials OR a sum of tensors
-	//OUTPUT: that same sum of monomials/tensors, but reduced mod 2, addition-wise
-	//TODO: there should be a better way, probably with MilnorElements, to make this much more concise
-	public static List<?> reduceMod2(List<?> input) {
-		if(input == null || input.size() == 0)
-			return input;
-		
-		if(input.get(0) instanceof int[][]) {
-			List<int[][]> output = new ArrayList<int[][]>();		
-			//List<List<Integer>> is used in place of int[][] because int[][] doesn't work well with HashMaps (.equals in particular)
-			HashMap<List<List<Integer>>, Integer> entryCounts = new HashMap<List<List<Integer>>, Integer>();
-			Integer currentCount;
-			int newCount;
-			
-			for(int i = 0; i < input.size(); i++) {
-				currentCount = entryCounts.get(Tools.multiIntArrayToList((int[][]) input.get(i))); 
-				
-				//if nothing was there, change value to 1, otherwise increase the value by 1.
-				newCount = (currentCount == null ? 1 : currentCount+1);
-				
-				entryCounts.put(Tools.multiIntArrayToList((int[][]) input.get(i)), newCount);
-				//System.out.println("new count "  + newCount + " entry counts size " + entryCounts.size() + " " + Arrays.toString(input.get(i)));
-			}
-			
-			Set<List<List<Integer>>> keys = entryCounts.keySet();
-			Iterator<List<List<Integer>>> iter = keys.iterator();
-			
-			List<List<Integer>> tensor;
-			
-			while(iter.hasNext()) {
-				tensor = iter.next();
-				
-				if((entryCounts.get(tensor).intValue() % 2) != 0)
-					output.add(Tools.multiListToIntArray(tensor));
-			}
-			
-			return output;
-		}
-		else if(input.get(0) instanceof int[]) {
-			List<int[]> output = new ArrayList<int[]>();		
-			HashMap<List<Integer>, Integer> entryCounts = new HashMap<List<Integer>, Integer>();
-			Integer currentCount;
-			int newCount;
-			
-			for(int i = 0; i < input.size(); i++) {
-				currentCount = entryCounts.get(Tools.intArrayToList((int[]) input.get(i))); 
-				
-				//if nothing was there, change value to 1, otherwise increase the value by 1.
-				newCount = (currentCount == null ? 1 : currentCount+1);
-				
-				entryCounts.put(Tools.intArrayToList((int[]) input.get(i)), newCount);
-			}
-			
-			Set<List<Integer>> keys = entryCounts.keySet();
-			Iterator<List<Integer>> iter = keys.iterator();
-			
-			List<Integer> monomial;
-			
-			while(iter.hasNext()) {
-				monomial = iter.next();
-				
-				//don't want to include empty arrays
-				if(  ((entryCounts.get(monomial).intValue() % 2) != 0)  &&  monomial.size() > 0)
-					output.add(Tools.listToIntArray(monomial));
-			}
-			
-			return output;
-		}
-		
-		return null;
-	}
 	
 	public static void removePrimitives(List<int[][]> input) {
 		for(int i = input.size() - 1; i >= 0; i--) {
