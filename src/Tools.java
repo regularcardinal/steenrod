@@ -157,7 +157,7 @@ public class Tools {
 	
 	//parses # # # + # # into a list of size two, consisting of arrays [#, #, #] and [#, #]
 	//note it doesn't matter if the input is a dual basis or anything else in particular
-	public static List<int[]> parseSumFromString(String input) {
+	public static List<int[]> parseSumFromString(String input) {		
 		String[] split = input.split(" [+] ");
 		
 		List<int[]> sum = new ArrayList<int[]>(split.length);
@@ -322,20 +322,20 @@ public class Tools {
 			HashMap<List<Integer>, Integer> entryCounts = new HashMap<List<Integer>, Integer>();
 			Integer currentCount;
 			int newCount;
+			List<Integer> monomial;
 			
 			for(int i = 0; i < input.size(); i++) {
-				currentCount = entryCounts.get(intArrayToList((int[]) input.get(i))); 
+				monomial = intArrayToList((int[]) input.get(i));
+				currentCount = entryCounts.get(monomial); 
 				
 				//if nothing was there, change value to 1, otherwise increase the value by 1.
 				newCount = (currentCount == null ? 1 : currentCount+1);
 				
-				entryCounts.put(intArrayToList((int[]) input.get(i)), newCount);
+				entryCounts.put(monomial, newCount);
 			}
 			
 			Set<List<Integer>> keys = entryCounts.keySet();
 			Iterator<List<Integer>> iter = keys.iterator();
-			
-			List<Integer> monomial;
 			
 			while(iter.hasNext()) {
 				monomial = iter.next();

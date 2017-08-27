@@ -3,7 +3,6 @@ import java.util.*;
 //this class represents lists of monomials, ie, sums of monomials
 //CONVENTION: a list of size zero is 0; a list of size 1, with the array [] is 1
 public class MilnorElement extends Element {
-	private List<int[]> element;
 	
 	public MilnorElement() {
 		super();
@@ -43,6 +42,17 @@ public class MilnorElement extends Element {
 			element = (List<int[]>) input;
 	}
 	
+	//assumes homogeneous
+	public int degree() {
+		if(element.size() == 0)
+			return 0;
+		
+		int[] mono = element.get(0);
+		int degree = 0;
+		for(int i = 0; i < mono.length; i+=2) 
+			degree += (Math.pow(2, mono[i]) - 1) * mono[i+1];
+		return degree;
+	}
 	
 	/*
 	public void addMod2(List<int[]> toAdd) {

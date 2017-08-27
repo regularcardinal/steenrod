@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class Element {
-	private List<int[]> element;
+	protected List<int[]> element;
 	
 	public Element() {
 		element = new ArrayList<int[]>();
@@ -39,6 +39,8 @@ public class Element {
 	public String toString() {
 		if (element == null)
 			return null;
+		if(element.size() == 0)
+			return "zero";
 		
 		String output = "";
 		for (int i = 0 ; i < element.size(); i++) {

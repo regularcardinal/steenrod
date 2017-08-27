@@ -31,10 +31,10 @@ public class Steenrod implements Algebra {
 		
 		//if the input has +'s in it, then split it up and treat each piece separately
 		if(input.contains("+")) {
-			ArrayList<String> split = splitByPlus(input);
-			String total = new String(writeAsBasis(split.get(0)));
-			for(int i = 1; i <= split.size()-1; i++) {
-				total += " + " + writeAsBasis(split.get(i));
+			String[] split = input.split(" [+] ");
+			String total = new String(writeAsBasis(split[0]));
+			for(int i = 1; i <= split.length-1; i++) {
+				total += " + " + writeAsBasis(split[i]);
 			}
 			return total;
 		}
@@ -53,7 +53,7 @@ public class Steenrod implements Algebra {
 			
 			//if the pair is inadmissible, run the adem relations and return the basis on a new string
 			if(!(ademI >= 2*ademJ)) {
-				String adem = Adem(ademI, ademJ);
+				String adem = adem(ademI, ademJ);
 				
 				if(adem.equals(ZERO))
 					return ZERO;
@@ -173,7 +173,7 @@ public class Steenrod implements Algebra {
 		int j;
 		for(int i = 0; i<= dimension; i++) {
 			j = dimension - i;
-			System.out.println(i + " " + j + " = " + Adem(i,j));
+			System.out.println(i + " " + j + " = " + adem(i,j));
 			//System.out.println(j + " " + i + " = " + Adem(i,j));
 		}
 	}
@@ -200,7 +200,7 @@ public class Steenrod implements Algebra {
 	
 	//run the Adem relations on Sq^i Sq^j. a relation that equals 0 will return zero since 0 is really Sq^0 = 1. don't run if i=j=0...
 	//note this will (or should...) never return something of the form "# # # + zero".
-	public static String Adem(int i, int j) {
+	public static String adem(int i, int j) {
 		String relations = "";
 		BigInteger binomial;
 		
@@ -273,6 +273,4 @@ public class Steenrod implements Algebra {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
-	
 }

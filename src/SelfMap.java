@@ -13,6 +13,21 @@ public class SelfMap {
 	
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) throws IOException {
+		/*
+		MilnorElement test1 = new MilnorElement();
+		test1.add(new int[]{1, 2, 2, 3, 1, 2});
+		System.out.println(test1 + " deg " + test1.degree());
+		*/
+		
+		SteenrodElement test = new SteenrodElement("1 4 + 1 4");
+		System.out.println(test);
+		System.out.println(test.convertToString());
+		test.reduceMod2();
+		System.out.println(test);
+		test.adem();
+		System.out.println(test);
+		
+		
 		long start = 0;
 		long end = 0;
 		reader = new Scanner(System.in);

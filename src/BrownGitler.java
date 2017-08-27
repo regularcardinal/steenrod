@@ -1,5 +1,5 @@
 public class BrownGitler {
-	public JElement square(JMonomial mono, int k) {
+	public JElement square(JElement mono, int k) {
 		
 		return null;
 	}
