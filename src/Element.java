@@ -33,7 +33,7 @@ public class Element {
 		return element.size();
 	}
 	
-	//gets the monomial at the specified index
+	//gets the monomial (not really a monomial for steenrod...) at the specified index
 	public int[] getMono(int index) {
 		return element.get(index);
 	}

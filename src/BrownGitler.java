@@ -65,13 +65,25 @@ public class BrownGitler {
 		return output;
 	}
 	
-	public JElement action(SteenrodElement sq, JElement j) {
+	public static JElement action(SteenrodElement sq, JElement j) {
 		JElement sqJ = new JElement();
 		
+		for(int i = 0; i < sq.length(); i++) {
+			int[] mono = sq.getMono(i);
+			
+			JElement tempSquare = j;
+			for(int k = mono.length-1; k >= 0; k--) {
+				tempSquare = squareK(tempSquare, mono[k]);
+			}
+			sqJ.add(tempSquare);
+		}
 		
-		
-		
+		sqJ.reduceMod2();
 		return sqJ;
+	}
+	
+	public static JElement action(String sq, String j) {
+		return action(new SteenrodElement(sq), new JElement(j));
 	}
 	
 	

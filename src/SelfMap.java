@@ -55,6 +55,7 @@ public class SelfMap {
 		System.out.println(BrownGitler.squareK(j1, 3));
 		System.out.println(BrownGitler.squareK(j1, 4));
 		
+		System.out.println(BrownGitler.action("4", "1 3"));
 		
 		
 		long start = 0;
