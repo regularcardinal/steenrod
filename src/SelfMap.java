@@ -42,6 +42,7 @@ public class SelfMap {
 		System.out.println(Arrays.toString(concat));
 		*/
 		
+		/*
 		JElement j1 = new JElement("1 3");
 		JElement j2 = new JElement("2 4 + 3 1");
 		JElement prod = j1.multiply(j2);
@@ -55,7 +56,7 @@ public class SelfMap {
 		System.out.println(BrownGitler.squareK(j1, 3));
 		System.out.println(BrownGitler.squareK(j1, 4));
 		
-		System.out.println(BrownGitler.action("4", "1 3"));
+		System.out.println(BrownGitler.action("3 + 3", "1 3"));*/
 		
 		
 		long start = 0;
@@ -294,6 +295,11 @@ public class SelfMap {
 				System.out.println(Steenrod.excess(str.substring(str.indexOf(" ") + 1)));
 			else if(keyWord.equals("coprod2"))
 				System.out.println(Steenrod.coproduct(str.substring(str.indexOf(" ") + 1)));
+			else if(keyWord.equals("act")) {
+				String next = str.substring(str.indexOf(" ") + 1);
+				String[] param = next.split(", ");
+				System.out.println(BrownGitler.action(param[0], param[1]));
+			}
 			else
 				System.out.println("I don't understand.");
 		}

@@ -3,7 +3,9 @@ import java.util.ArrayList;
 public class SteenrodElement extends Element {
 	
 	public SteenrodElement(String input) {
-		super(input);
+		if(input.equals("Q1"))
+			input = "2 1 + 3";
+		element = Tools.parseSumFromString(input);
 	}
 	
 	//assumes homogeneous
