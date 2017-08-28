@@ -23,7 +23,8 @@ public class JElement extends Element{
 		
 		for(int i = 0; i < element.size(); i++) {
 			for(int j = 0; j < element2.length(); j++) {
-				product.add(DualSteenrod.milnorMultiply(this.getMono(i), element2.getMono(j)));
+				//product.add(DualSteenrod.milnorMultiply());
+				product.add(DualSteenrod.applyRelations(Tools.concatenate(this.getMono(i), element2.getMono(j)), null));
 			}
 		}
 		

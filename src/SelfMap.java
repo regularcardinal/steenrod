@@ -17,7 +17,6 @@ public class SelfMap {
 			MilnorElement test1 = new MilnorElement();
 			test1.add(new int[]{1, 2, 2, 3, 1, 2});
 			System.out.println(test1 + " deg " + test1.degree());
-		*/
 		
 		SteenrodElement test = new SteenrodElement("1 4 + 4 1 + 5 + 2 3");	
 		System.out.println(test);
@@ -27,25 +26,28 @@ public class SelfMap {
 		test.adem();
 		System.out.println(test);
 		
-		
-		System.out.println(Arrays.toString(DualSteenrod.applyRelations(new int[]{1, 2, 1, 2})));
-		DualAn dualA1 = new DualAn(1);
-		dualA1.printAllData();
+		*/
 		
 		
+		System.out.println(Arrays.toString(DualSteenrod.applyRelations(new int[]{0, 2, 1, 6, 2, 4, 0, 3, 2, 3})));
+		System.out.println(Arrays.toString(DualSteenrod.applyRelations(new int[]{0, 3, 1, 6, 2, 4, 0, 3, 2, 3}, null)));
+		//DualAn dualA1 = new DualAn(2);
+		//dualA1.printAllData();
+		
+		/*
 		List<int[]> templist = new ArrayList<int[]>();
 		templist.add(new int[]{1,2,3,4});
 		templist.add(new int[]{1,2,3,4});
 		int[] concat = Tools.concatenate(templist);
 		System.out.println(Arrays.toString(concat));
+		*/
 		
-		JElement j1 = new JElement("2 3");
+		JElement j1 = new JElement("1 5");
 		JElement j2 = new JElement("2 4 + 3 1");
 		JElement prod = j1.multiply(j2);
 		System.out.println(prod);
 		System.out.println(BrownGitler.square(j1));
 		
-		System.out.println(5 % 1);
 		
 		
 		long start = 0;

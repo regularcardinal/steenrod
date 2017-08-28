@@ -345,7 +345,7 @@ public class DualSteenrod implements Algebra {
 		
 		int[] output = new int[powers.size()*2];
 		int outputIndex = 0;
-		int keyIndex = 1;
+		int keyIndex = 0;
 		Integer mapPower;
 		
 		//create the cleaned-up monomial; it will be in increasing generator form, ie x_1 before x_2 before x_3 etc
