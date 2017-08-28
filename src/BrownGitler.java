@@ -1,10 +1,8 @@
-public class BrownGitler {
-	public JElement square(JElement mono, int k) {
-		
-		return null;
-	}
-	
-	
+
+//TODO: These can all go in the JElement class. then square would have no arguments, squareK would only have an int argument, etc
+
+
+public class BrownGitler {	
 	//returns total square
 	public static JElement square(JElement j) {
 		JElement output = new JElement();
@@ -18,6 +16,7 @@ public class BrownGitler {
 				int generator = mono[0];
 				int power = mono[1];
 				
+				//see Schwartz 2.4(?)
 				if(power == 1) {
 					if(generator == 0) 
 						output.add(mono);
@@ -34,9 +33,34 @@ public class BrownGitler {
 					}
 				}
 			}
+			//multiple generators
+			else {
+				output = square(new JElement(new int[]{mono[0], mono[1]}));
+				for(int i = 2; i < mono.length; i+=2) {
+					JElement square = square(new JElement(new int[]{mono[i], mono[i+1]}));
+					output = output.multiply(square);
+				}
+			}
+		}
+		else {
+			for(int i = 0; i < j.length(); i++)
+				output.add(square(new JElement(j.getMono(i))));
+			output.reduceMod2();
 		}
 		
+		return output;
+	}
+	
+	public static JElement squareK(JElement j, int k) {
+		JElement output = new JElement();
+		JElement totalSquare = square(j);
+		int[] degrees = j.degrees();
 		
+		for(int i = 0; i < totalSquare.length(); i++) {
+			//if the ith mono of totalSquare is the degree of something from j + k, then it is the square k of something from j
+			if(Tools.contains(degrees, totalSquare.degree(i) - k))
+				output.add(totalSquare.getMono(i));
+		}
 		
 		return output;
 	}

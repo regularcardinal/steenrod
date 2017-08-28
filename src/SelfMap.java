@@ -29,8 +29,8 @@ public class SelfMap {
 		*/
 		
 		
-		System.out.println(Arrays.toString(DualSteenrod.applyRelations(new int[]{0, 2, 1, 6, 2, 4, 0, 3, 2, 3})));
-		System.out.println(Arrays.toString(DualSteenrod.applyRelations(new int[]{0, 3, 1, 6, 2, 4, 0, 3, 2, 3}, null)));
+		//System.out.println(Arrays.toString(DualSteenrod.applyRelations(new int[]{0, 2, 1, 6, 2, 4, 0, 3, 2, 3})));
+		//System.out.println(Arrays.toString(DualSteenrod.applyRelations(new int[]{0, 3, 1, 6, 2, 4, 0, 3, 2, 3}, null)));
 		//DualAn dualA1 = new DualAn(2);
 		//dualA1.printAllData();
 		
@@ -42,11 +42,18 @@ public class SelfMap {
 		System.out.println(Arrays.toString(concat));
 		*/
 		
-		JElement j1 = new JElement("1 5");
+		JElement j1 = new JElement("1 3");
 		JElement j2 = new JElement("2 4 + 3 1");
 		JElement prod = j1.multiply(j2);
-		System.out.println(prod);
-		System.out.println(BrownGitler.square(j1));
+		JElement square = BrownGitler.square(j1);
+		//System.out.println(prod);
+		System.out.println(square);
+		//System.out.println(square.minDegree());
+		System.out.println(BrownGitler.squareK(j1, 0));
+		System.out.println(BrownGitler.squareK(j1, 1));
+		System.out.println(BrownGitler.squareK(j1, 2));
+		System.out.println(BrownGitler.squareK(j1, 3));
+		System.out.println(BrownGitler.squareK(j1, 4));
 		
 		
 		

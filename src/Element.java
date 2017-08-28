@@ -46,6 +46,11 @@ public class Element {
 		element.addAll(monos);
 	}
 	
+	public void add(Element elem) {
+		for(int i = 0; i < elem.length(); i++)
+			element.add(elem.getMono(i));
+	}
+	
 	@SuppressWarnings("unchecked")
 	public void reduceMod2() {
 		element = (List<int[]>) Tools.reduceMod2(element);

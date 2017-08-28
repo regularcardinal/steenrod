@@ -360,6 +360,13 @@ public class Tools {
 		return null;
 	}
 	
+	public static boolean contains(int[] array, int k) {
+		for(int i = 0; i < array.length; i++)
+			if(array[i] == k)
+				return true;
+		return false;
+	}
+	
 	/* Elements are possibly already sums...
 	 * 
 	 * public static Element multiplySums(Element elem1, Element elem2) {
