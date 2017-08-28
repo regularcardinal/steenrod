@@ -102,6 +102,8 @@ public class Steenrod implements Algebra {
 	}
 	
 	//input: # # + # # # + #, etc
+	//NOTE: this is slightly different than just running a reduceMod2 after converting input to a sum, because
+	//      input could have "zero" floating in it somewhere! need to fix somewhere else.
 	public static String cleanup(String input) {
 		if(input==null) {
 			return input;
@@ -136,7 +138,6 @@ public class Steenrod implements Algebra {
 		else
 			return cleanString;
 	}
-	
 	
 	public static void listDimensionalDoubles(int dimension) {
 		int j;

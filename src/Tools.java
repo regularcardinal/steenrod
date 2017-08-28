@@ -278,6 +278,15 @@ public class Tools {
 		}
 		return output;
 	}
+	
+	//concat for two monomials
+	public static int[] concatenate(int[] mono1, int[] mono2) {
+		List<int[]> temp = new ArrayList<int[]>(2);
+		temp.add(mono1);
+		temp.add(mono2);
+		return concatenate(temp);
+	}
+	
 
 	//INPUT: a sum of monomials OR a sum of tensors
 	//OUTPUT: that same sum of monomials/tensors, but reduced mod 2, addition-wise

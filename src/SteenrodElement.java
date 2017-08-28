@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class SteenrodElement extends Element {
 	
 	public SteenrodElement(String input) {
-		element = Tools.parseSumFromString(input);
+		super(input);
 	}
 	
 	//assumes homogeneous
@@ -19,6 +19,9 @@ public class SteenrodElement extends Element {
 	}
 	
 	//apply adem relations
+	//TODO: avoid strings all together. this should be self-contained. no need to convert to string, then write as basis
+	//then cleanup (which converts string to list<int[]> then BACK to string). the only thing you need to check SOMEWHERE is whether
+	//or not the string is zero i.e. the list has length 0.
 	public void adem() {
 		String reduced = Steenrod.cleanup(Steenrod.writeAsBasis(convertToString()));
 		if(reduced.equals("zero")) {

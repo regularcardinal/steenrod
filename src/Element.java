@@ -3,8 +3,23 @@ import java.util.*;
 public class Element {
 	protected List<int[]> element;
 	
+	//empty list represents zero
 	public Element() {
 		element = new ArrayList<int[]>();
+	}
+	
+	//create from a string, e.g. "# # + # # + # # # #"
+	public Element(String input) {
+		element = Tools.parseSumFromString(input);
+	}
+	
+	public Element(List<int[]> init) {
+		element = init;
+	}
+	
+	public Element(int[] input) {
+		element = new ArrayList<int[]>(1);
+		element.add(input);
 	}
 	
 	//TODO: should eventually make most code use Elements instead of ad hoc int[] or List<int[]>
@@ -18,6 +33,7 @@ public class Element {
 		return element.size();
 	}
 	
+	//gets the monomial at the specified index
 	public int[] getMono(int index) {
 		return element.get(index);
 	}
@@ -48,5 +64,4 @@ public class Element {
 		}
 		return output;
 	}
-	
 }

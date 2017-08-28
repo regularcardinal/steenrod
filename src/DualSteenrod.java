@@ -23,6 +23,13 @@ public class DualSteenrod implements Algebra {
 	private Map<Integer, Integer> finiteGeneratorMap;
 	private Map<Integer, List<MilnorElement>> truncatedMonomials;
 	
+	//the default relation map makes xi_0 = 1. this doesn't hold for J(m) where x_0 \neq 1
+	public static Map<Integer, Integer> DEFAULT_RELATIONS;
+	static {
+		DEFAULT_RELATIONS = new HashMap<Integer, Integer>();
+		DEFAULT_RELATIONS.put(0, 1);
+	}
+	
 	public DualSteenrod(Map<Integer, Integer> generators) { 
 		generatorMap = generators;
 	}
@@ -159,7 +166,7 @@ public class DualSteenrod implements Algebra {
 	}
 	
 	public static int[] milnorMultiply(int[] input1, int[] input2) {
-		List<int[]> temp = new ArrayList<int[]>();
+		List<int[]> temp = new ArrayList<int[]>(2);
 		temp.add(input1);
 		temp.add(input2);
 		return milnorMultiply(temp);
@@ -272,14 +279,18 @@ public class DualSteenrod implements Algebra {
 	 * OUTPUT: an EVEN length milnor monomial with no duplicate generators and in increasing order by generator, eg [1, 12, 2, 2, 4, 1]
 	 * if there are relations in relationMap, then it will abide by them
 	 * if there are any generators raised to the 0 power, it will delete them
+	 * furthermore, if everything is set to the 0 power, return [] representing the identity
 	 * note this will even work with negative powers (although no guarantees...)
 	 * TODO can combine both of the applyRelations methods into one by using a MilnorElement as input!
 	 * WARNING: right now, what this really does is, say we're given relMap = A(n)*. then it returns the part of monomial that is in A(n)* if we split
-	 * 			A* as A(n)* \otimes A//A(n)*. this is NOT the same as applying the quotient map! thus:
+	 * 			A* as A(n)* \otimes A//A(n)*. this is NOT the same as applying the quotient map (which would send multiples of things in A(n) to 0)! thus:
 	 * 			TODO rename this as simplify, or turn into two functions: simplify for no relations, and split for relations.
 	 * 				 if you turn this into two methods, you have to be careful. different things are calling this for various reasons.
 	 */
 	public static int[] applyRelations(int[] monomial, Map<Integer, Integer> relationMap) {
+		if(relationMap == null)
+			relationMap = new HashMap<Integer, Integer>();
+		
 		Map<Integer, Integer> powers = new HashMap<Integer, Integer>();
 		int generator, power, newPower; 
 		Integer relation;
@@ -304,12 +315,13 @@ public class DualSteenrod implements Algebra {
 			if(power == 0) 
 				continue;
 			
-			//if the generator hasn't been logged yet, input its power (or power mod the relation if it exists)
+			//if the generator hasn't been logged yet, input its power (or power mod the relation if it exists and modding by it is not zero)
 			if(powers.get(generator) == null) {
 				if(relationExists)
 					powers.put(generator, power % (int)relation);
 				//ad hoc. should really be separate method for no relations. this will also work for relations where xi_i maps to null (no relations in that dim)
-				else if(relationMap.size() == 0 || relationMap.containsKey(generator)) 
+				//else if(relationMap.size() == 0 || relationMap.containsKey(generator)) 
+				else
 					powers.put(generator, power);
 				
 			}
@@ -328,8 +340,8 @@ public class DualSteenrod implements Algebra {
 		}
 		
 		//this is to delete anything of the form [0, <nonzero>] which may have slid through
-		if(powers.get(0) != null)
-			powers.remove(0);
+		//if(powers.get(0) != null)
+			//powers.remove(0);
 		
 		int[] output = new int[powers.size()*2];
 		int outputIndex = 0;
@@ -355,8 +367,7 @@ public class DualSteenrod implements Algebra {
 	
 	//can call without relations
 	public static int[] applyRelations(int[] monomial) {
-		Map<Integer, Integer> emptyRelations = new HashMap<Integer, Integer>();
-		return applyRelations(monomial, emptyRelations);
+		return applyRelations(monomial, DEFAULT_RELATIONS);
 	}
 	
 	//applies relations term by term

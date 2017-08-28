@@ -1,14 +1,33 @@
+import java.util.List;
+
 public class JElement extends Element{
 	
 	public JElement() {
 		super();
 	}
 	
-	public static JElement multiply(JElement elem2) {
+	public JElement(String input) {
+		super(input);
+	}
+	
+	public JElement(List<int[]> init) {
+		super(init);
+	}
+	
+	public JElement(int[] input) {
+		super(input);
+	}
+	
+	public JElement multiply(JElement element2) {
 		JElement product = new JElement();
 		
+		for(int i = 0; i < element.size(); i++) {
+			for(int j = 0; j < element2.length(); j++) {
+				product.add(DualSteenrod.milnorMultiply(this.getMono(i), element2.getMono(j)));
+			}
+		}
 		
-		
+		product.reduceMod2();
 		return product;
 	}
 	
