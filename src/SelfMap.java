@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.*;
 
 public class SelfMap {
@@ -57,6 +58,8 @@ public class SelfMap {
 		System.out.println(BrownGitler.squareK(j1, 4));
 		
 		System.out.println(BrownGitler.action("3 + 3", "1 3"));*/
+		
+		System.out.println(Steenrod.adem(2, 9));
 		
 		
 		long start = 0;

@@ -96,7 +96,7 @@ public class Steenrod implements Algebra {
 		
 		//if the input made it through the above loop, then it is in admissible form and has no +
 		//first get rid of possible 0s at the end (if it's admissible, they have to be at the end)
-		while(input.contains("0")) 
+		while(input.contains(" 0")) 
 			input = input.substring(0, input.lastIndexOf('0') - 1);
 		return input;
 	}
@@ -195,11 +195,11 @@ public class Steenrod implements Algebra {
 					relations += " + ";
 				
 				//these checks are so that e.g. 5 0 or 0 5 doesn't appear. instead, 5 does.
-				if(k == 0)
+				if(k == 0) 
 					relations += (i+j-k);
-				else if((i+j-k) == 0)
+				else if((i+j-k) == 0) 
 					relations += k;
-				else
+				else 
 					relations += (i+j-k) + " " + k;
 			}
 		}
