@@ -58,6 +58,13 @@ public class SelfMap {
 		
 		System.out.println(BrownGitler.action("3 + 3", "1 3"));*/
 		
+		int n = 12;
+		for(int i = 0; i <= n; i++) {
+			//System.out.println(n + " split as " + i + " (number: " + Tools.partition(n,i).size() + ")");
+			Tools.printPartition(Tools.partition(n, i));
+		}
+		
+		
 		
 		
 		long start = 0;

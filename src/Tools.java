@@ -367,6 +367,58 @@ public class Tools {
 		return false;
 	}
 	
+	//lists all ways to partition m into k powers of 2
+	//returns null if there is no such way to partition m
+	public static List<List<Integer>> partition(int m, int k) {
+		List<List<Integer>> partitions;
+		
+		if(m == 0 && k == 0) {
+			partitions = new ArrayList<List<Integer>>();
+			partitions.add(new ArrayList<Integer>());
+			return partitions;
+		}
+		
+		if(m == 0 || k == 0) 
+			return null;
+		
+		int maxDivider = 0;
+		
+		//find largest n such that 2^n <= m
+		while(true) {
+			if(Math.pow(2, maxDivider + 1) > m) 
+				break;
+			maxDivider++;
+		}
+		
+		partitions = new ArrayList<List<Integer>>();
+		
+		for(int i = maxDivider; i >= 0; i--) {
+			List<List<Integer>> lowerPartitions = partition(m - (int)Math.pow(2, i), k-1);
+			if(lowerPartitions == null)
+				continue;
+			
+			for(int j = 0; j < lowerPartitions.size(); j++) {
+				List<Integer> temp = lowerPartitions.get(j);
+				//this step stores the partitions as the POWERS of 2, not the numbers themselves, easy to change
+				temp.add((int)Math.pow(2, i));
+				partitions.add(temp);
+			}
+		}
+		
+		if(partitions.size() == 0)
+			partitions = null;
+		return partitions;
+	}
+	
+	public static void printPartition(List<List<Integer>> input) {
+		if(input == null) {
+			System.out.println("none");
+			return;
+		}
+		for(int i = 0; i < input.size(); i++)
+			System.out.println(input.get(i));
+	}
+	
 	/* Elements are possibly already sums...
 	 * 
 	 * public static Element multiplySums(Element elem1, Element elem2) {
