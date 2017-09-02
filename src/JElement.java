@@ -11,13 +11,15 @@ public class JElement extends Element{
 		super(input);
 	}
 	
-	public JElement(List<int[]> init) {
+	public JElement(List<?> init) {
 		super(init);
 	}
 	
 	public JElement(int[] input) {
 		super(input);
 	}
+	
+	
 	
 	public JElement multiply(JElement element2) {
 		JElement product = new JElement();

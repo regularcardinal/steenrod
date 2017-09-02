@@ -8,38 +8,23 @@ public class MilnorElement extends Element {
 		super();
 	}
 	
-	//use this to initiate zero
+	public MilnorElement(List<?> input) {
+		super(input);
+	}
+	
+	//TODO: DELETE. use this to initiate zero, probably not needed
 	public MilnorElement(int num) {
 		if(num == 0) 
 			element = new ArrayList<int[]>(0);
 	}
 	
+	//TODO: DELETE. 
 	public MilnorElement(int[] input) {
 		if(input == null)
 			return;
 		
 		element = new ArrayList<int[]>(1);
 		element.add(input);
-	}
-	
-	@SuppressWarnings("unchecked")
-	public MilnorElement(List<?> input) {
-		if(input == null)
-			return;
-		if(input.size() == 0) {
-			element = new ArrayList<int[]>(0);
-			return;
-		}
-			
-		
-		//if this is just a single monomial in the form of List<Integer>
-		if(input.get(0) instanceof Integer) {
-			element = new ArrayList<int[]>(1);
-			element.add(Tools.listToIntArray((List<Integer>) input));
-		}
-		//if this is already a list of monomials
-		else if(input.get(0) instanceof int[])
-			element = (List<int[]>) input;
 	}
 	
 	//assumes homogeneous

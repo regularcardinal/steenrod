@@ -1,6 +1,7 @@
 import java.util.*;
 
 public class Element {
+	//TODO: use ArrayList<Integer> instead of int[]
 	protected List<int[]> element;
 	
 	//empty list represents zero
@@ -13,13 +14,30 @@ public class Element {
 		element = Tools.parseSumFromString(input);
 	}
 	
-	public Element(List<int[]> init) {
-		element = init;
-	}
-	
 	public Element(int[] input) {
 		element = new ArrayList<int[]>(1);
 		element.add(input);
+	}
+	
+	//eventually should make element a list of lists
+	@SuppressWarnings("unchecked")
+	public Element(List<?> input) {
+		if(input == null)
+			return;
+		if(input.size() == 0) {
+			element = new ArrayList<int[]>(0);
+			return;
+		}
+			
+		
+		//if this is just a single monomial in the form of List<Integer>
+		if(input.get(0) instanceof Integer) {
+			element = new ArrayList<int[]>(1);
+			element.add(Tools.listToIntArray((List<Integer>) input));
+		}
+		//if this is already a list of monomials
+		else if(input.get(0) instanceof int[])
+			element = (List<int[]>) input;
 	}
 	
 	//TODO: should eventually make most code use Elements instead of ad hoc int[] or List<int[]>

@@ -368,8 +368,11 @@ public class Tools {
 	}
 	
 	//lists all ways to partition m into k powers of 2
-	//returns null if there is no such way to partition m
-	public static List<List<Integer>> partition(int m, int k) {
+	//returns empty List<List<Integer>> if there is no such way to partition m
+	//listAsPowers is for listing the partitions as the powers, like n=3, vs the numbers themselves, like 2^n=8.
+	//Jm prefers listing as powers. partition function itself and visual things prefer numbers themselves
+	//TODO: this code can probably be made more efficient: only need to check m-2^n and m-2^(n-1)?
+	public static List<List<Integer>> partition(int m, int k, boolean listAsPowers) {
 		List<List<Integer>> partitions;
 		
 		if(m == 0 && k == 0) {
@@ -379,7 +382,7 @@ public class Tools {
 		}
 		
 		if(m == 0 || k == 0) 
-			return null;
+			return new ArrayList<List<Integer>>();
 		
 		int maxDivider = 0;
 		
@@ -393,25 +396,36 @@ public class Tools {
 		partitions = new ArrayList<List<Integer>>();
 		
 		for(int i = maxDivider; i >= 0; i--) {
-			List<List<Integer>> lowerPartitions = partition(m - (int)Math.pow(2, i), k-1);
+			List<List<Integer>> lowerPartitions = partition(m - (int)Math.pow(2, i), k-1, listAsPowers);
 			if(lowerPartitions == null)
 				continue;
 			
 			for(int j = 0; j < lowerPartitions.size(); j++) {
 				List<Integer> temp = lowerPartitions.get(j);
-				//this step stores the partitions as the POWERS of 2, not the numbers themselves, easy to change
-				temp.add((int)Math.pow(2, i));
+				
+				//non-increasing order
+				if(temp.size() > 0 && temp.get(temp.size() - 1) > (listAsPowers ? i : (int) Math.pow(2, i)))
+					continue;
+				
+				//listing as powers will just record the powers of 2 rather than the numbers themselves (eg 3 vs 8=2^3)
+				if(listAsPowers)
+					temp.add(i);
+				else
+					temp.add((int)Math.pow(2, i));
 				partitions.add(temp);
 			}
 		}
 		
-		if(partitions.size() == 0)
-			partitions = null;
 		return partitions;
 	}
 	
+	//default mode
+	public static List<List<Integer>> partition(int m, int k) {
+		return partition(m, k, false);
+	}
+	
 	public static void printPartition(List<List<Integer>> input) {
-		if(input == null) {
+		if(input.size() == 0 || input == null) {
 			System.out.println("none");
 			return;
 		}
