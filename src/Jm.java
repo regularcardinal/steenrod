@@ -14,9 +14,7 @@ public class Jm {
 	
 	private void generateModule() {
 		for(int deg = 0; deg <= M; deg++) {
-			List<List<Integer>> partitions = Tools.partition(M, deg, true);
-			Tools.printPartition(partitions);
-			
+			List<List<Integer>> partitions = Tools.partition(M, deg, true);			
 			
 			for(int i = 0; i < partitions.size(); i++) { 
 				List<Integer> currentPartition = partitions.get(i);
@@ -64,6 +62,22 @@ public class Jm {
 				System.out.println(monomials.get(i));
 			}
 		}
+	}
+	
+	//this conveniently prints in order by degree, because keys iterates via hashcode and the hashcode of an Integer is its intValue
+	public void printAction(SteenrodElement sq) {
+		System.out.println(sq + " acting on J(" + M + "):");
+		Set<Integer> keys = module.keySet();
+		
+		for(Integer deg: keys) {
+			System.out.println("Degree: " + deg);
+			List<JElement> jElements = module.get(deg);
+			for(JElement j : jElements) {
+				System.out.println(j + " -> " + BrownGitler.action(sq, j));
+			}
+		}
+		
+		System.out.println("");
 	}
 	
 	

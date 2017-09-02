@@ -58,8 +58,9 @@ public class SelfMap {
 		
 		System.out.println(BrownGitler.action("3 + 3", "1 3"));*/
 		
-		Jm jModule = new Jm(12);
-		jModule.print();
+		Jm jModule = new Jm(6);
+		//jModule.print();
+		jModule.printAction(new SteenrodElement("1"));
 		
 		
 		
