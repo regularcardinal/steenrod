@@ -11,7 +11,6 @@ public class Jm {
 		generateModule();
 	}
 	
-	
 	private void generateModule() {
 		for(int deg = 0; deg <= M; deg++) {
 			List<List<Integer>> partitions = Tools.partition(M, deg, true);			
@@ -49,36 +48,94 @@ public class Jm {
 		}
 	}
 	
+	//prints all the contents of the j module
 	public void print() {
-		System.out.println("J(" + M + "):");
+		List<String> output = printAsList();
+		for(String line : output) {
+			System.out.println(line);
+		}
+	}
+	
+	
+	public List<String> printAsTex() {
+		List<String> output = new ArrayList<String>();
+		
+		output.add("J(" + M + "):\\\\");
+		for(int deg = 0; deg <= M; deg++) {
+			List<JElement> generators = module.get(deg);
+			output.add("Degree " + deg + "; dimension over F2: " + (generators == null ? 0 + "\n" : generators.size()) + "\\\\");
+			
+			if(generators == null)
+				continue;
+			
+			for(int l = 0; l < generators.size(); l++) {
+				JElement j = generators.get(l);
+				String jAsTex = "";
+				
+				//TODO: j is probably always a monomial, so no need for this for loop
+				for(int i = 0; i < j.length(); i++) {
+					int[] monomial = j.getMono(i);
+					jAsTex += "$";
+					for(int k = 0; k < monomial.length; k+=2) {
+						jAsTex += "x_{" + monomial[k] + "}^{" + monomial[k+1] + "}";
+					}
+					jAsTex += (i == j.length() - 1 ? "$" : "$ + ");
+				}
+				jAsTex += (l == generators.size() - 1 ? "" : ", ");
+				output.add(jAsTex);
+			}
+			
+			output.add("\\\\");
+		}
+		
+		output.add("");
+		return output;
+	}
+	
+	//TODO: put this back into print()
+	public List<String> printAsList() {
+		List<String> output = new ArrayList<String>();
+		
+		output.add("J(" + M + "):");
 		for(int deg = 0; deg <= M; deg++) {
 			List<JElement> monomials = module.get(deg);
-			System.out.println("Degree " + deg + "; dimension over F2: " + (monomials == null ? 0 + "\n" : monomials.size()));
+			output.add("Degree " + deg + "; dimension over F2: " + (monomials == null ? 0 + "\n" : monomials.size()));
 			
 			if(monomials == null)
 				continue;
 			
 			for(int i = 0; i < monomials.size(); i++) {
-				System.out.println(monomials.get(i));
+				output.add(monomials.get(i).toString());
 			}
 		}
+		
+		output.add("");
+		return output;
 	}
 	
 	//this conveniently prints in order by degree, because keys iterates via hashcode and the hashcode of an Integer is its intValue
 	public void printAction(SteenrodElement sq) {
-		System.out.println(sq + " acting on J(" + M + "):");
+		List<String> output = printActionAsList(sq);
+		for(String line : output) {
+			System.out.println(line);
+		}
+	}
+	
+	public List<String> printActionAsList(SteenrodElement sq) {
+		List<String> output = new ArrayList<String>();
+		
+		output.add(sq + " acting on J(" + M + "):");
 		Set<Integer> keys = module.keySet();
 		
 		for(Integer deg: keys) {
-			System.out.println("Degree: " + deg);
+			output.add("Degree: " + deg);
 			List<JElement> jElements = module.get(deg);
 			for(JElement j : jElements) {
-				System.out.println(j + " -> " + BrownGitler.action(sq, j));
+				output.add(j.toString() + " -> " + BrownGitler.action(sq, j).toString());
 			}
 		}
 		
-		System.out.println("");
+		output.add("");
+		return output;
 	}
-	
-	
 }

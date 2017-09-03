@@ -404,7 +404,7 @@ public class Tools {
 				List<Integer> temp = lowerPartitions.get(j);
 				
 				//non-decreasing order
-				if(temp.size() > 0 && temp.get(temp.size() - 1) < (listAsPowers ? i : (int) Math.pow(2, i)))
+				if(temp.size() > 0 && temp.get(temp.size() - 1) > (listAsPowers ? i : (int) Math.pow(2, i)))
 					continue;
 				
 				//listing as powers will just record the powers of 2 rather than the numbers themselves (eg 3 vs 8=2^3)
