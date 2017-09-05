@@ -433,6 +433,22 @@ public class Tools {
 			System.out.println(input.get(i));
 	}
 	
+	public static String convertJElementToTex(JElement j) {
+		String jAsTex = "";
+		
+		//loop only has one iteration if j is a monomial
+		for(int i = 0; i < j.length(); i++) {
+			int[] monomial = j.getMono(i);
+			jAsTex += "$";
+			for(int k = 0; k < monomial.length; k+=2) {
+				jAsTex += "x_{" + monomial[k] + "}^{" + monomial[k+1] + "}";
+			}
+			jAsTex += (i == j.length() - 1 ? "$" : "$ + ");
+		}
+		
+		return jAsTex;
+	}
+	
 	/* Elements are possibly already sums...
 	 * 
 	 * public static Element multiplySums(Element elem1, Element elem2) {

@@ -58,11 +58,16 @@ public class SelfMap {
 		
 		System.out.println(BrownGitler.action("3 + 3", "1 3"));*/
 		
-		Jm jModule = new Jm(10);
-		jModule.print();
-		jModule.printAction(new SteenrodElement("1"));
 		
-		Tex.writeToFile(jModule.printAsTex(), "test.tex");
+		for(int l = 8; l <= 16; l+=2) {
+			Jm jModule = new Jm(l);
+			Tex.writeToFile(jModule.printAsTex(), "j" + l + ".tex");
+			Tex.writeToFile(jModule.printActionAsTex(new SteenrodElement("1")), "sq1_j" + l + ".tex");
+			Tex.writeToFile(jModule.printActionAsTex(new SteenrodElement("2")), "sq2_j" + l + ".tex");
+			Tex.writeToFile(jModule.printActionAsTex(new SteenrodElement("Q1")), "Q1_j" + l + ".tex");
+		}
+			
+			
 		
 		
 		

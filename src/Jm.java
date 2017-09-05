@@ -69,23 +69,31 @@ public class Jm {
 				continue;
 			
 			for(int l = 0; l < generators.size(); l++) {
-				JElement j = generators.get(l);
-				String jAsTex = "";
-				
-				//TODO: j is probably always a monomial, so no need for this for loop
-				for(int i = 0; i < j.length(); i++) {
-					int[] monomial = j.getMono(i);
-					jAsTex += "$";
-					for(int k = 0; k < monomial.length; k+=2) {
-						jAsTex += "x_{" + monomial[k] + "}^{" + monomial[k+1] + "}";
-					}
-					jAsTex += (i == j.length() - 1 ? "$" : "$ + ");
-				}
+				String jAsTex = Tools.convertJElementToTex(generators.get(l));
 				jAsTex += (l == generators.size() - 1 ? "" : ", ");
 				output.add(jAsTex);
 			}
 			
 			output.add("\\\\");
+		}
+		
+		output.add("");
+		return output;
+	}
+	
+	public List<String> printActionAsTex(SteenrodElement sq) {
+		List<String> output = new ArrayList<String>();
+		
+		output.add(sq + " acting on J(" + M + "):\\\\");
+		Set<Integer> keys = module.keySet();
+		
+		for(Integer deg: keys) {
+			output.add("Degree: " + deg + "\\\\");
+			List<JElement> jElements = module.get(deg);
+			for(int i = 0; i < jElements.size(); i++) {
+				JElement j = jElements.get(i);				
+				output.add(Tools.convertJElementToTex(j) + " $\\rightarrow$ " + Tools.convertJElementToTex(BrownGitler.action(sq, j)) + "\\\\");
+			}
 		}
 		
 		output.add("");
