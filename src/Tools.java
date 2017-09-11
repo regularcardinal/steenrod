@@ -287,6 +287,26 @@ public class Tools {
 		return concatenate(temp);
 	}
 	
+	//concatenates tensors term-wise
+	//copied from DualSteenrod
+	public static List<int[][]> concatenateTensors(List<int[][]> input1, List<int[][]> input2) {
+		List<int[][]> output = new ArrayList<int[][]>();
+		int[][] tensor1, tensor2, tempTensor;
+		
+		for(int i = 0; i < input1.size(); i++) {
+			for(int j = 0; j < input2.size(); j++) {
+				tensor1 = input1.get(i);
+				tensor2 = input2.get(j);
+				tempTensor = new int[2][];
+				tempTensor[0] = concatenate(tensor1[0], tensor2[0]);
+				tempTensor[1] = concatenate(tensor1[1], tensor2[1]);
+				output.add(tempTensor);
+			}
+		}
+		
+		return output;
+	}
+	
 
 	//INPUT: a sum of monomials OR a sum of tensors
 	//OUTPUT: that same sum of monomials/tensors, but reduced mod 2, addition-wise

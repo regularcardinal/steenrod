@@ -42,6 +42,7 @@ public class BrownGitler {
 				}
 			}
 		}
+		//j is a sum of monomials
 		else {
 			for(int i = 0; i < j.length(); i++)
 				output.add(square(new JElement(j.getMono(i))));
@@ -51,6 +52,7 @@ public class BrownGitler {
 		return output;
 	}
 	
+	//returns the (left) action of Sq^k on j
 	public static JElement squareK(JElement j, int k) {
 		JElement output = new JElement();
 		JElement totalSquare = square(j);
@@ -65,6 +67,8 @@ public class BrownGitler {
 		return output;
 	}
 	
+	//returns the action of a general steenrod element on j
+	//TODO: could absorb squareK
 	public static JElement action(SteenrodElement sq, JElement j) {
 		JElement sqJ = new JElement();
 		

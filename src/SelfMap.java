@@ -58,14 +58,14 @@ public class SelfMap {
 		
 		System.out.println(BrownGitler.action("3 + 3", "1 3"));*/
 		
-		
+		/*
 		for(int l = 8; l <= 16; l+=2) {
 			Jm jModule = new Jm(l);
 			Tex.writeToFile(jModule.printAsTex(), "j" + l + ".tex");
 			Tex.writeToFile(jModule.printActionAsTex(new SteenrodElement("1")), "sq1_j" + l + ".tex");
 			Tex.writeToFile(jModule.printActionAsTex(new SteenrodElement("2")), "sq2_j" + l + ".tex");
 			Tex.writeToFile(jModule.printActionAsTex(new SteenrodElement("Q1")), "Q1_j" + l + ".tex");
-		}
+		}*/
 			
 			
 		
@@ -305,8 +305,11 @@ public class SelfMap {
 				System.out.println(Steenrod.writeAsBasis(str.substring(str.indexOf(" ") + 1)));
 			else if(keyWord.equals("excess"))
 				System.out.println(Steenrod.excess(str.substring(str.indexOf(" ") + 1)));
-			else if(keyWord.equals("coprod2"))
-				System.out.println(Steenrod.coproduct(str.substring(str.indexOf(" ") + 1)));
+			else if(keyWord.equals("coprod2")) {
+				SteenrodElement input = new SteenrodElement(str.substring(str.indexOf(" ") + 1));
+				List<int[][]> coprod = Steenrod.coproduct(input);
+				System.out.println(Tools.sumToString(coprod));
+			}
 			else if(keyWord.equals("act")) {
 				String next = str.substring(str.indexOf(" ") + 1);
 				String[] param = next.split(", ");

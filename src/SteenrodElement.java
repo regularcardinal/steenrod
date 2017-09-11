@@ -2,9 +2,19 @@ import java.util.ArrayList;
 
 public class SteenrodElement extends Element {
 	
+	public SteenrodElement() {
+		super();
+	}
+	
+	public SteenrodElement(int[] input) {
+		super(input);
+	}
+	
 	public SteenrodElement(String input) {
 		if(input.equals("Q1"))
 			input = "2 1 + 3";
+		if(input.equals("Q2"))
+			input = "7 + 6 1 + 5 2 + 4 2 1";
 		element = Tools.parseSumFromString(input);
 	}
 	
@@ -35,6 +45,7 @@ public class SteenrodElement extends Element {
 	}
 	
 	//like toString, except get rid of the brackets
+	//what about 1 (if we allow non-homogeneous for example), 1 <-> "" right now
 	public String convertToString() {
 		if (element == null)
 			return null;
@@ -54,4 +65,22 @@ public class SteenrodElement extends Element {
 		return output;
 	}
 	
+	public SteenrodElement multiply(SteenrodElement element2) {
+		SteenrodElement product = new SteenrodElement();
+		
+		for(int i = 0; i < element.size(); i++) {
+			for(int j = 0; j < element2.length(); j++) {
+				product.add(Tools.concatenate(this.getMono(i), element2.getMono(j)));
+			}
+		}
+		
+		product.adem();
+		//should already be reduced mod 2 (currently adem is based on steenrod.cleanup)
+		return product;
+	}
+	
+	//returns the ith monomial as a single term element
+	public SteenrodElement get(int index) {
+		return new SteenrodElement(element.get(index));
+	}
 }

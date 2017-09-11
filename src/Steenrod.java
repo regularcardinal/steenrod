@@ -157,19 +157,47 @@ public class Steenrod implements Algebra {
 	//input in form #
 	//TODO: make this work with arbitrary length (note the coproduct is a ring hom: see Milnor)
 	//TODO: needs to return a tensor!
-	public static String coproduct(String input) {
-		int square = Integer.parseInt(input);
-		String coprod = "" + square;
+	//TODO: can change to SteenrodElement[] (length 2)
+	@SuppressWarnings("unchecked")
+	public static List<int[][]> coproduct(SteenrodElement sq) {
+		List<int[][]> output = new ArrayList<int[][]>();
 		
-		for(int i = 1; i <= square; i++)
-			coprod += " + " + i + " " + (square-i);
-		
-		//return cleanup(writeAsBasis(coprod));
-		return coprod;
+		//sq is a sum
+		if(sq.length() > 1) {
+			for(int i = 0; i < sq.length(); i++) {
+				output.addAll(coproduct((SteenrodElement) sq.get(i)));
+			}
+		}
+		//sq is a "monomial" steenrod element
+		else {
+			int[] mono = sq.getMono(0);
+			
+			if(mono.length == 1) {
+				int square = mono[0];
+				String coprodAsString = "0" + " x " + square;
+				
+				for(int j = 1; j <= square; j++)
+					coprodAsString += " + " + j + " x " + (square-j);
+				
+				output = Tools.parseTensorSumFromString(coprodAsString);
+			}
+			else {
+				output = Tools.concatenateTensors(coproduct(new SteenrodElement("" + mono[0])), 
+						coproduct(new SteenrodElement("" + mono[1])));
+				for(int j = 1; j < mono.length; j++) {
+					output = Tools.concatenateTensors(output, coproduct(new SteenrodElement("" + mono[j])));
+				}
+			}
+		}
+				
+		output = ademTensors(output);
+		output = (List<int[][]>) Tools.reduceMod2(output);
+		return output;
 	}
 	
 	//run the Adem relations on Sq^i Sq^j. a relation that equals 0 will return zero since 0 is really Sq^0 = 1. don't run if i=j=0...
 	//note this will (or should...) never return something of the form "# # # + zero".
+	//TODO: accept steenrodelement, that way you can send this things like "Q1 2"
 	public static String adem(int i, int j) {
 		String relations = "";
 		BigInteger binomial;
@@ -207,6 +235,34 @@ public class Steenrod implements Algebra {
 			relations = ZERO;
 		
 		return relations;
+	}
+	
+	//apply adem relations to a sum of tensors.
+	public static List<int[][]> ademTensors(List<int[][]> input) {
+		List<int[][]> output = new ArrayList<int[][]>();
+		List<int[][]> reducedOnLeft = new ArrayList<int[][]>();
+		
+		for(int[][] tensor : input) {
+			SteenrodElement left = new SteenrodElement(tensor[0]);
+			int[] right = tensor[1];
+			left.adem();
+			
+			for(int i = 0; i < left.length(); i++) {
+				reducedOnLeft.add(new int[][] {left.getMono(i), right} );
+			}
+		}
+		
+		for(int[][] tensor : reducedOnLeft) {
+			int[] left = tensor[0];
+			SteenrodElement right = new SteenrodElement(tensor[1]);
+			right.adem();
+			
+			for(int i = 0; i < right.length(); i++) {
+				output.add(new int[][] {left, right.getMono(i)} );
+			}
+		}
+		
+		return output;
 	}
 
 	

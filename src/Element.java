@@ -1,3 +1,8 @@
+//this class contains a list of monomials (or eg steenrod squares) represented by int[]s, the list represents a sum
+//CONVENTION: a list of size zero is 0; a list of size 1, with the array [] is 1 (in steenrod case, this is basically the string "")
+//  think about multiplying 1 by any other element. the multiplication algorithms usually go by element.length() so we want to have a 
+//  list of size 1, and then pull the first monomial, multiply it (concatenate), and return the original element2
+
 import java.util.*;
 
 public class Element {
