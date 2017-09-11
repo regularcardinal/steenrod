@@ -154,9 +154,7 @@ public class Steenrod implements Algebra {
 		}
 	}
 	
-	//input in form #
-	//TODO: make this work with arbitrary length (note the coproduct is a ring hom: see Milnor)
-	//TODO: needs to return a tensor!
+	//note the coproduct is a ring hom: see Milnor
 	//TODO: can change to SteenrodElement[] (length 2)
 	@SuppressWarnings("unchecked")
 	public static List<int[][]> coproduct(SteenrodElement sq) {
@@ -172,6 +170,7 @@ public class Steenrod implements Algebra {
 		else {
 			int[] mono = sq.getMono(0);
 			
+			//mono is just sq^k for some k
 			if(mono.length == 1) {
 				int square = mono[0];
 				String coprodAsString = "0" + " x " + square;
@@ -181,10 +180,11 @@ public class Steenrod implements Algebra {
 				
 				output = Tools.parseTensorSumFromString(coprodAsString);
 			}
-			else {
+			//mono is a product of squares
+			else {				
 				output = Tools.concatenateTensors(coproduct(new SteenrodElement("" + mono[0])), 
 						coproduct(new SteenrodElement("" + mono[1])));
-				for(int j = 1; j < mono.length; j++) {
+				for(int j = 2; j < mono.length; j++) {
 					output = Tools.concatenateTensors(output, coproduct(new SteenrodElement("" + mono[j])));
 				}
 			}

@@ -67,7 +67,11 @@ public class SelfMap {
 			Tex.writeToFile(jModule.printActionAsTex(new SteenrodElement("Q1")), "Q1_j" + l + ".tex");
 		}*/
 			
-			
+		/*	
+		List<int[][]> list1 = Tools.parseTensorSumFromString("1 x 0 + 0 x 1");
+		List<int[][]> list2 = Tools.parseTensorSumFromString("1 x 1 + 0 x 2 + 2 x 0");
+		
+		System.out.println(Tools.sumToString(Tools.concatenateTensors(list1, list2)));*/
 		
 		
 		
