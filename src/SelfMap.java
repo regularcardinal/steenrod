@@ -306,7 +306,7 @@ public class SelfMap {
 			else if(keyWord.equals("quit"))
 				break;
 			else if(keyWord.equals("adem"))
-				System.out.println(Steenrod.writeAsBasis(str.substring(str.indexOf(" ") + 1)));
+				System.out.println(Steenrod.cleanup(Steenrod.writeAsBasis(str.substring(str.indexOf(" ") + 1))));
 			else if(keyWord.equals("excess"))
 				System.out.println(Steenrod.excess(str.substring(str.indexOf(" ") + 1)));
 			else if(keyWord.equals("coprod2")) {
@@ -318,6 +318,30 @@ public class SelfMap {
 				String next = str.substring(str.indexOf(" ") + 1);
 				String[] param = next.split(", ");
 				System.out.println(BrownGitler.action(param[0], param[1]));
+			}
+			//tex n sq (writes a tex file with the action of sq on J(n))
+			//OR tex n (wrties a tex file for J(n))
+			else if(keyWord.equals("tex")) {
+				String next = str.substring(str.indexOf(" ") + 1);
+				if(next.equals("") || next.equals(keyWord))
+					System.out.println("Format: 'tex n' to write a file for J(n) OR 'tex n sq' to write the action of sq on J(n)");
+				else {
+					String[] param = next.split(" ");
+					int dim = Integer.parseInt(param[0]);
+					Jm jModule = new Jm(dim);
+					if(param.length == 1) {
+						Tex.writeToFile(jModule.printAsTex(), "j" + dim + ".tex");
+						System.out.println("Tex file written");
+					}
+					else if(param.length == 2) {
+						SteenrodElement sq = new SteenrodElement(param[1]);
+						Tex.writeToFile(jModule.printActionAsTex(sq), sq.texFormat() + "_j" + dim + ".tex");
+						System.out.println("Tex file written");
+					}
+					else 
+						System.out.println("Wrong format, no file written");
+					
+				}
 			}
 			else
 				System.out.println("I don't understand.");

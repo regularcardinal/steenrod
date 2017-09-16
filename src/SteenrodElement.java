@@ -83,4 +83,23 @@ public class SteenrodElement extends Element {
 	public SteenrodElement get(int index) {
 		return new SteenrodElement(element.get(index));
 	}
+	
+	public String texFormat() {
+		if (element == null)
+			return null;
+		if(element.size() == 0)
+			return "zero";
+		
+		String output = "";
+		for (int i = 0 ; i < element.size(); i++) {
+			int[] mono = element.get(i);
+			String monoToString = "";
+			
+			for(int j = 0; j < mono.length; j++)
+				monoToString += "sq" + mono[j];
+			
+			output += monoToString + ((i != element.size() - 1) ? "+" : "");
+		}
+		return output;
+	}
 }

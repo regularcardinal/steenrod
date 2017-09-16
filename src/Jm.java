@@ -1,5 +1,6 @@
 import java.util.*;
 
+//TODO: probably has a lot of duplicate code in the printing/texing parts
 public class Jm {
 	int M;
 	//(dim, generators at that dim)
@@ -48,6 +49,13 @@ public class Jm {
 		}
 	}
 	
+	public int dimension() {
+		int dim = 0;
+		for(Integer deg : module.keySet()) 
+			dim += module.get(deg).size();
+		return dim;
+	}
+	
 	//prints all the contents of the j module
 	public void print() {
 		List<String> output = printAsList();
@@ -55,12 +63,11 @@ public class Jm {
 			System.out.println(line);
 		}
 	}
-	
-	
+		
 	public List<String> printAsTex() {
 		List<String> output = new ArrayList<String>();
 		
-		output.add("J(" + M + "):\\\\");
+		output.add("J(" + M + ") (dimension: " + dimension() + "):\\\\");
 		for(int deg = 0; deg <= M; deg++) {
 			List<JElement> generators = module.get(deg);
 			output.add("Degree " + deg + "; dimension over F2: " + (generators == null ? 0 + "\n" : generators.size()) + "\\\\");
