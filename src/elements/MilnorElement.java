@@ -1,3 +1,4 @@
+package elements;
 import java.util.*;
 
 //this class represents lists of monomials, ie, sums of monomials

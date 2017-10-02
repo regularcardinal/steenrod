@@ -1,5 +1,9 @@
+package main;
 import java.math.BigInteger;
 import java.util.*;
+
+import elements.JElement;
+import elements.MilnorElement;
 
 public class Tools {
 
@@ -461,13 +465,18 @@ public class Tools {
 			int[] monomial = j.getMono(i);
 			jAsTex += "$";
 			for(int k = 0; k < monomial.length; k+=2) {
-				jAsTex += "x_{" + monomial[k] + "}^{" + monomial[k+1] + "}";
+				jAsTex += "x_{" + monomial[k] + "}";
+				//if the power is 1, don't write x_i^1, just write x_i
+				if(monomial[k+1] != 1)
+					jAsTex += "^{" + monomial[k+1] + "}";
 			}
 			jAsTex += (i == j.length() - 1 ? "$" : "$ + ");
 		}
 		
 		return jAsTex;
 	}
+	
+	//public static List<List<>>
 	
 	/* Elements are possibly already sums...
 	 * 

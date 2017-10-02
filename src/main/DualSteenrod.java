@@ -1,4 +1,7 @@
+package main;
 import java.util.*;
+
+import elements.MilnorElement;
 
 /*
   	DualSteenrod is always INFINITE DIMENSIONAL and has NO RELATIONS. Use it to represent the full dual Steenrod algebra or subalgebras.

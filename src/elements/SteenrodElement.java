@@ -1,4 +1,8 @@
+package elements;
 import java.util.ArrayList;
+
+import main.Steenrod;
+import main.Tools;
 
 public class SteenrodElement extends Element {
 	

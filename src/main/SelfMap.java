@@ -1,5 +1,9 @@
+package main;
 import java.io.IOException;
 import java.util.*;
+
+import elements.MilnorElement;
+import elements.SteenrodElement;
 
 public class SelfMap {
 	public static Map<List<Integer>, List<int[][]>> coproductData = new HashMap<List<Integer>, List<int[][]>>();
@@ -88,6 +92,8 @@ public class SelfMap {
 			 
 			String str = reader.nextLine();
 			String keyWord = (str.indexOf(" ") == -1) ? str : str.substring(0, str.indexOf(" "));
+			
+			long timer = System.nanoTime();
 			
 			if(keyWord.equals("reduce") || keyWord.equals("coprod") || keyWord.equals("remove")) {
 				String next = str.substring(str.indexOf(" ") + 1);
@@ -345,6 +351,7 @@ public class SelfMap {
 			}
 			else
 				System.out.println("I don't understand.");
+			System.out.println("(Total command time: " + (System.nanoTime()-timer)/1000000000.0 + " seconds)");
 		}
 		
 		//long end = System.nanoTime();

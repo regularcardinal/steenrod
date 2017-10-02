@@ -1,5 +1,8 @@
+package main;
 import java.math.*;
 import java.util.*;
+
+import elements.SteenrodElement;
 
 
 //TODO the format here is "2 3 + 5 21 5 + 5" etc, NOT in list form, change everything to SteenrodElement

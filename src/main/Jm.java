@@ -1,4 +1,8 @@
+package main;
 import java.util.*;
+
+import elements.JElement;
+import elements.SteenrodElement;
 
 //TODO: probably has a lot of duplicate code in the printing/texing parts
 public class Jm {

@@ -1,4 +1,7 @@
+package main;
 import java.util.*;
+
+import elements.MilnorElement;
 
 //TODO: need to return zero in every dimension. maybe using null for zero is not the best idea...
 

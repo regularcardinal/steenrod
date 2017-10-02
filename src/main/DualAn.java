@@ -1,4 +1,7 @@
+package main;
 import java.util.*;
+
+import elements.MilnorElement;
 
 public class DualAn implements Algebra {
 	

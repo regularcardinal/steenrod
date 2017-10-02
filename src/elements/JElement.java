@@ -1,4 +1,8 @@
+package elements;
 import java.util.List;
+
+import main.DualSteenrod;
+import main.Tools;
 
 //A JElement represents an element on the Brown Gitler modules J(m). It need not be homogeneous (to easily track total squares).
 public class JElement extends Element{
