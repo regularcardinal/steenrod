@@ -479,29 +479,60 @@ public class Tools {
 	
 	//apply P_t^s to element
 	//right now written for P_2^1 on 2 elements
-	public static GenericElement Pst(int s, int t, GenericElement element) {
+	public static GenericElement Pst(GenericElement element) { 
 		GenericElement output = new GenericElement();
 		output.setVars(element.getVars());
 		
-		int[] mono = element.getMono(0);
-		System.out.println(Arrays.toString(mono));
-	
-		int pow1 = mono[1];
-		int pow2 = mono[3];
-		for(int j = 0; j < 3; j++) {
-			int coeff1 = choose(pow1, j).intValue() % 2;
-			int coeff2 = choose(pow2, 2-j).intValue() % 2;
-			System.out.println(coeff1 + " " + coeff2);
-			if(coeff1 == 0 || coeff2 == 0)
-				continue;
-			
-			int[] newMono = new int[4];
-			newMono[0] = mono[0];
-			newMono[1] = 6 - (3*j) + pow1;
-			newMono[2] = mono[2];
-			newMono[3] = 3*j + pow2;
-			output.add(newMono);
-			
+		int[] mono = element.getMono(0);		
+		
+		if(mono.length == 4) {
+			int pow1 = mono[1];
+			int pow2 = mono[3];
+			for(int j = 0; j < 3; j++) {
+				int coeff1 = choose(pow1, j).intValue() % 2;
+				int coeff2 = choose(pow2, 2-j).intValue() % 2;
+				System.out.println(coeff1 + " " + coeff2);
+				if(coeff1 == 0 || coeff2 == 0)
+					continue;
+				
+				int[] newMono = new int[4];
+				newMono[0] = mono[0];
+				newMono[1] = 6 - (3*j) + pow1;
+				newMono[2] = mono[2];
+				newMono[3] = 3*j + pow2;
+				output.add(newMono);
+			}
+		}
+		
+		
+		if(mono.length == 6) {
+			int pow1 = mono[1];
+			int pow2 = mono[3];
+			int pow3 = mono[5];
+			for(int j = 0; j < 6; j++) {
+				double interPoly1 = Math.round(j*j*j*j*j/40.0 - 7*j*j*j*j/24.0 + 23*j*j*j/24.0 - 5*j*j/24.0 - 149*j/60.0 + 2);
+				double interPoly2 = Math.round(7*j*j*j*j*j/40.0 - 9*j*j*j*j/4.0 + 247*j*j*j/24.0 - 79*j*j/4.0 + 203*j/15.0);
+				double interPoly3 = Math.round(-j*j*j*j*j/5.0 + 61*j*j*j*j/24.0 - 45*j*j*j/4.0 + 479*j*j/24.0 - 221*j/20.0);
+				//System.out.println(interPoly1 + " " + interPoly2 + " " + interPoly3);
+				int coeff1 = choose(pow1, (int)interPoly1).intValue() % 2;
+				int coeff2 = choose(pow2, (int)interPoly2).intValue() % 2;
+				int coeff3 = choose(pow3, (int)interPoly3).intValue() % 2;
+				System.out.println(coeff1 + " " + coeff2 + " " + coeff3);
+				if(coeff1 == 0 || coeff2 == 0 || coeff3 == 0)
+					continue;
+				
+				
+				
+				int[] newMono = new int[6];
+				newMono[0] = mono[0];
+				newMono[1] = 3*((int)interPoly1) + pow1;
+				newMono[2] = mono[2];
+				newMono[3] = 3*((int)interPoly2) + pow2;
+				newMono[4] = mono[4];
+				newMono[5] = 3*((int)interPoly3) + pow3;
+				
+				output.add(newMono);
+			}
 		}
 		
 		return output;

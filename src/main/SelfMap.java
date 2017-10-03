@@ -79,9 +79,9 @@ public class SelfMap {
 		System.out.println(Tools.sumToString(Tools.concatenateTensors(list1, list2)));*/
 		
 		
-		GenericElement elem = new GenericElement("x y");
+		GenericElement elem = new GenericElement("x1 y1 z1");
 		System.out.println(elem.printWithVariables());
-		System.out.println(Tools.Pst(0, 0, elem).printWithVariables());
+		System.out.println(Tools.Pst(elem).printWithVariables());
 		
 		
 		long start = 0;
