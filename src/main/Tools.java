@@ -2,6 +2,7 @@ package main;
 import java.math.BigInteger;
 import java.util.*;
 
+import elements.GenericElement;
 import elements.JElement;
 import elements.MilnorElement;
 
@@ -476,7 +477,35 @@ public class Tools {
 		return jAsTex;
 	}
 	
-	//public static List<List<>>
+	//apply P_t^s to element
+	//right now written for P_2^1 on 2 elements
+	public static GenericElement Pst(int s, int t, GenericElement element) {
+		GenericElement output = new GenericElement();
+		output.setVars(element.getVars());
+		
+		int[] mono = element.getMono(0);
+		System.out.println(Arrays.toString(mono));
+	
+		int pow1 = mono[1];
+		int pow2 = mono[3];
+		for(int j = 0; j < 3; j++) {
+			int coeff1 = choose(pow1, j).intValue() % 2;
+			int coeff2 = choose(pow2, 2-j).intValue() % 2;
+			System.out.println(coeff1 + " " + coeff2);
+			if(coeff1 == 0 || coeff2 == 0)
+				continue;
+			
+			int[] newMono = new int[4];
+			newMono[0] = mono[0];
+			newMono[1] = 6 - (3*j) + pow1;
+			newMono[2] = mono[2];
+			newMono[3] = 3*j + pow2;
+			output.add(newMono);
+			
+		}
+		
+		return output;
+	}
 	
 	/* Elements are possibly already sums...
 	 * 

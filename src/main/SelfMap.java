@@ -2,6 +2,7 @@ package main;
 import java.io.IOException;
 import java.util.*;
 
+import elements.GenericElement;
 import elements.MilnorElement;
 import elements.SteenrodElement;
 
@@ -77,6 +78,10 @@ public class SelfMap {
 		
 		System.out.println(Tools.sumToString(Tools.concatenateTensors(list1, list2)));*/
 		
+		
+		GenericElement elem = new GenericElement("x y");
+		System.out.println(elem.printWithVariables());
+		System.out.println(Tools.Pst(0, 0, elem).printWithVariables());
 		
 		
 		long start = 0;
