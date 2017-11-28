@@ -479,7 +479,7 @@ public class Tools {
 	
 	//apply P_t^s to element
 	//right now written for P_2^1 on 2 elements
-	public static GenericElement Pst(GenericElement element) { 
+	public static GenericElement P12(GenericElement element) { 
 		GenericElement output = new GenericElement();
 		output.setVars(element.getVars());
 		
@@ -537,6 +537,19 @@ public class Tools {
 		
 		return output;
 	}
+	
+	
+	
+	public static GenericElement Pst(GenericElement input) {
+		GenericElement output = new GenericElement();
+		output.setVars(input.getVars());
+		
+		
+		
+		
+		return output;
+	}
+	
 	
 	/* Elements are possibly already sums...
 	 * 
