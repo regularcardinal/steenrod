@@ -325,6 +325,7 @@ public class SelfMap {
 				List<int[][]> coprod = Steenrod.coproduct(input);
 				System.out.println(Tools.sumToString(coprod));
 			}
+			//act sq, j
 			else if(keyWord.equals("act")) {
 				String next = str.substring(str.indexOf(" ") + 1);
 				String[] param = next.split(", ");
