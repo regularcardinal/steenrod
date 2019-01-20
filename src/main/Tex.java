@@ -22,7 +22,7 @@ public class Tex {
 	}
 	
 	
-	
+	//INPUT: a list of strings, which will be printed line by line, and a file name
 	public static void writeToFile(List<String> input, String fileName) {
 		try { 
 			List<String> output = new ArrayList<String>();

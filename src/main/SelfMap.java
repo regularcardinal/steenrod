@@ -6,6 +6,17 @@ import elements.GenericElement;
 import elements.MilnorElement;
 import elements.SteenrodElement;
 
+
+
+/* NOTE: The original code used (and a lot of it still uses) an int[] to represent Milnor elements in the 
+ *       dual Steenrod algebra. There are multiple better alternatives. Some (a lot?) of it has been converted
+ *       now to MilnorElement, which internally holds this int[], and can do operations on it. There are still
+ *       better alternatives. See the header note of DualSteenrod.java for more info.
+ *       
+ *       Also, other things like JElement or GenericElement use a similar scheme. 
+ *       SteenrodElement is different.
+ */
+
 public class SelfMap {
 	public static Map<List<Integer>, List<int[][]>> coproductData = new HashMap<List<Integer>, List<int[][]>>();
 	private static Scanner reader;
@@ -18,75 +29,6 @@ public class SelfMap {
 	
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) throws IOException {
-		/*
-			MilnorElement test1 = new MilnorElement();
-			test1.add(new int[]{1, 2, 2, 3, 1, 2});
-			System.out.println(test1 + " deg " + test1.degree());
-		
-		SteenrodElement test = new SteenrodElement("1 4 + 4 1 + 5 + 2 3");	
-		System.out.println(test);
-		System.out.println(test.convertToString());
-		test.reduceMod2();
-		System.out.println(test);
-		test.adem();
-		System.out.println(test);
-		
-		*/
-		
-		
-		//System.out.println(Arrays.toString(DualSteenrod.applyRelations(new int[]{0, 2, 1, 6, 2, 4, 0, 3, 2, 3})));
-		//System.out.println(Arrays.toString(DualSteenrod.applyRelations(new int[]{0, 3, 1, 6, 2, 4, 0, 3, 2, 3}, null)));
-		//DualAn dualA1 = new DualAn(2);
-		//dualA1.printAllData();
-		
-		/*
-		List<int[]> templist = new ArrayList<int[]>();
-		templist.add(new int[]{1,2,3,4});
-		templist.add(new int[]{1,2,3,4});
-		int[] concat = Tools.concatenate(templist);
-		System.out.println(Arrays.toString(concat));
-		*/
-		
-		/*
-		JElement j1 = new JElement("1 3");
-		JElement j2 = new JElement("2 4 + 3 1");
-		JElement prod = j1.multiply(j2);
-		JElement square = BrownGitler.square(j1);
-		//System.out.println(prod);
-		System.out.println(square);
-		//System.out.println(square.minDegree());
-		System.out.println(BrownGitler.squareK(j1, 0));
-		System.out.println(BrownGitler.squareK(j1, 1));
-		System.out.println(BrownGitler.squareK(j1, 2));
-		System.out.println(BrownGitler.squareK(j1, 3));
-		System.out.println(BrownGitler.squareK(j1, 4));
-		
-		System.out.println(BrownGitler.action("3 + 3", "1 3"));*/
-		
-		/*
-		for(int l = 8; l <= 16; l+=2) {
-			Jm jModule = new Jm(l);
-			Tex.writeToFile(jModule.printAsTex(), "j" + l + ".tex");
-			Tex.writeToFile(jModule.printActionAsTex(new SteenrodElement("1")), "sq1_j" + l + ".tex");
-			Tex.writeToFile(jModule.printActionAsTex(new SteenrodElement("2")), "sq2_j" + l + ".tex");
-			Tex.writeToFile(jModule.printActionAsTex(new SteenrodElement("Q1")), "Q1_j" + l + ".tex");
-		}*/
-			
-		/*	
-		List<int[][]> list1 = Tools.parseTensorSumFromString("1 x 0 + 0 x 1");
-		List<int[][]> list2 = Tools.parseTensorSumFromString("1 x 1 + 0 x 2 + 2 x 0");
-		
-		System.out.println(Tools.sumToString(Tools.concatenateTensors(list1, list2)));*/
-		
-		
-		//test git change
-		
-		
-		GenericElement elem = new GenericElement("x5 y4 z0");
-		System.out.println(elem.printWithVariables());
-		System.out.println(Tools.P12(elem).printWithVariables());
-		
-		
 		long start = 0;
 		long end = 0;
 		reader = new Scanner(System.in);
@@ -139,6 +81,7 @@ public class SelfMap {
 				//strictly speaking, this may have dimensions that don't appear in sMap, but it won't matter
 				//I don't think that can happen anyway; A(n)* has elements in every dimension(?)
 				Map<Integer, List<MilnorElement>> AmodAnMap = AmodAn.getMonomialsAtOrBelow(sMapDimensions[sMapDimensions.length-1]);
+				
 				
 				if(str.indexOf(" ") != -1 && str.substring(str.indexOf(" ")+1).equals("search")) {
 					search(dualAn, AmodAnMap);
@@ -278,7 +221,7 @@ public class SelfMap {
 				else {
 					start = System.nanoTime();
 					System.out.println(dualAn.checkRoth(sMap, jMap) + " (" + ((double)(System.nanoTime()-start))/1000000 + " ms)");
-				}
+				} 
 			}
 			else if(keyWord.equals("print")) {
 				String next = (str.indexOf(" ") == -1) ? "" : str.substring(str.indexOf(" ") + 1);
@@ -315,6 +258,10 @@ public class SelfMap {
 					MilnorElement last = jMap.get(Tools.parseSumFromString(next).get(0));
 					lastOutput = last.getAsList();
 					System.out.println(last);
+					
+					List<String> write = new ArrayList<String>();
+					write.add(Tools.convertMilnorElementToTex(last));
+					Tex.writeToFile(write, "test.tex");
 				}
 			}
 			else if(keyWord.equals("quit"))
@@ -336,6 +283,29 @@ public class SelfMap {
 			}
 			//tex n sq (writes a tex file with the action of sq on J(n))
 			//OR tex n (wrties a tex file for J(n))
+			else if(keyWord.equals("texJ")) {
+				String next = str.substring(str.indexOf(" ") + 1);
+				if(next.equals("") || next.equals(keyWord))
+					System.out.println("Format: 'tex n' to write a file for J(n) OR 'tex n sq' to write the action of sq on J(n)");
+				else {
+					String[] param = next.split(" ");
+					int dim = Integer.parseInt(param[0]);
+					Jm jModule = new Jm(dim);
+					if(param.length == 1) {
+						Tex.writeToFile(jModule.printAsTex(), "j" + dim + ".tex");
+						System.out.println("Tex file written");
+					}
+					else if(param.length == 2) {
+						SteenrodElement sq = new SteenrodElement(param[1]);
+						Tex.writeToFile(jModule.printActionAsTex(sq), sq.texFormat() + "_j" + dim + ".tex");
+						System.out.println("Tex file written");
+					}
+					else 
+						System.out.println("Wrong format, no file written");
+					
+				}
+			}
+			//testing
 			else if(keyWord.equals("tex")) {
 				String next = str.substring(str.indexOf(" ") + 1);
 				if(next.equals("") || next.equals(keyWord))

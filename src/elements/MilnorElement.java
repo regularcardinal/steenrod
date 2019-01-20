@@ -4,6 +4,13 @@ import java.util.*;
 //this class represents lists of monomials, ie, sums of monomials
 //CONVENTION: a list of size zero is 0; a list of size 1, with the array [] is 1
 //maybe should be: null == 0, a list of size 0 is 1?
+
+/* 
+ * A monomial looks like [gen1, pow1, gen2, pow2, ...]
+ * A better format might be [pow1, pow2, pow3, ...]
+ * The advantage of the former is that xi_2^4 is [2, 4], whereas the latter would represent this as [0, 4, 0, 0, ...]
+ * The latter needs a fixed length, which is the number of generators, but in practice, this isn't that bad (how many do you need?)
+*/
 public class MilnorElement extends Element {
 	
 	public MilnorElement() {
@@ -22,11 +29,7 @@ public class MilnorElement extends Element {
 	
 	//TODO: DELETE. 
 	public MilnorElement(int[] input) {
-		if(input == null)
-			return;
-		
-		element = new ArrayList<int[]>(1);
-		element.add(input);
+		super(input);
 	}
 	
 	//assumes homogeneous

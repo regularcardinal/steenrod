@@ -3,6 +3,12 @@ import java.util.*;
 
 import elements.MilnorElement;
 
+/* NOTE: DualAn is a QUOTIENT algebra
+ * 
+ * TODO: Most methods in here should not be here! 
+ *       Stuff about generating s maps and j maps should be elsewhere.
+ */
+
 public class DualAn implements Algebra {
 	
 	public int N;

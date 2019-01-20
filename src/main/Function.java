@@ -4,6 +4,8 @@ import java.util.*;
 import elements.MilnorElement;
 
 //TODO: need to return zero in every dimension. maybe using null for zero is not the best idea...
+//TODO: should be Map<MilnorElement, MilnorElement> in each dimension of entireFunction, no?
+//      this also would allow sums to be mapped to sums if needed
 
 public class Function {	
 	//this filters the function by dimension, so for each int, there is a mapping between monomials in those given dimension
@@ -109,5 +111,42 @@ public class Function {
 		}
 		
 		return output;
+	}
+	
+	//INPUT: name of function, say f
+	//OUTPUT: a bunch of Tex lines that look like f(x) = y, for each (x,y) pair in every dimension
+	public String printToTex(String name) {
+		String output = "";
+		Integer[] sortedDimensions = Tools.keysToSortedArray(this.getEntireFunction());
+		int dim;
+		
+		for(int i = 0; i < sortedDimensions.length; i++) {
+			dim = sortedDimensions[i];
+			Map<List<Integer>, MilnorElement> dimFunction = this.getEntireFunction().get(dim);
+			for(Map.Entry<List<Integer>, MilnorElement> pair : dimFunction.entrySet()) {
+				//convert key to ME
+				//convert that to Tex
+				//output += "$s(" + 
+				
+			}
+			
+			
+			
+			/*
+			Iterator<Entry<String, String>> iter = map.entrySet().iterator();
+			while (iter.hasNext()) {
+				sb
+			    sb.append(entry.getKey());
+			    sb.append('=').append('"');
+			    sb.append(entry.getValue());
+			    sb.append('"');
+			    if (iter.hasNext()) {
+			        sb.append(',').append(' ');
+			    }
+			}*/
+		}
+		
+		
+		return output;	
 	}
 }
