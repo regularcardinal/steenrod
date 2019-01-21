@@ -55,6 +55,7 @@ public class Element {
 		return (element.size() == 0);
 	}
 	
+	//the length is the number of summands
 	public int length() {
 		return element.size();
 	}

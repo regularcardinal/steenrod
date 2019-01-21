@@ -29,6 +29,8 @@ public class SelfMap {
 	
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) throws IOException {
+			
+		
 		long start = 0;
 		long end = 0;
 		reader = new Scanner(System.in);
@@ -213,6 +215,27 @@ public class SelfMap {
 					start = System.nanoTime();
 					jMap = dualAn.generateJMap(sMap);
 					System.out.println("J map generated using last s map. (" + ((double)(System.nanoTime()-start))/1000000 + " ms)");
+					Tex.writeToFile(jMap.printToTex("j"), "j_map.tex");
+				}
+			}
+			else if(keyWord.equals("variate")) {
+				if(sMap == null)
+					System.out.println(NO_S_MAP);
+				else {
+					start = System.nanoTime();
+					List<Function> variations = sMap.varyInDimension(16);
+					List<String> texOutput = new ArrayList<String>();
+					for(Function var : variations) {
+						jMap = dualAn.generateJMap(var);
+						texOutput.add("\\textbf{s map} (roth: " + dualAn.checkRoth(var, jMap) + ")\\\\");
+						texOutput.addAll(var.printToTex("s"));
+						texOutput.add("\\bigskip");
+						texOutput.addAll(jMap.printToTex("j", 23));	
+						texOutput.add("\\newpage");
+					}
+					
+					Tex.writeToFile(texOutput, "s_maps_" + texOutput.hashCode() + ".tex");	
+					System.out.println("Tex output of variations using last s map. (" + ((double)(System.nanoTime()-start))/1000000 + " ms)");	
 				}
 			}
 			else if(keyWord.equals("roth")) {
@@ -258,10 +281,6 @@ public class SelfMap {
 					MilnorElement last = jMap.get(Tools.parseSumFromString(next).get(0));
 					lastOutput = last.getAsList();
 					System.out.println(last);
-					
-					List<String> write = new ArrayList<String>();
-					write.add(Tools.convertMilnorElementToTex(last));
-					Tex.writeToFile(write, "test.tex");
 				}
 			}
 			else if(keyWord.equals("quit"))

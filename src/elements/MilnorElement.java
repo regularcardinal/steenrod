@@ -21,6 +21,10 @@ public class MilnorElement extends Element {
 		super(input);
 	}
 	
+	public MilnorElement(String input) {
+		super(input);
+	}
+	
 	//TODO: DELETE. use this to initiate zero, probably not needed
 	public MilnorElement(int num) {
 		if(num == 0) 
@@ -65,5 +69,29 @@ public class MilnorElement extends Element {
 	//shouldn't need this, bad style to get the reference for element. most uses now are for multiplying, which should happen HERE.
 	public List<int[]> getAsList() {
 		return element;
+	}
+	
+	//originally copied from convertJElement
+	//does NOT put into math mode!
+	public String convertToTex() {
+		String milnorAsTex = "";
+		
+		if(this.isZero())
+			return "0";
+		
+		//loop only has one iteration if this is a monomial
+		for(int i = 0; i < this.length(); i++) {
+			int[] monomial = this.getMono(i);
+			//milnorAsTex += "$";
+			for(int k = 0; k < monomial.length; k+=2) {
+				milnorAsTex += "\\xi_{" + monomial[k] + "}";
+				//if the power is 1, don't write xi_i^1, just write x_i
+				if(monomial[k+1] != 1)
+					milnorAsTex += "^{" + monomial[k+1] + "}";
+			}
+			milnorAsTex += (i == this.length() - 1 ? "" : " + ");
+		}
+		
+		return milnorAsTex;
 	}
 }

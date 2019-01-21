@@ -477,26 +477,6 @@ public class Tools {
 		return jAsTex;
 	}
 	
-	//almost identical to convertJElement
-	public static String convertMilnorElementToTex(MilnorElement m) {
-		String milnorAsTex = "";
-		
-		//loop only has one iteration if m is a monomial
-		for(int i = 0; i < m.length(); i++) {
-			int[] monomial = m.getMono(i);
-			milnorAsTex += "$";
-			for(int k = 0; k < monomial.length; k+=2) {
-				milnorAsTex += "\\xi_{" + monomial[k] + "}";
-				//if the power is 1, don't write xi_i^1, just write x_i
-				if(monomial[k+1] != 1)
-					milnorAsTex += "^{" + monomial[k+1] + "}";
-			}
-			milnorAsTex += (i == m.length() - 1 ? "$" : "$ + ");
-		}
-		
-		return milnorAsTex;
-	}
-	
 	//apply P_t^s to element
 	//right now written for P_2^1 on 2 elements
 	public static GenericElement P12(GenericElement element) { 

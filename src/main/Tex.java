@@ -11,6 +11,7 @@ public class Tex {
 		header.add("\\documentclass[12pt]{article}");
 		header.add("\\usepackage{amsmath,amssymb,theorem}");
 		header.add("\\topmargin -90pt \\oddsidemargin 0pt \\evensidemargin 0pt \\textwidth 6.5in \\textheight 10.25in");
+		header.add("\\setlength{\\parindent}{0pt}");
 		header.add("\\begin{document}");
 		return header;
 	}
