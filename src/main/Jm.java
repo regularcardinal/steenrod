@@ -16,6 +16,14 @@ public class Jm {
 		generateModule();
 	}
 	
+	//using this to just generate Jm in dimension "deg" because the entire module takes a while
+	//for testing purposes
+	public Jm(int m, int deg) {
+		M = m;
+		module = new HashMap<Integer, List<JElement>>();
+		generateModule(deg);
+	}
+	
 	private void generateModule() {
 		for(int deg = 0; deg <= M; deg++) {
 			List<List<Integer>> partitions = Tools.partition(M, deg, true);			
@@ -50,6 +58,44 @@ public class Jm {
 				
 				module.get(deg).add(new JElement(monomial));
 			}
+		}
+	}
+	
+	
+	//almost literal copy-paste of generateModule()
+	//this should be the "main", and that one should call this
+	private void generateModule(int deg) {
+		List<List<Integer>> partitions = Tools.partition(M, deg, true);			
+		
+		for(int i = 0; i < partitions.size(); i++) { 
+			List<Integer> currentPartition = partitions.get(i);
+			List<Integer> monomial = new ArrayList<Integer>();
+			
+			
+			int currentPower = currentPartition.get(0);
+			int currentCount = 0;
+			
+			//turn the current partition into the form of a JElement (a monomial of Jm)
+			for(int j = 0; j < currentPartition.size(); j++) {
+				if(currentPartition.get(j) != currentPower) {
+					monomial.add(currentPower);
+					monomial.add(currentCount);
+					currentPower = currentPartition.get(j);
+					currentCount = 0;
+				}
+				//if there was no change, but we made it to the last power
+				if(j == currentPartition.size() - 1) {
+					monomial.add(currentPower);
+					monomial.add(currentCount + 1);
+				}
+				else 
+					currentCount++;
+			}
+			
+			if(module.get(deg) == null) 
+				module.put(deg, new ArrayList<JElement>());
+			
+			module.get(deg).add(new JElement(monomial));
 		}
 	}
 	

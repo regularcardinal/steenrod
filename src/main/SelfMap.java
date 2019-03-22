@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.util.*;
 
 import elements.GenericElement;
+import elements.JElement;
 import elements.MilnorElement;
 import elements.SteenrodElement;
 
@@ -30,6 +31,35 @@ public class SelfMap {
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) throws IOException {
 			
+		//int m = (int)(Math.pow(2,2) + Math.pow(2, 4) + Math.pow(2, 5) + Math.pow(2, 6));
+		//Jm Test = new Jm(m,5);
+		//Test.print();
+		
+		
+		
+		
+		JElement j = BrownGitler.action("Q1", "2 1 4 1 5 3");
+		System.out.println(j);
+		j = BrownGitler.action(new SteenrodElement("8"), j);
+		System.out.println(j);
+		j = BrownGitler.action(new SteenrodElement("12"), j);
+		System.out.println(j);
+		j = BrownGitler.action(new SteenrodElement("24"), j);
+		System.out.println(j);
+		j = BrownGitler.action(new SteenrodElement("32"), j);
+		System.out.println(j);
+		j = BrownGitler.action(new SteenrodElement("32"), j);
+		System.out.println(j);
+		
+		
+		
+		//System.out.println("//");
+		
+		//JElement jj = BrownGitler.action("8", "0 4 4 3 6 1");
+		//jj = BrownGitler.action(new SteenrodElement("8"), j);
+		//System.out.println(jj);
+		
+		
 		
 		long start = 0;
 		long end = 0;
@@ -310,6 +340,7 @@ public class SelfMap {
 					String[] param = next.split(" ");
 					int dim = Integer.parseInt(param[0]);
 					Jm jModule = new Jm(dim);
+					System.out.println("quick check");
 					if(param.length == 1) {
 						Tex.writeToFile(jModule.printAsTex(), "j" + dim + ".tex");
 						System.out.println("Tex file written");
