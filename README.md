@@ -5,11 +5,13 @@ A tool for doing computations in the dual Steenrod algebra (with the Milnor basi
 
 -Adem relations (mod 2)
 
--Coproducts in the Steenrod algebra and its dual, and in subalgebras of each.
+-Coproducts in the Steenrod algebra and its dual, and in subalgebras of each
+
+-Handling of tensor products
 
 -Calculations in Brown-Gitler modules J(n), as described in [1]
 
--Calculate the "s" and "j" functions in [2], thus allowing the determination of various module structures on the subalgebra A(n), and potentially realization results.
+-Calculate the "s" and "j" functions in [2], thus allowing the determination of various module structures on the subalgebra A(n), and potentially realization results
 
 -Some TeX support
 
