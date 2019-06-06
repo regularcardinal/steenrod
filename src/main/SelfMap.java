@@ -37,7 +37,7 @@ public class SelfMap {
 		
 		
 		
-		
+		/*
 		JElement j = BrownGitler.action("Q1", "2 1 4 1 5 3");
 		System.out.println(j);
 		j = BrownGitler.action(new SteenrodElement("8"), j);
@@ -50,7 +50,7 @@ public class SelfMap {
 		System.out.println(j);
 		j = BrownGitler.action(new SteenrodElement("32"), j);
 		System.out.println(j);
-		
+		*/
 		
 		
 		//System.out.println("//");
