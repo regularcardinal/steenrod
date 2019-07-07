@@ -20,6 +20,6 @@ A tool for doing computations in the dual Steenrod algebra (with the Milnor basi
 [2] Marilyn Roth: The cyclic module structures of the Hopf subalgebra A_2 over the Steenrod algebra and their geometric realization, thesis, 1977
 
 
-## Note:
+## Running:
 
-The main user-interface loop is run from SelfMap.java. Much of the code needs a cleanup and optimization, but does work.
+The main user-interface loop is run from SelfMap.java.
