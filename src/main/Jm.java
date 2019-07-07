@@ -4,6 +4,10 @@ import java.util.*;
 import elements.JElement;
 import elements.SteenrodElement;
 
+/*
+ * Implements the Brown-Gitler module J(m). See: Schwartz, Unstable modules over the Steenrod Algebra...
+ */
+
 //TODO: probably has a lot of duplicate code in the printing/texing parts
 public class Jm {
 	int M;

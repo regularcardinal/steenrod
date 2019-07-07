@@ -4,7 +4,6 @@ import elements.SteenrodElement;
 
 //TODO: These can all go in the JElement class. then square would have no arguments, squareK would only have an int argument, etc
 
-
 public class BrownGitler {	
 	//returns total square
 	public static JElement square(JElement j) {

@@ -4,17 +4,18 @@ import java.util.*;
 
 import elements.SteenrodElement;
 
+/* 
+ * This class implements the Steenrod algebra with the Serre-Cartan (i.e. Adem) basis.
+ * See, for example, http://mathworld.wolfram.com/SteenrodAlgebra.html
+ */
 
 //TODO the format here is "2 3 + 5 21 5 + 5" etc, NOT in list form, change everything to SteenrodElement
 
-
-
-//Adem relations will only give a sum as Serre-Cartan basis elements, but will NOT break those into indecomposables
-//this may or may not be important later...
-
-
-//if you want all elements in a certain dimension, you need to run over all partitions of that dimension
-
+/* NOTE: Adem relations will only give a sum as Serre-Cartan basis elements, but will NOT break those into indecomposables
+ *      this may or may not be important later...
+ * 
+ * if you want all elements in a certain dimension, you need to run over all partitions of that dimension
+ */
 public class Steenrod implements Algebra {
 	
 	public static final String ZERO = "zero";

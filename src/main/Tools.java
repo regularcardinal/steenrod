@@ -7,7 +7,6 @@ import elements.JElement;
 import elements.MilnorElement;
 
 public class Tools {
-
 	//non-bigint overflows fast
 	public static BigInteger factorial(int i) {
 		BigInteger bigI = BigInteger.valueOf(i);
