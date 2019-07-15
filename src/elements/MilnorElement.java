@@ -1,10 +1,6 @@
 package elements;
 import java.util.*;
 
-//this class represents lists of monomials, ie, sums of monomials
-//CONVENTION: a list of size zero is 0; a list of size 1, with the array [] is 1
-//maybe should be: null == 0, a list of size 0 is 1?
-
 /* 
  * A monomial looks like [gen1, pow1, gen2, pow2, ...]
  * A better format might be [pow1, pow2, pow3, ...]

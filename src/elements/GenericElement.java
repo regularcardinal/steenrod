@@ -2,7 +2,7 @@ package elements;
 
 import java.util.*;
 
-//an element here is an element of a commutative algebra which can be represented in the normal [gen1, pow1, gen2, pow2, ...] format
+//An element here is an element of a commutative algebra which can be represented in the normal [gen1, pow1, gen2, pow2, ...] format
 //or as x2 y3 for eg x^2y^3
 public class GenericElement extends Element {
 	//translates between normal format and char format; index corresponds to generator

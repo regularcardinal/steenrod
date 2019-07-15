@@ -23,8 +23,6 @@ public class JElement extends Element{
 		super(input);
 	}
 	
-	
-	
 	public JElement multiply(JElement element2) {
 		JElement product = new JElement();
 		

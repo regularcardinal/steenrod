@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import main.Steenrod;
 import main.Tools;
 
+//This class represents a sum of Steenrod squares, eg, Sq^2 Sq^1 + Sq^4
+//Not necessarily homogeneous
 public class SteenrodElement extends Element {
 	
 	public SteenrodElement() {

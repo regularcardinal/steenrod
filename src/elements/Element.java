@@ -1,13 +1,15 @@
-package elements;
-//this class contains a list of monomials (or eg steenrod squares) represented by int[]s, the list represents a sum
-//CONVENTION: a list of size zero is 0; a list of size 1, with the array [] is 1 (in steenrod case, this is basically the string "")
-//  think about multiplying 1 by any other element. the multiplication algorithms usually go by element.length() so we want to have a 
-//  list of size 1, and then pull the first monomial, multiply it (concatenate), and return the original element2
-
 import java.util.*;
 
 import main.Tools;
 
+/*
+ *  This class represents a sum of monomials (or Steenrod squares)
+ *  Monomials are represented by int[]; the list represents a sum
+ *  CONVENTION: a list of size zero is 0; a list of size 1, with the array [] is 1 (in Steenrod case, this is basically the string "")
+ *  Think about multiplying 1 by any other element -- the multiplication algorithms usually go by element.length() so we want to have a 
+ *  list of size 1, and then pull the first monomial, multiply it (concatenate), and return the original element
+ *  (TODO: maybe it should be a null represents 0, and an empty list is 1)
+ */
 public class Element {
 	//TODO: use ArrayList<Integer> instead of int[]
 	protected List<int[]> element;
@@ -36,7 +38,6 @@ public class Element {
 			element = new ArrayList<int[]>(0);
 			return;
 		}
-			
 		
 		//if this is just a single monomial in the form of List<Integer>
 		if(input.get(0) instanceof Integer) {
