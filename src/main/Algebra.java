@@ -16,10 +16,10 @@ public interface Algebra {
     //Serre-Cartan basis i.e. Sq^i
 	final static String ADEM = "adem";
 	
-	public String basisType();
-	public boolean isInfiniteDimensional();
-	public boolean hasRelations();
+	String basisType();
+	boolean isInfiniteDimensional();
+	boolean hasRelations();
 	
 	//input is a sum of elements. check if all their dimensions agree.
-	public boolean checkHomogeneous(List<int[]> input);	
+	boolean checkHomogeneous(List<int[]> input);
 }
