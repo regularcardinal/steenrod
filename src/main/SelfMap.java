@@ -87,6 +87,7 @@ public class SelfMap {
 			switch (keyword) {
 				case HELP: {
 					System.out.println(Arrays.toString(Keyword.values()));
+					break;
 				}
 				case REDUCE:
 				case COPROD:
