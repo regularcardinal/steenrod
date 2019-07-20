@@ -94,11 +94,11 @@ public class Element {
 			return null;
 		if(element.size() == 0)
 			return "zero";
-		
-		String output = "";
+
+		StringBuilder output = new StringBuilder();
 		for (int i = 0 ; i < element.size(); i++) {
-			output += Arrays.toString(element.get(i)) + ((i != element.size() - 1) ? " + " : "");
+			output.append(Arrays.toString(element.get(i)) + ((i != element.size() - 1) ? " + " : ""));
 		}
-		return output;
+		return output.toString();
 	}
 }

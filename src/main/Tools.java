@@ -126,20 +126,26 @@ public class Tools {
 		if(input.size() == 0)
 			return "";
 		
-		String output = "";
-		
+		StringBuilder output = new StringBuilder();
+
+		//sum of monomials
 		if(input.get(0) instanceof int[]) 
-			for(int i = 0; i < input.size(); i++) 
-				output += Arrays.toString((int[]) input.get(i)) + ( (i != input.size() - 1) ? " + " : "" );
-		
+			for(int i = 0; i < input.size(); i++) {
+				int[] monomial = (int[]) input.get(i);
+				output.append(Arrays.toString(monomial));
+				output.append(i != (input.size() - 1) ? " + " : "");
+			}
+
+		//sum of tensors
 		if(input.get(0) instanceof int[][]) {
 			for(int i = 0; i < input.size(); i++) {
 				int[][] tensor = (int[][]) input.get(i);
-				output += Arrays.toString(tensor[0]) + " x " + Arrays.toString(tensor[1]) + ( (i != input.size() - 1) ? " + " : "" );
+				output.append(Arrays.toString(tensor[0]) + " x " + Arrays.toString(tensor[1]));
+				output.append(i != (input.size() - 1) ? " + " : "" );
 			}
 		}
 		
-		return output;
+		return output.toString();
 	}
 
 	//input: milnor monomial eg xi_1^5 x_3^4
