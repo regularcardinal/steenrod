@@ -71,6 +71,13 @@ public class SelfMap {
 
 			long timer = System.nanoTime();
 
+			//check for prereqs
+			List<Keyword> needsSMap = Arrays.asList(Keyword.JMAP, Keyword.SBAR, Keyword.VARIATE);
+			if(needsSMap.contains(keyword) && sMap == null) {
+				System.out.println(NO_S_MAP);
+				continue;
+			}
+
 			switch (keyword) {
 				case HELP: {
 					System.out.println(Arrays.toString(Keyword.values()));
@@ -105,34 +112,27 @@ public class SelfMap {
 					sMapLoop(str);
 					break;
 				case JMAP:
-					if (sMap == null)
-						System.out.println(NO_S_MAP);
-					else {
-						start = System.nanoTime();
-						jMap = dualAn.generateJMap(sMap);
-						System.out.println("J map generated using last s map. (" + ((double) (System.nanoTime() - start)) / 1000000 + " ms)");
-						Tex.writeToFile(jMap.printToTex("j"), "j_map.tex");
-					}
+					start = System.nanoTime();
+					jMap = dualAn.generateJMap(sMap);
+					System.out.println("J map generated using last s map. (" + ((double) (System.nanoTime() - start)) / 1000000 + " ms)");
+					Tex.writeToFile(jMap.printToTex("j"), "j_map.tex");
 					break;
+				//Apply Function.varyInDimension(16) to sMap, and write it to a TeX file
 				case VARIATE:
-					if (sMap == null)
-						System.out.println(NO_S_MAP);
-					else {
-						start = System.nanoTime();
-						List<Function> variations = sMap.varyInDimension(16);
-						List<String> texOutput = new ArrayList<>();
-						for (Function var : variations) {
-							jMap = dualAn.generateJMap(var);
-							texOutput.add("\\textbf{s map} (roth: " + dualAn.checkRoth(var, jMap) + ")\\\\");
-							texOutput.addAll(var.printToTex("s"));
-							texOutput.add("\\bigskip");
-							texOutput.addAll(jMap.printToTex("j", 23));
-							texOutput.add("\\newpage");
-						}
-
-						Tex.writeToFile(texOutput, "s_maps_" + texOutput.hashCode() + ".tex");
-						System.out.println("Tex output of variations using last s map. (" + ((double) (System.nanoTime() - start)) / 1000000 + " ms)");
+					start = System.nanoTime();
+					List<Function> variations = sMap.varyInDimension(16);
+					List<String> texOutput = new ArrayList<>();
+					for (Function var : variations) {
+						jMap = dualAn.generateJMap(var);
+						texOutput.add("\\textbf{s map} (roth: " + dualAn.checkRoth(var, jMap) + ")\\\\");
+						texOutput.addAll(var.printToTex("s"));
+						texOutput.add("\\bigskip");
+						texOutput.addAll(jMap.printToTex("j", 23));
+						texOutput.add("\\newpage");
 					}
+
+					Tex.writeToFile(texOutput, "s_maps_" + texOutput.hashCode() + ".tex");
+					System.out.println("Tex output of variations using last s map. (" + ((double) (System.nanoTime() - start)) / 1000000 + " ms)");
 					break;
 				case ROTH:
 					if (jMap == null)
@@ -152,23 +152,20 @@ public class SelfMap {
 						System.out.println((savedSMap != null) ? savedSMap : "Nothing saved.");
 					break;
 				}
-				case SBAR:
-					if (sMap == null)
-						System.out.println(NO_S_MAP);
-					else {
-						String next = (!str.contains(" ")) ? "" : str.substring(str.indexOf(" ") + 1);
+				case SBAR: {
+					String next = (!str.contains(" ")) ? "" : str.substring(str.indexOf(" ") + 1);
 
-						if (next.equals("last")) {
-							if (lastOutput.get(0) instanceof int[][])
-								System.out.println(dualAn.sBarTensor((List<int[][]>) lastOutput, sMap));
-							if (lastOutput.get(0) instanceof int[])
-								System.out.println(dualAn.sBar(new MilnorElement(lastOutput), sMap));
-						} else if (next.contains("x"))
-							System.out.println(dualAn.sBarTensor(Tools.parseTensorSumFromString(next), sMap));
-						else
-							System.out.println(dualAn.sBar(new MilnorElement(Tools.parseSumFromString(next)), sMap));
-					}
+					if (next.equals("last")) {
+						if (lastOutput.get(0) instanceof int[][])
+							System.out.println(dualAn.sBarTensor((List<int[][]>) lastOutput, sMap));
+						if (lastOutput.get(0) instanceof int[])
+							System.out.println(dualAn.sBar(new MilnorElement(lastOutput), sMap));
+					} else if (next.contains("x"))
+						System.out.println(dualAn.sBarTensor(Tools.parseTensorSumFromString(next), sMap));
+					else
+						System.out.println(dualAn.sBar(new MilnorElement(Tools.parseSumFromString(next)), sMap));
 					break;
+				}
 				case J:
 					if (jMap == null)
 						System.out.println(NO_J_MAP);
