@@ -22,4 +22,4 @@ A tool for doing computations in the dual Steenrod algebra (with the Milnor basi
 
 ## Running:
 
-The main user-interface loop is run from SelfMap.java.
+The main user-interface loop is run from SelfMap.java. Type "help" on prompt to see options and syntax.
